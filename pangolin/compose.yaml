@@ -96,7 +96,8 @@ services:
       - ./config/letsencrypt/dns-challenge.env
     network_mode: service:gerbil
     volumes:
-      - ./config/letsencrypt:/letsencrypt # Volume to store the Let's Encrypt certificates
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ./config/letsencrypt:/letsencrypt
     # labels:
     #   ## Traefik
     #   - traefik.enable=true
