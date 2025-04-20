@@ -1,8 +1,0 @@
-## Git
-
-# Ignore all files...
-*
-
-# ...except these:
-!.gitignore
-!config.yml.template
