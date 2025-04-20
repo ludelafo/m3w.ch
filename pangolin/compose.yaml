@@ -1,6 +1,5 @@
 networks:
   default:
-    driver: bridge
     name: pangolin
 
 services:
@@ -8,8 +7,6 @@ services:
     container_name: pangolin
     image: fosrl/pangolin:${PANGOLIN_VERSION}
     restart: unless-stopped
-    env_file:
-      - ./pangolin.env
     volumes:
       - ./config:/app/config
     healthcheck:
@@ -36,7 +33,7 @@ services:
     image: fosrl/gerbil:${GERBIL_VERSION}
     command:
       - --reachableAt=http://gerbil:3003
-      - --generateAndSaveKeyTo=/var/config/key
+      - --generateAndSaveKeyTo=/var/config/gerbil/key
       - --remoteConfig=http://pangolin:3001/api/v1/gerbil/get-config
       - --reportBandwidthTo=http://pangolin:3001/api/v1/gerbil/receive-bandwidth
     restart: unless-stopped
@@ -95,15 +92,8 @@ services:
       pangolin:
         condition: service_healthy
     env_file:
-      - ./letsencrypt.env
+      - ./traefik.env
     network_mode: service:gerbil
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - ./config/letsencrypt:/letsencrypt
-    # labels:
-    #   ## Traefik
-    #   - traefik.enable=true
-    #   # HTTPS
-    #   - traefik.http.routers.traefik.entryPoints=websecure
-    #   - traefik.http.routers.traefik.rule=Host(`${TRAEFIK_FQDN}`)
-    #   - traefik.http.routers.traefik.service=api@internal
