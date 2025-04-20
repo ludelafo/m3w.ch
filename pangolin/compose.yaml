@@ -25,11 +25,8 @@ services:
       - traefik.http.routers.pangolin-api.rule=Host(`${PANGOLIN_FQDN}`) && PathPrefix(`/api/v1`)
       - traefik.http.routers.pangolin-api.service=pangolin-api
       - traefik.http.routers.pangolin-next.entryPoints=websecure
-      - traefik.http.routers.pangolin-next.rule=Host(`${PANGOLIN_FQDN}`) && !PathPrefix(`/api/v1`)
+      - traefik.http.routers.pangolin-next.rule=Host(`${PANGOLIN_FQDN}`)
       - traefik.http.routers.pangolin-next.service=pangolin-next
-      - traefik.http.routers.pangolin-ws.entryPoints=websecure
-      - traefik.http.routers.pangolin-ws.rule=Host(`${PANGOLIN_FQDN}`)
-      - traefik.http.routers.pangolin-ws.service=pangolin-api
       # Services
       - traefik.http.services.pangolin-api.loadbalancer.server.port=3000
       - traefik.http.services.pangolin-next.loadbalancer.server.port=3002
@@ -103,10 +100,10 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - ./config/letsencrypt:/letsencrypt
-    labels:
-      ## Traefik
-      - traefik.enable=true
-      # HTTPS
-      - traefik.http.routers.traefik.entryPoints=websecure
-      - traefik.http.routers.traefik.rule=Host(`${TRAEFIK_FQDN}`)
-      - traefik.http.routers.traefik.service=api@internal
+    # labels:
+    #   ## Traefik
+    #   - traefik.enable=true
+    #   # HTTPS
+    #   - traefik.http.routers.traefik.entryPoints=websecure
+    #   - traefik.http.routers.traefik.rule=Host(`${TRAEFIK_FQDN}`)
+    #   - traefik.http.routers.traefik.service=api@internal
