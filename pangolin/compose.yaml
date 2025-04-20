@@ -88,6 +88,8 @@ services:
       - --certificatesresolvers.letsencrypt.acme.email=${TRAEFIK_ACME_EMAIL}
       - --certificatesresolvers.letsencrypt.acme.storage=/letsencrypt/acme.json
       - --certificatesresolvers.letsencrypt.acme.dnschallenge=true
+      - --certificatesresolvers.letsencrypt.acme.dnschallenge.provider=${TRAEFIK_ACME_DNS_PROVIDER}
+      - --certificatesresolvers.letsencrypt.acme.dnschallenge.delayBeforeCheck=30
     restart: unless-stopped
     depends_on:
       pangolin:
