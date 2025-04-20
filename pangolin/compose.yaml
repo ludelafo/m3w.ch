@@ -8,6 +8,8 @@ services:
     container_name: pangolin
     image: fosrl/pangolin:${PANGOLIN_VERSION}
     restart: unless-stopped
+    env_file:
+      - ./pangolin.env
     volumes:
       - ./config:/app/config
     healthcheck:
@@ -89,13 +91,12 @@ services:
       - --certificatesresolvers.letsencrypt.acme.storage=/letsencrypt/acme.json
       - --certificatesresolvers.letsencrypt.acme.dnschallenge=true
       - --certificatesresolvers.letsencrypt.acme.dnschallenge.provider=${TRAEFIK_ACME_DNS_PROVIDER}
-      - --certificatesresolvers.letsencrypt.acme.dnschallenge.delayBeforeCheck=30
     restart: unless-stopped
     depends_on:
       pangolin:
         condition: service_healthy
     env_file:
-      - ./config/letsencrypt/dns-challenge.env
+      - ./letsencrypt.env
     network_mode: service:gerbil
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
