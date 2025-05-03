@@ -1,4 +1,4 @@
-- name: Configure proxmox instance
+- name: Configure Proxmox instance
   hosts: localhost
   tasks:
     ## Updates and packages

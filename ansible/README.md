@@ -2,7 +2,7 @@
 
 ## Prerequisites
 
-### Create a proxmox LXC container
+### Create a Proxmox LXC container
 
 - General
   - Node: `proxmox`
@@ -58,7 +58,7 @@ ansible-pull --url https://github.com/ludelafo/m3w.ch ansible/playbook.yaml --ex
 ansible-pull --url https://github.com/ludelafo/m3w.ch --checkout <name of the branch> ansible/playbooks/playbook.yaml --extra-vars "@.ansible/pull/<hostname>/ansible/variables/variables.yaml"
 ```
 
-## On proxmox host
+## On Proxmox host
 
 ```sh
 # Fetch the latest package lists
@@ -68,13 +68,11 @@ apt update
 apt install --yes ansible git
 
 # Execute Ansible pull
-ansible-pull --url https://github.com/ludelafo/m3w.ch ansible/playbooks/proxmox.yaml --extra-vars "@.ansible/pull/proxmox.local/ansible/variables/nas.yaml"
+ansible-pull --url https://github.com/ludelafo/m3w.ch --extra-vars "@.ansible/pull/proxmox.m3w.ch/ansible/variables/shared-lxc.yaml"
 
-ansible-pull --url https://github.com/ludelafo/m3w.ch ansible/playbooks/proxmox.yaml --extra-vars "@.ansible/pull/proxmox.local/ansible/variables/ludelafo.yaml"
+ansible-pull --url https://github.com/ludelafo/m3w.ch --extra-vars "@.ansible/pull/proxmox.m3w.ch/ansible/variables/ludelafo-lxc.yaml"
 
-ansible-pull --url https://github.com/ludelafo/m3w.ch ansible/playbooks/proxmox.yaml --extra-vars "@.ansible/pull/proxmox.local/ansible/variables/matthieu.yaml"
-
-ansible-pull --url https://github.com/ludelafo/m3w.ch ansible/playbooks/proxmox.yaml --extra-vars "@.ansible/pull/proxmox.local/ansible/variables/yannis.yaml"
+ansible-pull --url https://github.com/ludelafo/m3w.ch --extra-vars "@.ansible/pull/proxmox.m3w.ch/ansible/variables/mathilde-lxc.yaml"
 ```
 
 ## On nas host

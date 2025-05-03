@@ -1,7 +1,0 @@
-user: shared
-user_id: 1000
-group: shared
-group_id: 1000
-disk_label: shared
-disk_uuid: a60b4537-3cc8-49cf-9eda-198652e0c057
-lxc_id: 100
