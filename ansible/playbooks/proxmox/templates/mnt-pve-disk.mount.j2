@@ -1,0 +1,11 @@
+[Install]
+WantedBy=multi-user.target
+
+[Mount]
+Options=defaults
+Type=ext4
+What=/dev/disk/by-uuid/{{ disk_uuid }}
+Where=/mnt/pve/{{ disk_label }}
+
+[Unit]
+Description=Mount storage '{{ disk_label }}' under /mnt/{{ disk_label }}
