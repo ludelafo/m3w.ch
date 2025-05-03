@@ -1,6 +1,6 @@
-user: home
+user: debian
 user_id: 1000
-group: home
+group: debian
 group_id: 1000
 disk_label: home
 disk_uuid: 388aff77-76d8-4cd3-8026-8bf9ed58f8fb

@@ -68,14 +68,14 @@ apt update
 apt install --yes ansible git
 
 # Execute Ansible pull
-ansible-pull --url https://github.com/ludelafo/m3w.ch --extra-vars "@.ansible/pull/proxmox.m3w.ch/ansible/variables/shared-lxc.yaml"
+ansible-pull --url https://github.com/ludelafo/m3w.ch --checkout 5-add-ansible ansible/playbooks/proxmox/playbook.yaml --extra-vars "@.ansible/pull/proxmox.m3w.ch/ansible/variables/home-lxc.yaml"
 
 ansible-pull --url https://github.com/ludelafo/m3w.ch --extra-vars "@.ansible/pull/proxmox.m3w.ch/ansible/variables/ludelafo-lxc.yaml"
 
 ansible-pull --url https://github.com/ludelafo/m3w.ch --extra-vars "@.ansible/pull/proxmox.m3w.ch/ansible/variables/mathilde-lxc.yaml"
 ```
 
-## On nas host
+## On `home.proxmox.local` host
 
 ```sh
 # Fetch the latest package lists
