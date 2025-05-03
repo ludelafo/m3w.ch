@@ -9,6 +9,9 @@ EOF
 # Update packages list
 sudo apt update
 
+# Install packages to lint Ansible playbooks (ansible-lint)
+sudo apt install --yes ansible-lint
+
 # Install packages to optimize images (jpegoptim, optipng)
 sudo apt install --yes jpegoptim optipng
 

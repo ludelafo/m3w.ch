@@ -30,7 +30,6 @@
       ansible.builtin.get_url:
         url: https://download.docker.com/linux/debian/gpg
         dest: /etc/apt/trusted.gpg.d/docker.asc
-        mode: 0644
         checksum: sha256:1500c1f56fa9e26b9b8f42452a553675796ade0807cdce11975eb98170b3a570
         # The checksum can be calculated with `curl -sL https://download.docker.com/linux/debian/gpg | sha256sum`
 
@@ -74,13 +73,13 @@
       ansible.builtin.user:
         name: "{{ user }}"
         groups: docker,sudo
-        append: yes
+        append: true
 
     - name: Disable root login
       ansible.builtin.user:
         name: root
         password: ""
-        password_lock: yes
+        password_lock: true
         shell: /sbin/nologin
 
     # - name: Reboot the system

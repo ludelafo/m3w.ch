@@ -12,13 +12,14 @@
       ansible.builtin.apt:
         update_cache: true
         pkg:
+          - ansible
           - git
 
     ## Disks
     - name: Create the systemd mount unit file
       when: disk_label != None
       ansible.builtin.template:
-        src: ../templates/mnt-pve-disk.mount.j2
+        src: mnt-pve-disk.mount.j2
         dest: /etc/systemd/system/mnt-pve-{{ disk_label }}.mount
         mode: "0644"
 
