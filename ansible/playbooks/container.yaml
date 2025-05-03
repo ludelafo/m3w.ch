@@ -1,0 +1,87 @@
+- name: Configure container instance
+  hosts: localhost
+  tasks:
+    ## Updates and packages
+    - name: Upgrade the OS
+      ansible.builtin.apt:
+        upgrade: full
+        autoclean: true
+        autoremove: true
+
+    - name: Install packages
+      ansible.builtin.apt:
+        update_cache: true
+        pkg:
+          - curl
+          - git
+          - htop
+          - ifupdown2
+          - ncdu
+          - neovim
+          - rsync
+          - sudo
+          - tmux
+          - tree
+          - unzip
+          - zip
+
+    ## Docker
+    - name: Download Docker GPG key
+      ansible.builtin.get_url:
+        url: https://download.docker.com/linux/debian/gpg
+        dest: /etc/apt/trusted.gpg.d/docker.asc
+        mode: 0644
+        checksum: sha256:1500c1f56fa9e26b9b8f42452a553675796ade0807cdce11975eb98170b3a570
+        # The checksum can be calculated with `curl -sL https://download.docker.com/linux/debian/gpg | sha256sum`
+
+    - name: Add Docker APT repository
+      ansible.builtin.apt_repository:
+        repo: >-
+          deb [arch=amd64 signed-by=/etc/apt/trusted.gpg.d/docker.asc]
+          https://download.docker.com/{{ ansible_system | lower }}/{{
+          ansible_distribution | lower }} {{ ansible_distribution_release }}
+          stable
+
+    - name: Install Docker with its Compose plugin
+      ansible.builtin.apt:
+        update_cache: true
+        pkg:
+          - docker-ce
+          - docker-ce-cli
+          - containerd.io
+          - docker-compose-plugin
+
+    - name: Enable and start Docker service
+      ansible.builtin.service:
+        name: docker
+        state: started
+        enabled: true
+
+    ## User and groups
+    - name: Create the default group
+      ansible.builtin.group:
+        name: "{{ group }}"
+        gid: "{{ group_id }}"
+
+    - name: Create the default user
+      ansible.builtin.user:
+        name: "{{ user }}"
+        uid: "{{ user_id }}"
+        group: "{{ group }}"
+        shell: /bin/bash
+
+    - name: Add the default user to the groups
+      ansible.builtin.user:
+        name: "{{ user }}"
+        groups: docker,sudo
+        append: yes
+
+    - name: Disable root login
+      ansible.builtin.user:
+        name: root
+        password: ""
+        password_lock: yes
+        shell: /sbin/nologin
+
+    # - name: Reboot the system
+    #   ansible.builtin.command: reboot
