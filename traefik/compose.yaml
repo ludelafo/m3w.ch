@@ -1,5 +1,4 @@
 name: traefik
-removeOrphans: true
 
 networks:
   traefik_network:
