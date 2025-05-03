@@ -8,8 +8,8 @@
   - Node: `proxmox`
   - CT ID: `100`
   - Hostname: `shared`
-  - Unprivileged: `checked`
-  - Nested: `checked`
+  - Unprivileged: `unchecked`
+  - Nested: `unchecked`
   - SSH public key(s): `*`
 - Template
   - Storage: `local`
@@ -58,7 +58,7 @@ ansible-pull --url https://github.com/ludelafo/m3w.ch ansible/playbook.yaml --ex
 ansible-pull --url https://github.com/ludelafo/m3w.ch --checkout <name of the branch> ansible/playbooks/playbook.yaml --extra-vars "@.ansible/pull/<hostname>/ansible/variables/variables.yaml"
 ```
 
-## On Proxmox host
+## On `proxmox.m3w.ch` host
 
 ```sh
 # Fetch the latest package lists
@@ -75,7 +75,7 @@ ansible-pull --url https://github.com/ludelafo/m3w.ch --extra-vars "@.ansible/pu
 ansible-pull --url https://github.com/ludelafo/m3w.ch --extra-vars "@.ansible/pull/proxmox.m3w.ch/ansible/variables/mathilde-lxc.yaml"
 ```
 
-## On `home.proxmox.local` host
+## On `home.m3w.ch` host
 
 ```sh
 # Fetch the latest package lists
@@ -84,11 +84,20 @@ apt update
 # Install Ansible and Git
 apt install --yes ansible git
 
-# Execute Ansible pull
-ansible-pull --url https://github.com/ludelafo/m3w.ch ansible/playbooks/container.yaml --extra-vars "@.ansible/pull/nas.local/ansible/variables/nas.yaml"
+# Configure Git to store credentials
+git config --global credential.helper store
+
+# Clone the repository a first time
+git clone https://github.com/ludelafo/m3w.ch
+
+# Execute Ansible pull for the first time to pull the files
+ansible-pull --url https://github.com/ludelafo/m3w.ch --checkout 5-add-ansible ansible/playbooks/container/playbook.yaml
+
+# Execute Ansible pull for the second time to apply the configuration
+ansible-pull --url https://github.com/ludelafo/m3w.ch --checkout 5-add-ansible ansible/playbooks/container/playbook.yaml --extra-vars "@.ansible/pull/home.m3w.ch/ansible/variables/home-lxc.yaml"
 
 # Set the password for user
-passwd nas
+passwd debian
 
 # Log out and log in again with the new user
 logout

@@ -40,15 +40,15 @@
           "mp0: /mnt/pve/{{ disk_label }},mp=/home/{{ user
           }},mountoptions=noatime,backup=0"
 
-    # - name: Enable nesting feature for using Docker in the container
-    #   ansible.builtin.lineinfile:
-    #     path: /etc/pve/lxc/{{ lxc_id }}.conf
-    #     line: 'features: nesting=1'
+    - name: Enable nesting feature for using Docker in the container
+      ansible.builtin.lineinfile:
+        path: /etc/pve/lxc/{{ lxc_id }}.conf
+        line: "features: nesting=1"
 
-    # - name: Enable start on boot
-    #   ansible.builtin.lineinfile:
-    #     path: /etc/pve/lxc/{{ lxc_id }}.conf
-    #     line: 'onboot: 1'
+    - name: Enable start on boot
+      ansible.builtin.lineinfile:
+        path: /etc/pve/lxc/{{ lxc_id }}.conf
+        line: "onboot: 1"
 
     # # Source: https://github.com/portainer/portainer/issues/8478#issuecomment-1426866713
     # - name: Clear the cap drops
