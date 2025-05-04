@@ -2,7 +2,7 @@ global:
   sendAnonymousUsage: true
 
 log:
-  level: INFO
+  level: DEBUG
 
 api:
   dashboard: true
@@ -42,6 +42,6 @@ certificatesResolvers:
   letsencrypt:
     acme:
       email: admin@m3w.ch # CHANGE_ME
-      storage: /etc/trafik/letsencrypt/acme.json
+      storage: /etc/letsencrypt/acme.json
       dnsChallenge:
         provider: infomaniak # CHANGE_ME

@@ -19,7 +19,7 @@ services:
       - 443:443
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
-      - ./letsencrypt:/etc/trafik/letsencrypt
+      - ./letsencrypt:/etc/letsencrypt
       - ./traefik_static.yaml:/etc/traefik/traefik_dynamic.yaml
       - ./traefik_dynamic.yaml:/etc/traefik/traefik_dynamic.yaml
     labels:
