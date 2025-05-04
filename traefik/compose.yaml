@@ -8,7 +8,8 @@ services:
   traefik:
     container_name: traefik
     image: traefik:${TRAEFIK_VERSION}
-    command: --configFile=/etc/traefik/traefik_static.yaml
+    command:
+      - --configFile=/etc/traefik/traefik_static.yaml
     restart: unless-stopped
     env_file:
       - ./traefik.env
@@ -19,8 +20,8 @@ services:
       - 443:443
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
-      - ./letsencrypt:/letsencrypt
-      - ./traefik_static.yaml:/etc/traefik/traefik_dynamic.yaml
+      - ./letsencrypt:/etc/letsencrypt
+      - ./traefik_static.yaml:/etc/traefik/traefik_static.yaml
       - ./traefik_dynamic.yaml:/etc/traefik/traefik_dynamic.yaml
     labels:
       # Traefik

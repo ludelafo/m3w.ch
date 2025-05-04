@@ -2,7 +2,7 @@ global:
   sendAnonymousUsage: true
 
 log:
-  level: DEBUG
+  level: INFO
 
 api:
   dashboard: true
@@ -32,7 +32,6 @@ entryPoints:
         - http-strict-transport-security-header@file
       tls:
         certResolver: letsencrypt
-        options: default
         domains:
           - main: "m3w.ch" # CHANGE_ME
             sans:
@@ -42,6 +41,6 @@ certificatesResolvers:
   letsencrypt:
     acme:
       email: admin@m3w.ch # CHANGE_ME
-      storage: /letsencrypt/acme.json
+      storage: /etc/letsencrypt/acme.json
       dnsChallenge:
         provider: infomaniak # CHANGE_ME
