@@ -46,6 +46,7 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - ./config/letsencrypt:/letsencrypt
+      - ./traefik.yaml:/etc/traefik/traefik.yaml
     labels:
       # Traefik
       - traefik.enable=true

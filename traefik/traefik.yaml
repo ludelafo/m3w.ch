@@ -1,0 +1,8 @@
+tls:
+  options:
+    default:
+      minVersion: VersionTLS13
+      curvePreferences:
+        - X25519
+        - CurveP256
+        - CurveP384
