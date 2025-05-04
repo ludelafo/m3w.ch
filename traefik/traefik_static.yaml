@@ -42,6 +42,6 @@ certificatesResolvers:
   letsencrypt:
     acme:
       email: admin@m3w.ch # CHANGE_ME
-      storage: /etc/letsencrypt/acme.json
+      storage: /letsencrypt/acme.json
       dnsChallenge:
         provider: infomaniak # CHANGE_ME
