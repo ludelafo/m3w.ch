@@ -23,16 +23,18 @@ services:
       ## Entrypoints
       - --entrypoints.web.address=:80
       - --entrypoints.websecure.address=:443
-      # We ask Let's Encrypt to generate certificates for our root domain and wildcard subdomains
+      # Generate Let's Encrypt certificates for the root domain and wildcard subdomains
       - --entrypoints.websecure.http.tls.domains[0].main=${ROOT_FQDN}
       - --entrypoints.websecure.http.tls.domains[0].sans=*.${ROOT_FQDN}
-      # We redirect all HTTP traffic to HTTPS
+      # Redirect all HTTP traffic to HTTPS
       - --entrypoints.web.http.redirections.entrypoint.to=websecure
       - --entrypoints.web.http.redirections.entrypoint.scheme=https
       - --entrypoints.web.http.redirections.entrypoint.permanent=true
-      # We enable TLS for all HTTPS traffic
+      # Enable TLS for all HTTPS traffic
       - --entrypoints.websecure.http.tls=true
       - --entrypoints.websecure.http.tls.certresolver=letsencrypt
+      # Enable middlewares for all HTTPS traffic
+      - --entryPoints.websecure.http.middlewares=http-strict-transport-security-header@file
       ## Certificates
       - --certificatesresolvers.letsencrypt.acme.email=${TRAEFIK_ACME_EMAIL}
       - --certificatesresolvers.letsencrypt.acme.storage=/letsencrypt/acme.json
