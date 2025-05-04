@@ -11,7 +11,7 @@ services:
     command: --configFile=/etc/traefik/traefik_static.yaml
     restart: unless-stopped
     env_file:
-      - ./traefik-dns-challenge.env
+      - ./traefik.env
     networks:
       - traefik_network
     ports:
