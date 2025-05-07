@@ -1,0 +1,32 @@
+name: traefik
+
+networks:
+  traefik_network:
+    name: traefik_network
+
+services:
+  traefik:
+    container_name: traefik
+    image: traefik:${TRAEFIK_VERSION}
+    command:
+      - --configFile=/etc/traefik/traefik_static.yaml
+    restart: unless-stopped
+    env_file:
+      - ./traefik.env
+    networks:
+      - traefik_network
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ./letsencrypt:/etc/letsencrypt
+      - ./traefik_static.yaml:/etc/traefik/traefik_static.yaml
+      - ./traefik_dynamic.yaml:/etc/traefik/traefik_dynamic.yaml
+    labels:
+      # Traefik
+      - traefik.enable=true
+      ## HTTPS
+      - traefik.http.routers.traefik.entryPoints=websecure
+      - traefik.http.routers.traefik.rule=Host(`${TRAEFIK_FQDN}`)
+      - traefik.http.routers.traefik.service=api@internal
