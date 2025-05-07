@@ -20,9 +20,9 @@ Edit the `.env` file to your needs.
 
 ## Additional configuration
 
-By default, Docker containers using mcvlan type Docker network and the host
-cannot communicate together. We need to add a bridge between the host and the
-container to make it work.
+By default, Docker containers using mcvlan networks and the host cannot
+communicate together. We need to add a bridge between the host and the container
+to make it work.
 
 Install ifupdown2 on the host with the following command:
 
