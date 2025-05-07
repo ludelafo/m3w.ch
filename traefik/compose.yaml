@@ -26,7 +26,6 @@ services:
     labels:
       # Traefik
       - traefik.enable=true
-      - traefik.docker.network=traefik_network
       ## HTTPS
       - traefik.http.routers.traefik.entryPoints=websecure
       - traefik.http.routers.traefik.rule=Host(`${TRAEFIK_FQDN}`)
