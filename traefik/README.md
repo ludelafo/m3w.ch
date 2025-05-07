@@ -15,8 +15,16 @@ The following prerequisites must be filled to run this service:
 
 ## Set the environment variables
 
-Edit the `*.env`, the [`traefik_static.yaml`](./traefik_static.yaml) and the
+Edit the `.env`, the [`traefik_static.yaml`](./traefik_static.yaml) and the
 [`traefik_dynamic.yaml`](./traefik_dynamic.yaml) files to your needs.
+
+Create a new file called `infomaniak_access_token.txt` in this directory and add
+your Infomaniak access token in it. This file is used to authenticate with the
+Infomaniak API to manage your DNS records.
+
+Related to the previous paragraph, you might need to edit the `compose.yaml`
+file if you want to change the Traefik provider environment variables to use
+your own DNS provider.
 
 ## Run the application with Docker
 
