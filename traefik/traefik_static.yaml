@@ -36,6 +36,8 @@ entryPoints:
           - main: "m3w.ch" # CHANGE_ME
             sans:
               - "*.m3w.ch" # CHANGE_ME
+              - "*.l.m3w.ch" # CHANGE_ME
+              - "*.m.m3w.ch" # CHANGE_ME
 
 certificatesResolvers:
   letsencrypt:
