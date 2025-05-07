@@ -43,6 +43,7 @@ certificatesResolvers:
       email: admin@m3w.ch # CHANGE_ME
       storage: /etc/letsencrypt/acme.json
       dnsChallenge:
-        # Use the DNS provider of your choice
-        # See https://doc.traefik.io/traefik/https/acme/#providers
+        ## The DNS challenge provider configuration
+        # Please visit the docs:
+        # https://doc.traefik.io/traefik/https/acme/#providers
         provider: infomaniak # CHANGE_ME
