@@ -6,19 +6,24 @@
 >
 > <https://adguard.com/adguard-home.html>
 
-## Prerequisites
+## Table of contents
 
-The following prerequisites must be filled to run this service:
+- [AdGuard Home](#adguard-home)
+  - [Table of contents](#table-of-contents)
+  - [Pre-configuration](#pre-configuration)
+    - [Set the environment variables](#set-the-environment-variables)
+    - [Add macvlan bridge](#add-macvlan-bridge)
+  - [Run the application with Docker](#run-the-application-with-docker)
+  - [Post-configuration](#post-configuration)
+  - [Additional resources](#additional-resources)
 
-- [Docker](https://docs.docker.com/get-docker/) must be installed.
-- [Docker Compose](https://docs.docker.com/compose/install/) must be installed
-  (it should be installed by default with Docker in most cases).
+## Pre-configuration
 
-## Set the environment variables
+### Set the environment variables
 
 Edit the `.env` file to your needs.
 
-## Additional configuration
+### Add macvlan bridge
 
 By default, Docker containers using mcvlan networks and the host cannot
 communicate together. We need to add a bridge between the host and the container
@@ -53,12 +58,6 @@ sudo ifreload --all
 
 Then you can start the AdGuard Home container.
 
-On first run, you must access the web interface to configure AdGuard Home at
-`192.168.1.254:3000`.
-
-Once the configuration is done, you can access the web interface on the port you
-set during the configuration (`192.168.1.254:80` by default).
-
 ## Run the application with Docker
 
 Do not forget to set the environment variables as described in the previous
@@ -73,6 +72,14 @@ docker compose pull
 # Start the application with Docker
 docker compose up --detach
 ```
+
+## Post-configuration
+
+On first run, you must access the web interface to configure AdGuard Home at
+`192.168.1.254:3000`.
+
+Once the configuration is done, you can access the web interface on the port you
+set during the configuration (`192.168.1.254:80` by default).
 
 ## Additional resources
 

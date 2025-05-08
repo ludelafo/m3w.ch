@@ -5,18 +5,24 @@
 >
 > <https://traefik.io/>
 
-## Prerequisites
+## Table of contents
 
-The following prerequisites must be filled to run this service:
+- [Traefik](#traefik)
+  - [Table of contents](#table-of-contents)
+  - [Pre-configuration](#pre-configuration)
+    - [Set the environment variables](#set-the-environment-variables)
+    - [Create the Infomaniak access token file](#create-the-infomaniak-access-token-file)
+  - [Run the application with Docker](#run-the-application-with-docker)
+  - [Additional resources](#additional-resources)
 
-- [Docker](https://docs.docker.com/get-docker/) must be installed.
-- [Docker Compose](https://docs.docker.com/compose/install/) must be installed
-  (it should be installed by default with Docker in most cases).
+## Pre-configuration
 
-## Set the environment variables
+### Set the environment variables
 
 Edit the `.env`, the [`traefik_static.yaml`](./traefik_static.yaml) and the
 [`traefik_dynamic.yaml`](./traefik_dynamic.yaml) files to your needs.
+
+### Create the Infomaniak access token file
 
 Create a new file called `infomaniak_access_token.txt` in this directory and add
 your Infomaniak access token in it. This file is used to authenticate with the
