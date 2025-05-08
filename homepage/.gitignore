@@ -2,3 +2,4 @@
 config/custom.css
 config/custom.js
 config/kubernetes.yaml
+config/services.yaml
