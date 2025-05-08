@@ -2,10 +2,14 @@
 # https://gethomepage.dev/configs/info-widgets/
 
 - resources:
+    label: System
     cpu: true
     memory: true
-    disk: /
+    cputemp: true
+    uptime: true
+    units: metric
 
-- search:
-    provider: duckduckgo
-    target: _blank
+- resources:
+    label: Storage
+    expanded: true
+    disk: /
