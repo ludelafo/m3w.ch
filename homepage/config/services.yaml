@@ -1,0 +1,4 @@
+layout:
+  Infrastructure:
+    style: row
+    columns: 4
