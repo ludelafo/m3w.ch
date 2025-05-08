@@ -1,6 +1,25 @@
+## Homepage settings
 # For configuration options and examples, please see:
 # https://gethomepage.dev/configs/settings/
 
-providers:
-  openweathermap: openweathermapapikey
-  weatherapi: weatherapiapikey
+# https://gethomepage.dev/configs/settings/#title
+title: Les Minous Homepage
+
+# https://gethomepage.dev/configs/settings/#description
+description: This is our awesome homepage
+
+# https://gethomepage.dev/configs/settings/#background-image
+background:
+  image: https://images.unsplash.com/photo-1429892494097-cccc61109f58?fit=crop&w=1920
+
+# https://gethomepage.dev/configs/settings/#theme
+theme: dark
+
+# https://gethomepage.dev/configs/settings/#color-palette
+color: slate
+
+# https://gethomepage.dev/configs/settings/#link-target
+target: _blank
+
+# https://gethomepage.dev/configs/settings/#homepage-version-update-checking
+hideVersion: true

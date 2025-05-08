@@ -9,6 +9,8 @@ services:
     restart: unless-stopped
     environment:
       - HOMEPAGE_ALLOWED_HOSTS=${HOMEPAGE_FQDN}
+      # https://gethomepage.dev/configs/settings/#log-path
+      - LOG_TARGETS=stdout
     networks:
       - traefik_network
     expose:
