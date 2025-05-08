@@ -18,7 +18,7 @@ services:
       ## Traefik
       - traefik.enable=true
       # Router
-      - traefik.http.routers.homepage.entrypoints=https
+      - traefik.http.routers.homepage.entrypoints=websecure
       - traefik.http.routers.homepage.rule=Host(`${HOMEPAGE_FQDN}`)
       # Service
       - traefik.http.services.homepage.loadbalancer.server.port=3000
