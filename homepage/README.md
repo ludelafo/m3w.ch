@@ -21,7 +21,7 @@
 
 ### Set the environment variables
 
-Edit the `*.env` files to your needs.
+Edit the `.env` file to your needs.
 
 ## Run the application with Docker
 
@@ -41,7 +41,8 @@ docker compose up --detach
 ## Post-configuration
 
 To generate the configuration files, you must access the web interface at least
-one. The files will then be generated in the `config` directory.
+one. The files will then be generated in the `config` directory if not already
+present.
 
 ## Additional resources
 

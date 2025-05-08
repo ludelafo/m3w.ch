@@ -1,3 +1,5 @@
 ## Docker volumes
-config
-books
+config/logs/
+config/custom.css
+config/custom.js
+config/kubernetes
