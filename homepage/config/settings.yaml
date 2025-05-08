@@ -24,8 +24,5 @@ target: _blank
 # https://gethomepage.dev/configs/settings/#homepage-version-update-checking
 hideVersion: true
 
-# https://gethomepage.dev/configs/settings/#show-docker-stats
-showStats: true
-
 # https://gethomepage.dev/configs/settings/#status-style
 statusStyle: "dot"
