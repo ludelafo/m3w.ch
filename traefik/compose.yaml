@@ -36,3 +36,9 @@ services:
       - traefik.http.routers.traefik.entryPoints=websecure
       - traefik.http.routers.traefik.rule=Host(`${TRAEFIK_FQDN}`)
       - traefik.http.routers.traefik.service=api@internal
+      ## Homepage
+      - homepage.group=Infrastructure
+      - homepage.name=Traefik
+      - homepage.icon=traefik.svg
+      - homepage.href=https://${TRAEFIK_FQDN}
+      - homepage.description=A modern reverse proxy.

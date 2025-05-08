@@ -1,4 +1,4 @@
-## Docker volumes
+## Homepage configuration files automatically generated
 config/custom.css
 config/custom.js
-config/kubernetes
+config/kubernetes.yaml
