@@ -1,0 +1,24 @@
+networks:
+  traefik_network:
+    external: true
+
+services:
+  homepage:
+    container_name: homepage
+    image: ghcr.io/gethomepage/homepage:${HOMEPAGE_IMAGE_VERSION:-latest}
+    restart: unless-stopped
+    networks:
+      - traefik_network
+    expose:
+      - 3000
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ./config:/app/config
+    labels:
+      ## Traefik
+      - traefik.enable=true
+      # Router
+      - traefik.http.routers.homepage.entrypoints=https
+      - traefik.http.routers.homepage.rule=Host(`${HOMEPAGE_FQDN}`)
+      # Service
+      - traefik.http.services.homepage.loadbalancer.server.port=3000
