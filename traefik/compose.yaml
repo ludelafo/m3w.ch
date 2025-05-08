@@ -4,6 +4,10 @@ networks:
   traefik_network:
     name: traefik_network
 
+secrets:
+  infomaniak_access_token:
+    file: ./infomaniak_access_token.txt
+
 services:
   traefik:
     container_name: traefik
@@ -11,18 +15,20 @@ services:
     command:
       - --configFile=/etc/traefik/traefik_static.yaml
     restart: unless-stopped
-    env_file:
-      - ./traefik.env
+    environment:
+      - INFOMANIAK_ACCESS_TOKEN_FILE=/run/secrets/infomaniak_access_token
     networks:
       - traefik_network
     ports:
       - 80:80
       - 443:443
+    secrets:
+      - infomaniak_access_token
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - ./letsencrypt:/etc/letsencrypt
-      - ./traefik_static.yaml:/etc/traefik/traefik_static.yaml
-      - ./traefik_dynamic.yaml:/etc/traefik/traefik_dynamic.yaml
+      - ./traefik_static.yaml:/etc/traefik/traefik_static.yaml:ro
+      - ./traefik_dynamic.yaml:/etc/traefik/traefik_dynamic.yaml:ro
     labels:
       # Traefik
       - traefik.enable=true

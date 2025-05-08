@@ -1,2 +1,5 @@
 ## Docker volumes
 letsencrypt
+
+## Docker secrets
+infomaniak_access_token.txt

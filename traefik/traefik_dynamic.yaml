@@ -3,7 +3,7 @@ http:
     http-strict-transport-security-header:
       headers:
         customResponseHeaders:
-          Strict-Transport-Security: max-age=63072000
+          Strict-Transport-Security: max-age=63072000; includeSubDomains
 
 tls:
   options:
