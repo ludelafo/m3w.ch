@@ -1,6 +1,8 @@
+name: AdGuard Home
+
 networks:
-  adguard_network:
-    name: adguard_network
+  adguard_home_network:
+    name: adguard_home_network
     driver: macvlan
     driver_opts:
       parent: eth0
@@ -10,8 +12,9 @@ networks:
         - subnet: 192.168.1.0/24
           gateway: 192.168.1.1
 
-  traefik_network:
-    external: true
+volumes:
+  adguard_home_data:
+    name: "adguard_home_data"
 
 services:
   adguard-home:
@@ -19,12 +22,12 @@ services:
     image: adguard/adguardhome:${ADGUARD_HOME_IMAGE_VERSION:-latest}
     restart: unless-stopped
     networks:
-      adguard_network:
-        ipv4_address: 192.168.1.254
-      traefik_network:
-    expose:
-      - 80
+      adguard_home_network:
+        ipv4_address: 192.168.1.253
     ports:
+      # Web UI
+      - 80:80
+      - 3000:3000
       # Plain DNS
       - 53:53/tcp
       - 53:53/udp
@@ -38,13 +41,5 @@ services:
       # # DNS-over-QUIC
       # - 853:853/udp
     volumes:
-      - ./config:/opt/adguardhome/conf
-      - ./data:/opt/adguardhome/work/data
-    labels:
-      ## Traefik
-      - traefik.enable=true
-      # Router
-      - traefik.http.routers.adguard-home.entrypoints=websecure
-      - traefik.http.routers.adguard-home.rule=Host(`${ADGUARD_HOME_FQDN}`)
-      # Service
-      - traefik.http.services.adguard-home.loadbalancer.server.port=80
+      - adguard_home_data:/opt/adguardhome/conf
+      - adguard_home_data:/opt/adguardhome/work/data
