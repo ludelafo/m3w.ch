@@ -23,9 +23,9 @@
 
 Edit the `.env` file to your needs.
 
-### Add macvlan bridge
+### Add MACVLAN bridge
 
-By default, Docker containers using mcvlan networks and the host cannot
+By default, Docker containers using MACVLAN networks and the host cannot
 communicate together. We need to add a bridge between the host and the container
 to make it work.
 
