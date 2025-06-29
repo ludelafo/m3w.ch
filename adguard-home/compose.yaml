@@ -19,12 +19,12 @@ volumes:
 services:
   adguard-home:
     container_name: adguard-home
-    image: adguard/adguardhome:${ADGUARD_HOME_IMAGE_VERSION}
+    image: adguard/adguardhome:${ADGUARD_HOME_VERSION}
     restart: unless-stopped
     # As this container uses a MACVLAN network, ports do not need to be published.
     networks:
       adguard_home_network:
-        ipv4_address: ${ADGUARD_HOME_IP_ADDRESS}
+        ipv4_address: ${MACVLAN_NETWORK_IP}
     volumes:
       - adguard_home_data:/opt/adguardhome/conf
       - adguard_home_data:/opt/adguardhome/work/data
