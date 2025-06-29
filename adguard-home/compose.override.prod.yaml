@@ -5,7 +5,9 @@ networks:
 services:
   adguard-home:
     networks:
-      traefik_network:
+      - traefik_network
+    expose:
+      - 80
     labels:
       ## Traefik
       - traefik.enable=true
