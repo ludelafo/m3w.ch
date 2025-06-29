@@ -30,6 +30,7 @@ services:
     networks:
       adguard_home_network:
         ipv4_address: ${MACVLAN_NETWORK_IP}
+      traefik_network:
     expose:
       - 80
     volumes:
@@ -38,7 +39,6 @@ services:
     labels:
       ## Traefik
       - traefik.enable=true
-      - traefik.docker.network=traefik_network
       # Router
       - traefik.http.routers.adguard-home.entrypoints=websecure
       - traefik.http.routers.adguard-home.rule=Host(`${ADGUARD_HOME_FQDN}`)

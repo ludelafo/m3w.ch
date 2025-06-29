@@ -10,6 +10,7 @@ api:
 providers:
   docker:
     exposedByDefault: false
+    network: traefik_network
   file:
     filename: /etc/traefik/traefik_dynamic.yaml
     watch: true
