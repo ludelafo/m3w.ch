@@ -13,6 +13,8 @@ networks:
           gateway: ${MACVLAN_NETWORK_GATEWAY}
 
 volumes:
+  adguard_home_config:
+    name: "adguard_home_config"
   adguard_home_data:
     name: "adguard_home_data"
 
@@ -26,5 +28,5 @@ services:
       adguard_home_network:
         ipv4_address: ${MACVLAN_NETWORK_IP}
     volumes:
-      - adguard_home_data:/opt/adguardhome/conf
+      - adguard_home_config:/opt/adguardhome/conf
       - adguard_home_data:/opt/adguardhome/work/data
