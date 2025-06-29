@@ -12,6 +12,9 @@ networks:
         - subnet: ${MACVLAN_NETWORK_SUBNET}
           gateway: ${MACVLAN_NETWORK_GATEWAY}
 
+  traefik_network:
+    external: true
+
 volumes:
   adguard_home_config:
     name: "adguard_home_config"
@@ -27,6 +30,17 @@ services:
     networks:
       adguard_home_network:
         ipv4_address: ${MACVLAN_NETWORK_IP}
+    expose:
+      - 80
     volumes:
       - adguard_home_config:/opt/adguardhome/conf
       - adguard_home_data:/opt/adguardhome/work/data
+    labels:
+      ## Traefik
+      - traefik.enable=true
+      - traefik.docker.network=traefik_network
+      # Router
+      - traefik.http.routers.adguard-home.entrypoints=websecure
+      - traefik.http.routers.adguard-home.rule=Host(`${ADGUARD_HOME_FQDN}`)
+      # Service
+      - traefik.http.services.adguard-home.loadbalancer.server.port=80
