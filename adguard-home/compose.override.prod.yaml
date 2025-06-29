@@ -6,24 +6,6 @@ services:
   adguard-home:
     networks:
       traefik_network:
-    expose:
-      - 80
-    ports:
-      # Plain DNS
-      - 53:53/tcp
-      - 53:53/udp
-      # Plain DHCP
-      - 67:67/udp
-      - 68:68/tcp
-      - 68:68/udp
-      ## Enable these if hosted on a VPS
-      # # DNS-over-TLS
-      # - 853:853/tcp
-      # # DNS-over-QUIC
-      # - 853:853/udp
-    volumes:
-      - ./config:/opt/adguardhome/conf
-      - ./data:/opt/adguardhome/work/data
     labels:
       ## Traefik
       - traefik.enable=true
@@ -32,9 +14,3 @@ services:
       - traefik.http.routers.adguard-home.rule=Host(`${ADGUARD_HOME_FQDN}`)
       # Service
       - traefik.http.services.adguard-home.loadbalancer.server.port=80
-      ## Homepage
-      - homepage.group=Infrastructure
-      - homepage.name=AdGuard Home
-      - homepage.icon=adguard-home.svg
-      - homepage.href=https://${ADGUARD_HOME_FQDN}
-      - homepage.description=A DHCP and DNS server.

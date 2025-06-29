@@ -5,12 +5,12 @@ networks:
     name: adguard_home_network
     driver: macvlan
     driver_opts:
-      parent: eth0
+      parent: ${MACVLAN_NETWORK_INTERFACE}
     ipam:
       driver: default
       config:
-        - subnet: 192.168.1.0/24
-          gateway: 192.168.1.1
+        - subnet: ${MACVLAN_NETWORK_SUBNET}
+          gateway: ${MACVLAN_NETWORK_GATEWAY}
 
 volumes:
   adguard_home_data:
@@ -19,27 +19,12 @@ volumes:
 services:
   adguard-home:
     container_name: adguard-home
-    image: adguard/adguardhome:${ADGUARD_HOME_IMAGE_VERSION:-latest}
+    image: adguard/adguardhome:${ADGUARD_HOME_IMAGE_VERSION}
     restart: unless-stopped
+    # As this container uses a MACVLAN network, ports do not need to be published.
     networks:
       adguard_home_network:
-        ipv4_address: 192.168.1.253
-    ports:
-      # Web UI
-      - 80:80
-      - 3000:3000
-      # Plain DNS
-      - 53:53/tcp
-      - 53:53/udp
-      # Plain DHCP
-      - 67:67/udp
-      - 68:68/tcp
-      - 68:68/udp
-      ## Enable these if hosted on a VPS
-      # # DNS-over-TLS
-      # - 853:853/tcp
-      # # DNS-over-QUIC
-      # - 853:853/udp
+        ipv4_address: ${ADGUARD_HOME_IP_ADDRESS}
     volumes:
       - adguard_home_data:/opt/adguardhome/conf
       - adguard_home_data:/opt/adguardhome/work/data
