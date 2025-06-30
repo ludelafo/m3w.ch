@@ -4,12 +4,10 @@ networks:
   wg_easy_network:
     name: wg_easy_network
     driver: bridge
-    enable_ipv6: true
     ipam:
       driver: default
       config:
         - subnet: 10.0.0.0/24
-        - subnet: 2001:db8::/120
 
 volumes:
   wg_easy_config:
@@ -28,7 +26,6 @@ services:
     networks:
       wg_easy_network:
         ipv4_address: 10.0.0.1
-        ipv6_address: fe80::a00:1
     ports:
       - 51820:51820/udp
       - 51821:51821/tcp
