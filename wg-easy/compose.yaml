@@ -13,8 +13,6 @@ services:
     container_name: wg-easy
     image: ghcr.io/wg-easy/wg-easy:${WG_EASY_VERSION}
     restart: unless-stopped
-    # env_file:
-    #   - wg-easy.env
     environment:
       - INSECURE=true
     networks:
