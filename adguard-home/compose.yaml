@@ -14,9 +14,9 @@ networks:
 
 volumes:
   adguard_home_config:
-    name: "adguard_home_config"
+    name: adguard_home_config
   adguard_home_data:
-    name: "adguard_home_data"
+    name: adguard_home_data
 
 services:
   adguard-home:
