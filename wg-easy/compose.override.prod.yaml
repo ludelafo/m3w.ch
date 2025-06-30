@@ -4,6 +4,8 @@ networks:
 
 services:
   wg-easy:
+    environment:
+      - INSECURE=false
     networks:
       - traefik_network
     ports: !override

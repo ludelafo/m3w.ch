@@ -17,7 +17,7 @@
 
 ### Set the environment variables
 
-Edit the `.env` file to your needs.
+Edit the `.env` and `wg-easy.env` files to your needs.
 
 ## Run the application with Docker
 
