@@ -1,5 +1,9 @@
 name: WireGuard Easy
 
+networks:
+  wg_easy_network:
+    name: wg_easy_network
+
 volumes:
   wg_easy_config:
     name: wg_easy_config
