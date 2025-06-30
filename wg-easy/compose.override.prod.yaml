@@ -1,0 +1,18 @@
+networks:
+  traefik_network:
+    external: true
+
+services:
+  wg-easy:
+    networks:
+      - traefik_network
+    expose:
+      - 80
+    labels:
+      ## Traefik
+      - traefik.enable=true
+      # Router
+      - traefik.http.routers.wg-easy.entrypoints=websecure
+      - traefik.http.routers.wg-easy.rule=Host(`${WG_EASY_FQDN}`)
+      # Service
+      - traefik.http.services.wg-easy.loadbalancer.server.port=80
