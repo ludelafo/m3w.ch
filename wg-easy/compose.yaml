@@ -3,11 +3,6 @@ name: WireGuard Easy
 networks:
   wg_easy_network:
     name: wg_easy_network
-    driver: bridge
-    ipam:
-      driver: default
-      config:
-        - subnet: 10.0.0.0/24
 
 volumes:
   wg_easy_config:
@@ -18,14 +13,12 @@ services:
     container_name: wg-easy
     image: ghcr.io/wg-easy/wg-easy:${WG_EASY_VERSION}
     restart: unless-stopped
-    env_file:
-      - wg-easy.env
+    # env_file:
+    #   - wg-easy.env
     environment:
       - INSECURE=true
-      - INIT_ENABLED=true
     networks:
-      wg_easy_network:
-        ipv4_address: 10.0.0.1
+      - wg_easy_network
     ports:
       - 51820:51820/udp
       - 51821:51821/tcp
@@ -35,9 +28,6 @@ services:
     sysctls:
       - net.ipv4.ip_forward=1
       - net.ipv4.conf.all.src_valid_mark=1
-      - net.ipv6.conf.all.disable_ipv6=0
-      - net.ipv6.conf.all.forwarding=1
-      - net.ipv6.conf.default.forwarding=1
     volumes:
       - wg_easy_config:/etc/wireguard
       - /lib/modules:/lib/modules:ro

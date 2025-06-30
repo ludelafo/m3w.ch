@@ -11,13 +11,14 @@
   - [Pre-configuration](#pre-configuration)
     - [Set the environment variables](#set-the-environment-variables)
   - [Run the application with Docker](#run-the-application-with-docker)
+  - [Post-configuration](#post-configuration)
   - [Additional resources](#additional-resources)
 
 ## Pre-configuration
 
 ### Set the environment variables
 
-Edit the `.env` and `wg-easy.env` files to your needs.
+Edit the `.env` file to your needs.
 
 ## Run the application with Docker
 
@@ -33,6 +34,11 @@ docker compose pull
 # Start the application with Docker
 docker compose up --detach
 ```
+
+## Post-configuration
+
+On first run, you must access the web interface to configure AdGuard Home at
+`192.168.1.250:51821`.
 
 ## Additional resources
 
