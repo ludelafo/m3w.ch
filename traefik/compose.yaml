@@ -1,8 +1,12 @@
-name: traefik
+name: Traefik
 
 networks:
   traefik_network:
     name: traefik_network
+
+volumes:
+  traefik_data:
+    name: traefik_data
 
 secrets:
   infomaniak_access_token:
@@ -25,14 +29,15 @@ services:
     secrets:
       - infomaniak_access_token
     volumes:
+      - traefik_data:/etc/letsencrypt
       - /var/run/docker.sock:/var/run/docker.sock:ro
-      - ./letsencrypt:/etc/letsencrypt
       - ./traefik_static.yaml:/etc/traefik/traefik_static.yaml:ro
       - ./traefik_dynamic.yaml:/etc/traefik/traefik_dynamic.yaml:ro
     labels:
-      # Traefik
+      ## Traefik
       - traefik.enable=true
-      ## HTTPS
+      # Router
       - traefik.http.routers.traefik.entryPoints=websecure
       - traefik.http.routers.traefik.rule=Host(`${TRAEFIK_FQDN}`)
+      # Service
       - traefik.http.routers.traefik.service=api@internal

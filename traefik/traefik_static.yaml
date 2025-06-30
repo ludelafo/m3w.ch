@@ -36,8 +36,6 @@ entryPoints:
           - main: "m3w.ch" # CHANGE_ME
             sans:
               - "*.m3w.ch" # CHANGE_ME
-              - "*.l.m3w.ch" # CHANGE_ME
-              - "*.m.m3w.ch" # CHANGE_ME
 
 certificatesResolvers:
   letsencrypt:
@@ -45,7 +43,7 @@ certificatesResolvers:
       email: admin@m3w.ch # CHANGE_ME
       storage: /etc/letsencrypt/acme.json
       dnsChallenge:
-        ## The DNS challenge provider configuration
+        ## The DNS challenge provider configuration.
         # Please visit the docs:
         # https://doc.traefik.io/traefik/https/acme/#providers
         provider: infomaniak # CHANGE_ME

@@ -1,0 +1,18 @@
+networks:
+  traefik_network:
+    external: true
+
+services:
+  adguard-home:
+    networks:
+      - traefik_network
+    expose:
+      - 80
+    labels:
+      ## Traefik
+      - traefik.enable=true
+      # Router
+      - traefik.http.routers.adguard-home.entrypoints=websecure
+      - traefik.http.routers.adguard-home.rule=Host(`${ADGUARD_HOME_FQDN}`)
+      # Service
+      - traefik.http.services.adguard-home.loadbalancer.server.port=80

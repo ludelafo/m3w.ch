@@ -1,5 +1,5 @@
-## Docker volumes
-letsencrypt
+## Compose override files
+compose.override.yaml
 
 ## Docker secrets
 infomaniak_access_token.txt
