@@ -6,8 +6,10 @@ services:
   wg-easy:
     networks:
       - traefik_network
+    ports: !override
+      - 51820:51820/udp
     expose:
-      - 80
+      - 51821
     labels:
       ## Traefik
       - traefik.enable=true
@@ -15,4 +17,4 @@ services:
       - traefik.http.routers.wg-easy.entrypoints=websecure
       - traefik.http.routers.wg-easy.rule=Host(`${WG_EASY_FQDN}`)
       # Service
-      - traefik.http.services.wg-easy.loadbalancer.server.port=80
+      - traefik.http.services.wg-easy.loadbalancer.server.port=51821

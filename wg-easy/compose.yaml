@@ -11,9 +11,10 @@ services:
     restart: unless-stopped
     # env_file:
     #   - wg-easy.env
-    # networks:
-    #   wg_easy_network:
-    #     ipv4_address: 10.42.42.42
+    # environment:
+    #   - INIT_ENABLED=true
+    networks:
+      - wg_easy_network
     ports:
       - 51820:51820/udp
       - 51821:51821/tcp
