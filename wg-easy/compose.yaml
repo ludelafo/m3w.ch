@@ -9,7 +9,7 @@ networks:
       driver: default
       config:
         - subnet: 10.0.0.0/24
-        - subnet: fe80::a00:0::/120
+        - subnet: 2001:db8::/120
 
 volumes:
   wg_easy_config:
