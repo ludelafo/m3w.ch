@@ -14,10 +14,10 @@ apt update
 apt install --yes ansible git
 
 # Execute Ansible pull for the first time to pull the files
-ansible-pull --url https://github.com/ludelafo/m3w.ch ansible/playbooks/playbook.yaml --checkout 15-update-ansible-configuration
+ansible-pull --url https://github.com/ludelafo/m3w.ch --check ansible/playbooks/proxmox/playbook.yaml --checkout 15-update-ansible-configuration
 
 # Execute Ansible pull for the second time to apply the configuration
-ansible-pull --url https://github.com/ludelafo/m3w.ch ansible/playbooks/playbook.yaml --extra-vars "@.ansible/pull/proxmox.local/ansible/variables/variables.yaml" --checkout 15-update-ansible-configuration
+ansible-pull --url https://github.com/ludelafo/m3w.ch --ask-become-pass ansible/proxmox/playbook.yaml --extra-vars "@.ansible/pull/proxmox.m3w.ch/ansible/variables/proxmox-host.yaml" --checkout 15-update-ansible-configuration
 
 ### Create a Proxmox LXC container
 

@@ -1,24 +1,75 @@
 - name: Configure Proxmox instance
   hosts: localhost
+  become: true
   tasks:
     ## Updates and packages
+    - name: Add Proxmox APT repository
+      ansible.builtin.apt_repository:
+        repo:
+          "deb [arch=amd64] http://download.proxmox.com/debian/pve bookworm
+          pve-no-subscription"
+        filename: pve-install-repo
+        state: present
+
+    - name: Download Proxmox GPG key
+      ansible.builtin.get_url:
+        url: https://enterprise.proxmox.com/debian/proxmox-release-bookworm.gpg
+        dest: /etc/apt/trusted.gpg.d/proxmox-release-bookworm.gpg
+        mode: "0644"
+
+    - name: Calculate Proxmox GPG key checksum
+      ansible.builtin.stat:
+        path: /etc/apt/trusted.gpg.d/proxmox-release-bookworm.gpg
+        checksum_algorithm: sha512
+      register: proxmox_gpg_key
+
+    - name: Verify Proxmox GPG key checksum
+      ansible.builtin.fail:
+        msg: "Proxmox GPG key checksum does not match expected value."
+      when:
+        proxmox_gpg_key.stat.checksum is not defined or
+        proxmox_gpg_key.stat.checksum !=
+        "7da6fe34168adc6e479327ba517796d4702fa2f8b4f0a9833f5ea6e6b48f6507a6da403a274fe201595edc86a84463d50383d07f64bdde2e3658108db7d6dc87"
+
     - name: Upgrade the OS
       ansible.builtin.apt:
         upgrade: full
         autoclean: true
         autoremove: true
 
-    - name: Install packages
+    - name: Install Proxmox packages
       ansible.builtin.apt:
-        update_cache: true
+        pkg:
+          - chrony
+          - open-iscsi
+          - postfix
+          - proxmox-default-kernel
+          - proxmox-ve
+
+    - name: Remove Proxmox conflicting packages
+      ansible.builtin.apt:
+        name:
+          - "linux-image-6.1*"
+          - linux-image-amd64
+          - os-prober
+        state: absent
+
+    - name: Install additional packages
+      ansible.builtin.apt:
         pkg:
           - ansible
           - git
 
     ## Network configuration
+    - name: Configure /etc/hosts
+      ansible.builtin.template:
+        src: hosts.j2
+        dest: /etc/hosts
+        mode: "0644"
+
     - name: Configure interface name for lan0 network
       ansible.builtin.template:
-        src: persistent-link.link.j2
+        src: etc-systemd-network-persistent-link.link.j2
         dest: /etc/systemd/network/10-lan0-persistent-link.link
         mode: "0644"
       vars:
@@ -27,7 +78,7 @@
 
     - name: Configure interface name for lan1 network
       ansible.builtin.template:
-        src: persistent-link.link.j2
+        src: etc-systemd-network-persistent-link.link.j2
         dest: /etc/systemd/network/11-lan1-persistent-link.link
         mode: "0644"
       vars:

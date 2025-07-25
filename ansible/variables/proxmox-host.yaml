@@ -1,5 +1,12 @@
+hostname: "proxmox"
+domain: "m3w.ch"
+
 lan0_interface_name: "lan0"
 lan0_mac_address: "6c:1f:f7:56:2f:72"
+lan0_ip_address: "192.168.1.10/24"
+lan0_gateway: "192.168.1.1"
 
 lan1_interface_name: "lan1"
 lan1_mac_address: "6c:1f:f7:56:2f:71"
+lan1_ip_address: "192.168.1.250/24"
+lan1_gateway: "192.168.1.1"
