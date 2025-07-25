@@ -3,14 +3,6 @@
   become: true
   tasks:
     ## Updates and packages
-    - name: Add Proxmox APT repository
-      ansible.builtin.apt_repository:
-        repo:
-          "deb [arch=amd64] http://download.proxmox.com/debian/pve bookworm
-          pve-no-subscription"
-        filename: pve-install-repo
-        state: present
-
     - name: Download Proxmox GPG key
       ansible.builtin.get_url:
         url: https://enterprise.proxmox.com/debian/proxmox-release-bookworm.gpg
@@ -27,9 +19,16 @@
       ansible.builtin.fail:
         msg: "Proxmox GPG key checksum does not match expected value."
       when:
-        proxmox_gpg_key.stat.checksum is not defined or
         proxmox_gpg_key.stat.checksum !=
         "7da6fe34168adc6e479327ba517796d4702fa2f8b4f0a9833f5ea6e6b48f6507a6da403a274fe201595edc86a84463d50383d07f64bdde2e3658108db7d6dc87"
+
+    - name: Add Proxmox APT repository
+      ansible.builtin.apt_repository:
+        repo:
+          "deb [arch=amd64] http://download.proxmox.com/debian/pve bookworm
+          pve-no-subscription"
+        filename: pve-install-repo
+        state: present
 
     - name: Upgrade the OS
       ansible.builtin.apt:
