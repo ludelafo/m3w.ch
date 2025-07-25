@@ -13,13 +13,14 @@ iface {{ lan0_interface_name }} inet manual
 auto vmbr0
 iface vmbr0 inet static
         address {{ lan0_ip_address }}
+        netmask {{ lan0_netmask }}
         gateway {{ lan0_gateway }}
         bridge-ports {{ lan0_interface_name }}
         bridge-stp off
         bridge-fd 0
 
-# The second network interface
+# The secondary network interface
 allow-hotplug {{ lan1_interface_name }}
 iface {{ lan1_interface_name }} inet static
         address {{ lan1_ip_address }}
-        gateway {{ lan1_gateway }}
+        netmask {{ lan1_netmask }}

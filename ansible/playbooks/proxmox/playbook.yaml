@@ -65,6 +65,8 @@
         src: etc-hosts.j2
         dest: /etc/hosts
         mode: "0644"
+      vars:
+        ip_address: "{{ lan0_ip_address }}"
 
     - name: Configure /etc/hostname
       ansible.builtin.template:
