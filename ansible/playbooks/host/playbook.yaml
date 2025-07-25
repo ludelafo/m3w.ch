@@ -5,30 +5,21 @@
     ## Updates and packages
     - name: Download Proxmox GPG key
       ansible.builtin.get_url:
-        url: https://enterprise.proxmox.com/debian/proxmox-release-bookworm.gpg
-        dest: /etc/apt/trusted.gpg.d/proxmox-release-bookworm.gpg
+        url:
+          https://enterprise.proxmox.com/debian/proxmox-release-{{
+          ansible_distribution_release }}.gpg
+        dest:
+          /etc/apt/trusted.gpg.d/proxmox-release-{{ ansible_distribution_release
+          }}.gpg
         mode: "0644"
-
-    - name: Calculate Proxmox GPG key checksum
-      ansible.builtin.stat:
-        path: /etc/apt/trusted.gpg.d/proxmox-release-bookworm.gpg
-        checksum_algorithm: sha512
-      register: proxmox_gpg_key
-
-    - name: Verify Proxmox GPG key checksum
-      ansible.builtin.fail:
-        msg: "Proxmox GPG key checksum does not match expected value."
-      when:
-        proxmox_gpg_key.stat.checksum !=
-        "7da6fe34168adc6e479327ba517796d4702fa2f8b4f0a9833f5ea6e6b48f6507a6da403a274fe201595edc86a84463d50383d07f64bdde2e3658108db7d6dc87"
+        checksum: sha256:13a87cec79f2d05f40f125629e4b509080a5c0286608bea273e36be9809ecaba
+        # The checksum can be calculated with `curl -sL https://enterprise.proxmox.com/debian/proxmox-release-bookworm.gpg | sha256sum`
 
     - name: Add Proxmox APT repository
       ansible.builtin.apt_repository:
-        repo:
-          "deb [arch=amd64] http://download.proxmox.com/debian/pve bookworm
-          pve-no-subscription"
-        filename: pve-install-repo
-        state: present
+        repo: >-
+          deb [arch=amd64] http://download.proxmox.com/{{ ansible_distribution |
+          lower }}/pve {{ ansible_distribution_release }} pve-no-subscription"
 
     - name: Upgrade the OS
       ansible.builtin.apt:

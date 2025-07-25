@@ -1,5 +1,11 @@
 - name: Configure container instance
   hosts: localhost
+  vars_prompt:
+    - name: user_password
+      prompt: "Enter password for the user"
+      private: true
+      confirm: true
+
   tasks:
     ## Updates and packages
     - name: Upgrade the OS
@@ -44,7 +50,6 @@
 
     - name: Install Docker with its Compose plugin
       ansible.builtin.apt:
-        update_cache: true
         pkg:
           - docker-ce
           - docker-ce-cli
@@ -73,6 +78,7 @@
     - name: Add the default user to the groups
       ansible.builtin.user:
         name: "{{ user }}"
+        password: "{{ user_password | password_hash('sha512') }}"
         groups: docker,sudo
         append: true
 
