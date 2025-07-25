@@ -2,6 +2,23 @@
 
 ## Prerequisites
 
+### On Proxmox host
+
+Install Ansible and Git:
+
+````sh
+# Update the package lists
+apt update
+
+# Install packages
+apt install --yes ansible git
+
+# Execute Ansible pull for the first time to pull the files
+ansible-pull --url https://github.com/ludelafo/m3w.ch ansible/playbooks/playbook.yaml --checkout 15-update-ansible-configuration
+
+# Execute Ansible pull for the second time to apply the configuration
+ansible-pull --url https://github.com/ludelafo/m3w.ch ansible/playbooks/playbook.yaml --extra-vars "@.ansible/pull/proxmox.local/ansible/variables/variables.yaml" --checkout 15-update-ansible-configuration
+
 ### Create a Proxmox LXC container
 
 - General
@@ -56,7 +73,7 @@ ansible-pull --url https://github.com/ludelafo/m3w.ch ansible/playbook.yaml --ex
 
 # or
 ansible-pull --url https://github.com/ludelafo/m3w.ch --checkout <name of the branch> ansible/playbooks/playbook.yaml --extra-vars "@.ansible/pull/<hostname>/ansible/variables/variables.yaml"
-```
+````
 
 ## On `proxmox.m3w.ch` host
 

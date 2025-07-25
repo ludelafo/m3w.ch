@@ -1,0 +1,5 @@
+lan0_interface_name: "lan0"
+lan0_mac_address: "6c:1f:f7:56:2f:72"
+
+lan1_interface_name: "lan1"
+lan1_mac_address: "6c:1f:f7:56:2f:71"

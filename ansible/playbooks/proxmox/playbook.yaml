@@ -15,40 +15,59 @@
           - ansible
           - git
 
-    ## Disks
-    - name: Create the systemd mount unit file
-      when: disk_label != None
+    ## Network configuration
+    - name: Configure interface name for lan0 network
       ansible.builtin.template:
-        src: mnt-pve-disk.mount.j2
-        dest: /etc/systemd/system/mnt-pve-{{ disk_label }}.mount
+        src: persistent-link.link.j2
+        dest: /etc/systemd/network/10-lan0-persistent-link.link
         mode: "0644"
+      vars:
+        interface_name: "{{ lan0_interface_name }}"
+        mac_address: "{{ lan0_mac_address }}"
 
-    - name: Enable and start the systemd mount unit
-      when: disk_label != None
-      ansible.builtin.systemd:
-        name: mnt-pve-{{ disk_label }}.mount
-        state: started
-        daemon_reload: true
-        enabled: true
+    - name: Configure interface name for lan1 network
+      ansible.builtin.template:
+        src: persistent-link.link.j2
+        dest: /etc/systemd/network/11-lan1-persistent-link.link
+        mode: "0644"
+      vars:
+        interface_name: "{{ lan1_interface_name }}"
+        mac_address: "{{ lan1_mac_address }}"
 
-    ## Container configuration
-    - name: Mount the disk to the container
-      when: disk_label != None
-      ansible.builtin.lineinfile:
-        path: /etc/pve/lxc/{{ lxc_id }}.conf
-        line:
-          "mp0: /mnt/pve/{{ disk_label }},mp=/home/{{ user
-          }},mountoptions=noatime,backup=0"
+    # ## Disks
+    # - name: Create the systemd mount unit file
+    #   when: disk_label != None
+    #   ansible.builtin.template:
+    #     src: mnt-pve-disk.mount.j2
+    #     dest: /etc/systemd/system/mnt-pve-{{ disk_label }}.mount
+    #     mode: "0644"
 
-    - name: Enable nesting feature for using Docker in the container
-      ansible.builtin.lineinfile:
-        path: /etc/pve/lxc/{{ lxc_id }}.conf
-        line: "features: nesting=1"
+    # - name: Enable and start the systemd mount unit
+    #   when: disk_label != None
+    #   ansible.builtin.systemd:
+    #     name: mnt-pve-{{ disk_label }}.mount
+    #     state: started
+    #     daemon_reload: true
+    #     enabled: true
 
-    - name: Enable start on boot
-      ansible.builtin.lineinfile:
-        path: /etc/pve/lxc/{{ lxc_id }}.conf
-        line: "onboot: 1"
+    # ## Container configuration
+    # - name: Mount the disk to the container
+    #   when: disk_label != None
+    #   ansible.builtin.lineinfile:
+    #     path: /etc/pve/lxc/{{ lxc_id }}.conf
+    #     line:
+    #       "mp0: /mnt/pve/{{ disk_label }},mp=/home/{{ user
+    #       }},mountoptions=noatime,backup=0"
+
+    # - name: Enable nesting feature for using Docker in the container
+    #   ansible.builtin.lineinfile:
+    #     path: /etc/pve/lxc/{{ lxc_id }}.conf
+    #     line: "features: nesting=1"
+
+    # - name: Enable start on boot
+    #   ansible.builtin.lineinfile:
+    #     path: /etc/pve/lxc/{{ lxc_id }}.conf
+    #     line: "onboot: 1"
 
     # # Source: https://github.com/portainer/portainer/issues/8478#issuecomment-1426866713
     # - name: Clear the cap drops
