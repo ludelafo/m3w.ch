@@ -61,6 +61,7 @@
 
     ## Network configuration
     - name: Configure /etc/hosts
+      when: lxc_id == None
       ansible.builtin.template:
         src: etc-hosts.j2
         dest: /etc/hosts
@@ -69,18 +70,21 @@
         ip_address: "{{ lan0_ip_address }}"
 
     - name: Configure /etc/hostname
+      when: lxc_id == None
       ansible.builtin.template:
         src: etc-hostname.j2
         dest: /etc/hostname
         mode: "0644"
 
     - name: Configure /etc/network/interfaces
+      when: lxc_id == None
       ansible.builtin.template:
         src: etc-network-interfaces.j2
         dest: /etc/network/interfaces
         mode: "0644"
 
     - name: Configure interface name for lan0 network
+      when: lxc_id == None
       ansible.builtin.template:
         src: etc-systemd-network-persistent-link.link.j2
         dest: /etc/systemd/network/10-lan0-persistent-link.link
@@ -90,6 +94,7 @@
         mac_address: "{{ lan0_mac_address }}"
 
     - name: Configure interface name for lan1 network
+      when: lxc_id == None
       ansible.builtin.template:
         src: etc-systemd-network-persistent-link.link.j2
         dest: /etc/systemd/network/11-lan1-persistent-link.link
@@ -100,14 +105,14 @@
 
     ## Disks
     - name: Create the systemd mount unit file
-      when: disk_label != None
+      when: lxc_id != None
       ansible.builtin.template:
         src: etc-systemd-system-mnt-pve-disk.mount.j2
         dest: /etc/systemd/system/mnt-pve-{{ disk_label }}.mount
         mode: "0644"
 
     - name: Enable and start the systemd mount unit
-      when: disk_label != None
+      when: lxc_id != None
       ansible.builtin.systemd:
         name: mnt-pve-{{ disk_label }}.mount
         state: started
@@ -116,7 +121,7 @@
 
     ## Container configuration
     - name: Mount the disk to the container
-      when: disk_label != None
+      when: lxc_id != None
       ansible.builtin.lineinfile:
         path: /etc/pve/lxc/{{ lxc_id }}.conf
         line:
