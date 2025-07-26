@@ -13,6 +13,7 @@
   - [Pre-configuration](#pre-configuration)
     - [Set the environment variables](#set-the-environment-variables)
     - [Create the `config.yaml` file](#create-the-configyaml-file)
+    - [Create the user password](#create-the-user-password)
   - [Run the application with Docker](#run-the-application-with-docker)
   - [Additional resources](#additional-resources)
 
@@ -30,6 +31,11 @@ examples in the [`configs`](./configs) directory and copy an example to
 
 You might need to update the `volumes` section in the `compose.yaml` file to
 match your configuration.
+
+### Create the user password
+
+Create a new file called `user_password.txt` in this directory and add the user
+password in it to access the share(s).
 
 ## Run the application with Docker
 

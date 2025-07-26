@@ -1,3 +1,17 @@
+name: Samba
+
+networks:
+  samba_network:
+    name: samba_network
+    driver: ipvlan
+    driver_opts:
+      parent: ${IPVLAN_NETWORK_INTERFACE}
+    ipam:
+      driver: default
+      config:
+        - subnet: ${IPVLAN_NETWORK_SUBNET}
+          gateway: ${IPVLAN_NETWORK_GATEWAY}
+
 volumes:
   samba_data:
     name: samba_data
@@ -14,7 +28,9 @@ services:
     env_file:
       - samba.env
     environment:
-      - CONFIG_FILE=/data/config.yaml
+      - CONFIG_FILE=/config.yaml
+    networks:
+      - samba_network
     ports:
       - 445:445
       - 3702:3702
@@ -28,5 +44,5 @@ services:
       - user_password
     volumes:
       - samba_data:/data
-      - ./config.yaml:/data/config.yaml
+      - ./config.yaml:/config.yaml
       # Additional volumes can be mounted here
