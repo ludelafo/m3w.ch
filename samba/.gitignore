@@ -1,0 +1,7 @@
+## Docker secrets
+user_password.txt
+
+## Docker volumes
+data/
+shares/
+config.yaml

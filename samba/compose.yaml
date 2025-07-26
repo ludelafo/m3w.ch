@@ -1,0 +1,29 @@
+name: Samba
+
+volumes:
+  samba_data:
+    name: samba_data
+
+secrets:
+  user_password:
+    file: ./user_password.txt
+
+services:
+  samba:
+    container_name: samba
+    image: crazymax/samba:${SAMBA_VERSION}
+    restart: unless-stopped
+    env_file:
+      - samba.env
+    environment:
+      - CONFIG_FILE=/config.yaml
+    network_mode: host
+    cap_add:
+      - CAP_NET_ADMIN
+      - CAP_NET_RAW
+    secrets:
+      - user_password
+    volumes:
+      - samba_data:/data
+      - ./config.yaml:/config.yaml
+      # Additional volumes can be mounted here

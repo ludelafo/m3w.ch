@@ -1,0 +1,32 @@
+auth:
+  - user: ${USER}
+    group: ${GROUP}
+    uid: ${PUID}
+    gid: ${PGID}
+    password_file: /run/secrets/user_password
+
+global:
+  - "access based share enum = yes"
+
+share:
+  - name: media
+    comment: Media
+    path: /shares/media
+    writelist: ${USER}
+    browsable: yes
+    readonly: yes
+    guest ok: yes
+    veto: no
+    # Uncomment this line to enable recycle bin
+    # recycle: yes
+
+  - name: software
+    comment: Software
+    path: /shares/software
+    writelist: ${USER}
+    browsable: yes
+    readonly: yes
+    guest ok: yes
+    veto: no
+    # Uncomment this line to enable recycle bin
+    # recycle: yes
