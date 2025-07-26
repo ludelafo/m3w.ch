@@ -47,6 +47,7 @@
           https://download.docker.com/{{ ansible_system | lower }}/{{
           ansible_distribution | lower }} {{ ansible_distribution_release }}
           stable
+        filename: docker-repository
 
     - name: Install Docker with its Compose plugin
       ansible.builtin.apt:
@@ -82,6 +83,13 @@
         groups: docker,sudo
         append: true
 
+    - name: Change home's permissions
+      ansible.builtin.file:
+        path: "/home/{{ user }}"
+        owner: "{{ user }}"
+        group: "{{ group }}"
+        mode: "0700"
+
     - name: Disable root login
       ansible.builtin.user:
         name: root
@@ -89,5 +97,6 @@
         password_lock: true
         shell: /sbin/nologin
 
-    # - name: Reboot the system
-    #   ansible.builtin.command: reboot
+    - name: Reboot the system
+      ansible.builtin.reboot:
+        msg: "Rebooting the system to apply changes"

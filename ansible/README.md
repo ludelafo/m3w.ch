@@ -83,7 +83,13 @@ apt install --yes ansible git
 
 Execute Ansible:
 
-````sh
+```sh
+# Execute Ansible for the first time to pull the files
+ansible-pull --url https://github.com/ludelafo/m3w.ch --check ansible/playbooks/lxcs/playbook.yaml [--checkout <name of the branch>]
+
+# Execute Ansible for the second time to apply the configuration
+ansible-pull --url https://github.com/ludelafo/m3w.ch ansible/playbooks/lxcs/playbook.yaml --extra-vars "@.ansible/pull/common/ansible/variables/common-lxc.yaml" [--checkout <name of the branch>]
+```
 
 ## Generic configuration
 
@@ -108,7 +114,7 @@ ansible-pull --url https://github.com/ludelafo/m3w.ch ansible/playbook.yaml --ex
 
 # or
 ansible-pull --url https://github.com/ludelafo/m3w.ch --checkout <name of the branch> ansible/playbooks/playbook.yaml --extra-vars "@.ansible/pull/<hostname>/ansible/variables/variables.yaml"
-````
+```
 
 ## On `proxmox.m3w.ch` host
 

@@ -18,8 +18,9 @@
     - name: Add Proxmox APT repository
       ansible.builtin.apt_repository:
         repo: >-
-          deb [arch=amd64] http://download.proxmox.com/{{ ansible_distribution |
-          lower }}/pve {{ ansible_distribution_release }} pve-no-subscription"
+          deb [arch=amd64] https://download.proxmox.com/debian/pve bookworm
+          pve-no-subscription
+        filename: pve-repository
 
     - name: Upgrade the OS
       ansible.builtin.apt:
@@ -49,6 +50,7 @@
         pkg:
           - ansible
           - git
+          - tmux
 
     ## Network configuration
     - name: Configure /etc/hosts
