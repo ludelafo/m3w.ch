@@ -18,7 +18,9 @@
     - name: Add Proxmox APT repository
       ansible.builtin.apt_repository:
         repo: >-
-          deb [arch=amd64] https://download.proxmox.com/debian/pve bookworm
+          deb [arch=amd64 signed-by=/etc/apt/trusted.gpg.d/proxmox-release-{{
+          ansible_distribution_release }}.gpg] http://download.proxmox.com/{{
+          ansible_distribution | lower }}/pve {{ ansible_distribution_release }}
           pve-no-subscription
         filename: pve-repository
 
@@ -54,7 +56,7 @@
 
     ## Network configuration
     - name: Configure /etc/hosts
-      when: lxc_id == None
+      when: lxc_id is not defined
       ansible.builtin.template:
         src: etc-hosts.j2
         dest: /etc/hosts
@@ -63,21 +65,21 @@
         ip_address: "{{ lan0_ip_address }}"
 
     - name: Configure /etc/hostname
-      when: lxc_id == None
+      when: lxc_id is not defined
       ansible.builtin.template:
         src: etc-hostname.j2
         dest: /etc/hostname
         mode: "0644"
 
     - name: Configure /etc/network/interfaces
-      when: lxc_id == None
+      when: lxc_id is not defined
       ansible.builtin.template:
         src: etc-network-interfaces.j2
         dest: /etc/network/interfaces
         mode: "0644"
 
     - name: Configure interface name for lan0 network
-      when: lxc_id == None
+      when: lxc_id is not defined
       ansible.builtin.template:
         src: etc-systemd-network-persistent-link.link.j2
         dest: /etc/systemd/network/10-lan0-persistent-link.link
@@ -87,7 +89,7 @@
         mac_address: "{{ lan0_mac_address }}"
 
     - name: Configure interface name for lan1 network
-      when: lxc_id == None
+      when: lxc_id is not defined
       ansible.builtin.template:
         src: etc-systemd-network-persistent-link.link.j2
         dest: /etc/systemd/network/11-lan1-persistent-link.link
@@ -98,14 +100,14 @@
 
     ## Disks
     - name: Create the systemd mount unit file
-      when: lxc_id != None
+      when: lxc_id is defined
       ansible.builtin.template:
         src: etc-systemd-system-mnt-pve-disk.mount.j2
         dest: /etc/systemd/system/mnt-pve-{{ disk_label }}.mount
         mode: "0644"
 
     - name: Enable and start the systemd mount unit
-      when: lxc_id != None
+      when: lxc_id is defined
       ansible.builtin.systemd:
         name: mnt-pve-{{ disk_label }}.mount
         state: started
@@ -114,7 +116,7 @@
 
     ## Container configuration
     - name: Mount the disk to the container
-      when: lxc_id != None
+      when: lxc_id is defined
       ansible.builtin.lineinfile:
         path: /etc/pve/lxc/{{ lxc_id }}.conf
         line:
@@ -122,13 +124,13 @@
           }},mountoptions=noatime,backup=0"
 
     - name: Enable nesting feature for using Docker in the container
-      when: lxc_id != None
+      when: lxc_id is defined
       ansible.builtin.lineinfile:
         path: /etc/pve/lxc/{{ lxc_id }}.conf
         line: "features: nesting=1"
 
     - name: Enable start on boot
-      when: lxc_id != None
+      when: lxc_id is defined
       ansible.builtin.lineinfile:
         path: /etc/pve/lxc/{{ lxc_id }}.conf
         line: "onboot: 1"
