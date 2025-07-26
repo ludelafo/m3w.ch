@@ -54,6 +54,11 @@
           - git
           - tmux
 
+    - name: Install UGREEN NASync DXP4800 Plus LEDs driver
+      # https://github.com/miskcoo/ugreen_leds_controller
+      ansible.builtin.apt:
+        deb: https://github.com/miskcoo/ugreen_leds_controller/releases/download/v0.3/led-ugreen-dkms_0.3_amd64.deb
+
     ## Network configuration
     - name: Configure /etc/hosts
       when: lxc_id is not defined
