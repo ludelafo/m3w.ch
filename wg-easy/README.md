@@ -37,8 +37,8 @@ docker compose up --detach
 
 ## Post-configuration
 
-On first run, you must access the web interface to configure AdGuard Home at
-`192.168.1.250:51821`.
+On first run, you must access the web interface to configure WireGuard Easy at
+`192.168.1.2:51821`.
 
 ## Additional resources
 

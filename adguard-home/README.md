@@ -48,7 +48,7 @@ iface lo inet loopback
 
 auto eth0
 iface eth0 inet static
-        address 192.168.1.250
+        address 192.168.1.2
         netmask 255.255.255.0
         gateway 192.168.1.1
         post-up ip link add host_macvlan link eth0 type macvlan mode bridge
