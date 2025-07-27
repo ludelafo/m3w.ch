@@ -151,8 +151,9 @@
         path: /etc/pve/lxc/{{ lxc_id }}.conf
         line: "onboot: 1"
 
-    # # Source: https://github.com/portainer/portainer/issues/8478#issuecomment-1426866713
-    # - name: Clear the cap drops
-    #   ansible.builtin.lineinfile:
-    #     path: /etc/pve/lxc/{{ lxc_id }}.conf
-    #     line: 'lxc.cap.drop:'
+    # Source: https://github.com/portainer/portainer/issues/8478#issuecomment-1426866713
+    - name: Clear the cap drops
+      when: lxc_id is defined
+      ansible.builtin.lineinfile:
+        path: /etc/pve/lxc/{{ lxc_id }}.conf
+        line: "lxc.cap.drop:"
