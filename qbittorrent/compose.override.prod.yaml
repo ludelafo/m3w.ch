@@ -6,6 +6,8 @@ services:
   qbittorrent:
     networks:
       - traefik_network
+    expose:
+      - 8080
     ports: !override
       - 52570:52570
       - 52570:52570/udp
