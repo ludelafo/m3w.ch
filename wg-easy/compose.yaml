@@ -15,6 +15,7 @@ services:
     restart: unless-stopped
     environment:
       - INSECURE=true
+      - DISABLE_IPV6=true
     networks:
       - wg_easy_network
     ports:
