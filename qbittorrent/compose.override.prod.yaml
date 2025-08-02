@@ -1,0 +1,21 @@
+networks:
+  traefik_network:
+    external: true
+
+services:
+  qbittorrent:
+    networks:
+      - traefik_network
+    expose:
+      - 8080
+    ports: !override
+      - 52570:52570
+      - 52570:52570/udp
+    labels:
+      ## Traefik
+      - traefik.enable=true
+      # Router
+      - traefik.http.routers.qbittorrent.entryPoints=websecure
+      - traefik.http.routers.qbittorrent.rule=Host(`${QBITTORRENT_FQDN}`)
+      # Service
+      - traefik.http.services.qbittorrent.loadbalancer.server.port=8080

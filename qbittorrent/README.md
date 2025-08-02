@@ -1,24 +1,21 @@
-# WireGuard Easy
+# qBittorrent
 
-> The easiest way to run WireGuard VPN + Web-based Admin UI.
+> The qBittorrent project aims to provide an open-source software alternative to
+> µTorrent.
 >
-> <https://github.com/wg-easy/wg-easy>
+> <https://www.qbittorrent.org/>
 
-## Table of contents
-
-- [WireGuard Easy](#wireguard-easy)
-  - [Table of contents](#table-of-contents)
+- [qBittorrent](#qbittorrent)
   - [Pre-configuration](#pre-configuration)
     - [Set the environment variables](#set-the-environment-variables)
   - [Run the application with Docker](#run-the-application-with-docker)
-  - [Post-configuration](#post-configuration)
   - [Additional resources](#additional-resources)
 
 ## Pre-configuration
 
 ### Set the environment variables
 
-Edit the `.env` file to your needs.
+Edit the `*.env` files to your needs.
 
 ## Run the application with Docker
 
@@ -37,12 +34,8 @@ docker compose up --detach
 
 ## Post-configuration
 
-On first run, you must access the web interface to configure WireGuard Easy at
-`192.168.1.2:51821`.
-
 Set the right port forwarding rules in your router.
 
 ## Additional resources
 
-- [WireGuard](https://www.wireguard.com/)
-- [WireGuard Easy](https://github.com/wg-easy/wg-easy)
+- [qBittorrent](https://www.qbittorrent.org/)
