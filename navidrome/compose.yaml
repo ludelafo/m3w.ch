@@ -1,7 +1,7 @@
 services:
   navidrome:
     container_name: navidrome
-    image: deluan/navidrome:${NAVIDROME_IMAGE_VERSION:-latest}
+    image: deluan/navidrome:${NAVIDROME_VERSION}
     restart: unless-stopped
     env_file:
       - navidrome.env
