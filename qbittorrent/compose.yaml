@@ -4,10 +4,6 @@ networks:
   qbittorrent_network:
     name: qbittorrent_network
 
-volumes:
-  qbittorrent_data:
-    name: qbittorrent_data
-
 services:
   qbittorrent:
     container_name: qbittorrent
@@ -24,5 +20,5 @@ services:
       - 52570:52570
       - 52570:52570/udp
     volumes:
-      - qbittorrent_data:/config
+      - ./config:/config
       - ./downloads:/downloads

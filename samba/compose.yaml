@@ -1,9 +1,5 @@
 name: Samba
 
-volumes:
-  samba_data:
-    name: samba_data
-
 secrets:
   user_password:
     file: ./user_password.txt
@@ -24,6 +20,6 @@ services:
     secrets:
       - user_password
     volumes:
-      - samba_data:/data
+      - ./cache:/data
       - ./config.yaml:/config.yaml
       # Additional volumes can be mounted here

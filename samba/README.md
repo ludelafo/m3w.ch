@@ -26,7 +26,7 @@ Edit the `*.env` files to your needs.
 ### Create the `config.yaml` file
 
 You must create a `config.yaml` file prior to run the container. You can check
-examples in the [`configs`](./configs) directory and copy an example to
+examples in the [`examples`](./examples) directory and copy an example to
 `config.yaml`.
 
 You might need to update the `volumes` section in the `compose.yaml` file to
