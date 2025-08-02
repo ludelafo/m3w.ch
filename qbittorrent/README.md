@@ -32,6 +32,10 @@ docker compose pull
 docker compose up --detach
 ```
 
+## Post-configuration
+
+Set the right port forwarding rules in your router.
+
 ## Additional resources
 
 - [qBittorrent](https://www.qbittorrent.org/)
