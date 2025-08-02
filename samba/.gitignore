@@ -2,6 +2,6 @@
 user_password.txt
 
 ## Docker volumes
-cache/
-shares/
+cache
+shares
 config.yaml

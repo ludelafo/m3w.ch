@@ -5,4 +5,4 @@ compose.override.yaml
 infomaniak_access_token.txt
 
 ## Docker volumes
-config/
+config
