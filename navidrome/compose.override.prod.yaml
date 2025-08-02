@@ -4,8 +4,6 @@ networks:
 
 services:
   navidrome:
-    environment:
-      - ND_BASEURL=https://${NAVIDROME_FQDN}
     networks:
       - traefik_network
     expose:
