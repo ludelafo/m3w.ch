@@ -1,5 +1,11 @@
 - name: Configure container instance
   hosts: localhost
+  vars_prompt:
+    - name: user_password
+      prompt: "Enter password for the user"
+      private: true
+      confirm: true
+
   tasks:
     ## Updates and packages
     - name: Upgrade the OS
@@ -41,10 +47,10 @@
           https://download.docker.com/{{ ansible_system | lower }}/{{
           ansible_distribution | lower }} {{ ansible_distribution_release }}
           stable
+        filename: docker-repository
 
     - name: Install Docker with its Compose plugin
       ansible.builtin.apt:
-        update_cache: true
         pkg:
           - docker-ce
           - docker-ce-cli
@@ -73,8 +79,16 @@
     - name: Add the default user to the groups
       ansible.builtin.user:
         name: "{{ user }}"
+        password: "{{ user_password | password_hash('sha512') }}"
         groups: docker,sudo
         append: true
+
+    - name: Change home's permissions
+      ansible.builtin.file:
+        path: "/home/{{ user }}"
+        owner: "{{ user }}"
+        group: "{{ group }}"
+        mode: "0700"
 
     - name: Disable root login
       ansible.builtin.user:
@@ -83,5 +97,6 @@
         password_lock: true
         shell: /sbin/nologin
 
-    # - name: Reboot the system
-    #   ansible.builtin.command: reboot
+    - name: Reboot the system
+      ansible.builtin.reboot:
+        msg: "Rebooting the system to apply changes"
