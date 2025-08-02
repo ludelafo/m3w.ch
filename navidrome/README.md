@@ -27,7 +27,7 @@ Edit the `*.env` files to your needs.
 Create the following directories with the right permissions:
 
 ```bash
-mkdir config data
+mkdir config media
 ```
 
 ## Run the application with Docker
