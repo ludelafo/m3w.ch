@@ -12,6 +12,7 @@
   - [Table of contents](#table-of-contents)
   - [Pre-configuration](#pre-configuration)
     - [Set the environment variables](#set-the-environment-variables)
+  - [Create the required directories](#create-the-required-directories)
   - [Run the application with Docker](#run-the-application-with-docker)
   - [Additional resources](#additional-resources)
 
@@ -20,6 +21,14 @@
 ### Set the environment variables
 
 Edit the `*.env` files to your needs.
+
+## Create the required directories
+
+Create the following directories with the right permissions:
+
+```bash
+mkdir config music
+```
 
 ## Run the application with Docker
 
