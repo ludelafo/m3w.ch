@@ -1,0 +1,21 @@
+networks:
+  traefik_network:
+    external: true
+
+services:
+  navidrome:
+    environment:
+      - ND_BASEURL=${NAVIDROME_FQDN}
+    networks:
+      - traefik_network
+    expose:
+      - 4533
+    ports: !reset []
+    labels:
+      ## Traefik
+      - traefik.enable=true
+      # Router
+      - traefik.http.routers.navidrome.entryPoints=websecure
+      - traefik.http.routers.navidrome.rule=Host(`${NAVIDROME_FQDN}`)
+      # Service
+      - traefik.http.services.navidrome.loadbalancer.server.port=4533
