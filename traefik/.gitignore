@@ -3,3 +3,6 @@ compose.override.yaml
 
 ## Docker secrets
 infomaniak_access_token.txt
+
+## Docker volumes
+config

@@ -4,10 +4,6 @@ networks:
   wg_easy_network:
     name: wg_easy_network
 
-volumes:
-  wg_easy_config:
-    name: wg_easy_config
-
 services:
   wg-easy:
     container_name: wg-easy
@@ -30,5 +26,5 @@ services:
       - net.ipv6.conf.all.forwarding=1
       - net.ipv6.conf.default.forwarding=1
     volumes:
-      - wg_easy_config:/etc/wireguard
       - /lib/modules:/lib/modules:ro
+      - ./config:/etc/wireguard
