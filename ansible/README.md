@@ -66,7 +66,7 @@ Execute Ansible:
 ansible-pull --url https://github.com/ludelafo/m3w.ch --check ansible/playbooks/host/playbook.yaml [--checkout <name of the branch>]
 
 # Execute Ansible for the second time to apply the configuration
-ansible-pull --url https://github.com/ludelafo/m3w.ch --ask-become-pass ansible/host/playbook.yaml --extra-vars "@.ansible/pull/proxmox.m3w.ch/ansible/variables/common-lxc.yaml" [--checkout <name of the branch>]
+ansible-pull --url https://github.com/ludelafo/m3w.ch --ask-become-pass ansible/host/playbook.yaml --extra-vars "@.ansible/pull/proxmox.m3w.ch/ansible/variables/common-ct.yaml" [--checkout <name of the branch>]
 ```
 
 ### On `common` LXC container
@@ -88,7 +88,7 @@ Execute Ansible:
 ansible-pull --url https://github.com/ludelafo/m3w.ch --check ansible/playbooks/lxcs/playbook.yaml [--checkout <name of the branch>]
 
 # Execute Ansible for the second time to apply the configuration
-ansible-pull --url https://github.com/ludelafo/m3w.ch ansible/playbooks/lxcs/playbook.yaml --extra-vars "@.ansible/pull/common/ansible/variables/common-lxc.yaml" [--checkout <name of the branch>]
+ansible-pull --url https://github.com/ludelafo/m3w.ch ansible/playbooks/lxcs/playbook.yaml --extra-vars "@.ansible/pull/common/ansible/variables/common-ct.yaml" [--checkout <name of the branch>]
 ```
 
 ## Generic configuration
@@ -126,11 +126,11 @@ apt update
 apt install --yes ansible git
 
 # Execute Ansible pull
-ansible-pull --url https://github.com/ludelafo/m3w.ch --checkout 5-add-ansible ansible/playbooks/proxmox/playbook.yaml --extra-vars "@.ansible/pull/proxmox.m3w.ch/ansible/variables/home-lxc.yaml"
+ansible-pull --url https://github.com/ludelafo/m3w.ch --checkout 5-add-ansible ansible/playbooks/proxmox/playbook.yaml --extra-vars "@.ansible/pull/proxmox.m3w.ch/ansible/variables/home-ct.yaml"
 
-ansible-pull --url https://github.com/ludelafo/m3w.ch --extra-vars "@.ansible/pull/proxmox.m3w.ch/ansible/variables/ludelafo-lxc.yaml"
+ansible-pull --url https://github.com/ludelafo/m3w.ch --extra-vars "@.ansible/pull/proxmox.m3w.ch/ansible/variables/ludelafo-ct.yaml"
 
-ansible-pull --url https://github.com/ludelafo/m3w.ch --extra-vars "@.ansible/pull/proxmox.m3w.ch/ansible/variables/mathilde-lxc.yaml"
+ansible-pull --url https://github.com/ludelafo/m3w.ch --extra-vars "@.ansible/pull/proxmox.m3w.ch/ansible/variables/mathilde-ct.yaml"
 ```
 
 ## On `home.m3w.ch` host
@@ -152,7 +152,7 @@ git clone https://github.com/ludelafo/m3w.ch
 ansible-pull --url https://github.com/ludelafo/m3w.ch --checkout 5-add-ansible ansible/playbooks/container/playbook.yaml
 
 # Execute Ansible pull for the second time to apply the configuration
-ansible-pull --url https://github.com/ludelafo/m3w.ch --checkout 5-add-ansible ansible/playbooks/container/playbook.yaml --extra-vars "@.ansible/pull/home.m3w.ch/ansible/variables/home-lxc.yaml"
+ansible-pull --url https://github.com/ludelafo/m3w.ch --checkout 5-add-ansible ansible/playbooks/container/playbook.yaml --extra-vars "@.ansible/pull/home.m3w.ch/ansible/variables/home-ct.yaml"
 
 # Set the password for user
 passwd debian

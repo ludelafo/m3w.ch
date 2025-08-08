@@ -1,15 +1,18 @@
-# qBittorrent
+# Syncthing
 
-> The qBittorrent project aims to provide an open-source software alternative to
-> µTorrent.
+> Syncthing is a continuous file synchronization program. It synchronizes files
+> between two or more computers in real time, safely protected from prying eyes.
+> Your data is your data alone and you deserve to choose where it is stored,
+> whether it is shared with some third party, and how it’s transmitted over the
+> internet.
 >
-> <https://www.qbittorrent.org/>
+> <https://syncthing.net/>
 
-- [qBittorrent](#qbittorrent)
+- [Syncthing](#syncthing)
   - [Pre-configuration](#pre-configuration)
     - [Set the environment variables](#set-the-environment-variables)
+  - [Create the required directories](#create-the-required-directories)
   - [Run the application with Docker](#run-the-application-with-docker)
-  - [Post-configuration](#post-configuration)
   - [Additional resources](#additional-resources)
 
 ## Pre-configuration
@@ -17,6 +20,14 @@
 ### Set the environment variables
 
 Edit the `*.env` files to your needs.
+
+## Create the required directories
+
+Create the following directories with the right permissions:
+
+```bash
+mkdir config data
+```
 
 ## Run the application with Docker
 
@@ -33,10 +44,6 @@ docker compose pull
 docker compose up --detach
 ```
 
-## Post-configuration
-
-Set the right port forwarding rules in your router.
-
 ## Additional resources
 
-- [qBittorrent](https://www.qbittorrent.org/)
+- [Syncthing](https://syncthing.net/)

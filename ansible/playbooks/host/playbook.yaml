@@ -52,6 +52,7 @@
         pkg:
           - ansible
           - git
+          - lshw
           - neovim
           - powertop
           - smartmontools
@@ -74,32 +75,32 @@
 
     ## Network configuration
     - name: Configure /etc/hosts
-      when: lxc_id is not defined
+      when: ct_id is not defined
       ansible.builtin.template:
-        src: etc-hosts.j2
+        src: etc/hosts.j2
         dest: /etc/hosts
         mode: "0644"
       vars:
         ip_address: "{{ lan0_ip_address }}"
 
     - name: Configure /etc/hostname
-      when: lxc_id is not defined
+      when: ct_id is not defined
       ansible.builtin.template:
-        src: etc-hostname.j2
+        src: etc/hostname.j2
         dest: /etc/hostname
         mode: "0644"
 
     - name: Configure /etc/network/interfaces
-      when: lxc_id is not defined
+      when: ct_id is not defined
       ansible.builtin.template:
-        src: etc-network-interfaces.j2
+        src: etc/network/interfaces.j2
         dest: /etc/network/interfaces
         mode: "0644"
 
     - name: Configure interface name for lan0 network
-      when: lxc_id is not defined
+      when: ct_id is not defined
       ansible.builtin.template:
-        src: etc-systemd-network-persistent-link.link.j2
+        src: etc/systemd/network/xx-persistent-link.link.j2
         dest: /etc/systemd/network/10-lan0-persistent-link.link
         mode: "0644"
       vars:
@@ -107,9 +108,9 @@
         mac_address: "{{ lan0_mac_address }}"
 
     - name: Configure interface name for lan1 network
-      when: lxc_id is not defined
+      when: ct_id is not defined
       ansible.builtin.template:
-        src: etc-systemd-network-persistent-link.link.j2
+        src: etc/systemd/network/xx-persistent-link.link.j2
         dest: /etc/systemd/network/11-lan1-persistent-link.link
         mode: "0644"
       vars:
@@ -118,14 +119,14 @@
 
     ## Disks
     - name: Create the systemd mount unit file
-      when: lxc_id is defined
+      when: ct_id is defined
       ansible.builtin.template:
-        src: etc-systemd-system-mnt-pve-disk.mount.j2
+        src: etc/systemd/system/mnt-pve-disk.mount.j2
         dest: /etc/systemd/system/mnt-pve-{{ disk_label }}.mount
         mode: "0644"
 
     - name: Enable and start the systemd mount unit
-      when: lxc_id is defined
+      when: ct_id is defined
       ansible.builtin.systemd:
         name: mnt-pve-{{ disk_label }}.mount
         state: started
@@ -134,28 +135,43 @@
 
     ## Container configuration
     - name: Mount the disk to the container
-      when: lxc_id is defined
+      when: ct_id is defined
       ansible.builtin.lineinfile:
-        path: /etc/pve/lxc/{{ lxc_id }}.conf
+        path: /etc/pve/lxc/{{ ct_id }}.conf
         line:
           "mp0: /mnt/pve/{{ disk_label }},mp=/home/{{ user
           }},mountoptions=noatime,backup=0"
 
     - name: Enable nesting feature for using Docker in the container
-      when: lxc_id is defined
+      when: ct_id is defined
       ansible.builtin.lineinfile:
-        path: /etc/pve/lxc/{{ lxc_id }}.conf
+        path: /etc/pve/lxc/{{ ct_id }}.conf
         line: "features: nesting=1"
 
     - name: Enable start on boot
-      when: lxc_id is defined
+      when: ct_id is defined
       ansible.builtin.lineinfile:
-        path: /etc/pve/lxc/{{ lxc_id }}.conf
+        path: /etc/pve/lxc/{{ ct_id }}.conf
         line: "onboot: 1"
 
     # Source: https://github.com/portainer/portainer/issues/8478#issuecomment-1426866713
     - name: Clear the cap drops
-      when: lxc_id is defined
+      when: ct_id is defined
       ansible.builtin.lineinfile:
-        path: /etc/pve/lxc/{{ lxc_id }}.conf
+        path: /etc/pve/lxc/{{ ct_id }}.conf
         line: "lxc.cap.drop:"
+
+    ## Virtual machine configuration
+    - name: Mount the disk to the virtual machine
+      when: vm_id is defined
+      ansible.builtin.lineinfile:
+        path: /etc/pve/qemu-server/{{ vm_id }}.conf
+        line:
+          "{{ disk_number }}: /dev/disk/by-id/{{ disk_id }},backup=0,size={{
+          disk_size }}"
+
+    - name: Enable start on boot
+      when: vm_id is defined
+      ansible.builtin.lineinfile:
+        path: /etc/pve/qemu-server/{{ vm_id }}.conf
+        line: "onboot: 1"

@@ -1,0 +1,19 @@
+services:
+  syncthing:
+    container_name: syncthing
+    image: syncthing/syncthing:${SYNCTHING_VERSION}
+    restart: unless-stopped
+    env_file:
+      - syncthing.env
+    # https://github.com/syncthing/syncthing/blob/main/README-Docker.md#discovery
+    network_mode: host
+    volumes:
+      - ./config:/var/syncthing
+      - ./data:/data
+    healthcheck:
+      test:
+        curl -fkLsS -m 2 127.0.0.1:8384/rest/noauth/health | grep -o
+        --color=never OK || exit 1
+      interval: 1m
+      timeout: 10s
+      retries: 3
