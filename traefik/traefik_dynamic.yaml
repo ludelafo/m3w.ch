@@ -1,4 +1,18 @@
 http:
+  routers:
+    router:
+      rule: "Host(`syncthing.m3w.ch`)"
+      entryPoints:
+        - "websecure"
+      service: router
+
+  services:
+    router:
+      loadBalancer:
+        passHostHeader: false
+        servers:
+          - url: "http://192.168.1.2:8384"
+
   middlewares:
     http-strict-transport-security-header:
       headers:
