@@ -1,0 +1,43 @@
+- name: Configure ludelafo instance
+  hosts: localhost
+  become: true
+  tasks:
+    ## Updates and packages
+    - name: Upgrade the OS
+      ansible.builtin.apt:
+        upgrade: full
+        autoclean: true
+        autoremove: true
+
+    - name: Install packages
+      ansible.builtin.apt:
+        pkg:
+          - ansible
+          - git
+          - neovim
+          - tmux
+
+    ## Network configuration
+    - name: Configure /etc/hosts
+      ansible.builtin.template:
+        src: etc/hosts.j2
+        dest: /etc/hosts
+        mode: "0644"
+
+    - name: Configure /etc/hostname
+      ansible.builtin.template:
+        src: etc/hostname.j2
+        dest: /etc/hostname
+        mode: "0644"
+
+    - name: Configure /etc/network/interfaces
+      ansible.builtin.template:
+        src: etc/network/interfaces.j2
+        dest: /etc/network/interfaces
+        mode: "0644"
+
+    - name: Configure interface name for lan0 network
+      ansible.builtin.template:
+        src: etc/systemd/network/xx-persistent-link.link.j2
+        dest: /etc/systemd/network/10-lan0-persistent-link.link
+        mode: "0644"
