@@ -8,19 +8,8 @@ auto lo
 iface lo inet loopback
 
 # The primary network interface
-iface {{ lan0_interface_name }} inet manual
-
-auto vmbr0
-iface vmbr0 inet static
-        address {{ lan0_ip_address }}
-        netmask {{ lan0_netmask }}
-        gateway {{ lan0_gateway }}
-        bridge-ports {{ lan0_interface_name }}
-        bridge-stp off
-        bridge-fd 0
-
-# The secondary network interface
-allow-hotplug {{ lan1_interface_name }}
-iface {{ lan1_interface_name }} inet static
-        address {{ lan1_ip_address }}
-        netmask {{ lan1_netmask }}
+auto {{ interface_name }}
+iface {{ interface_name }} inet static
+        address {{ interface_ip_address }}
+        netmask {{ interface_netmask }}
+        gateway {{ interface_gateway }}

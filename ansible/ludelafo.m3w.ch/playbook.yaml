@@ -1,4 +1,4 @@
-- name: Configure ludelafo instance
+- name: Configure ludelafo.m3w.ch instance
   hosts: localhost
   become: true
   tasks:
