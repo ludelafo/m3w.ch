@@ -13,6 +13,7 @@
       ansible.builtin.apt:
         pkg:
           - ansible
+          - dropbear-initramfs
           - git
           - neovim
           - tmux
@@ -41,3 +42,28 @@
         src: etc/systemd/network/xx-persistent-link.link.j2
         dest: /etc/systemd/network/10-lan0-persistent-link.link
         mode: "0644"
+
+    ## Dropbear configuration
+    - name: Create /etc/dropbear/initramfs/authorized_keys
+      ansible.builtin.get_url:
+        url: https://github.com/ludelafo.keys
+        dest: /etc/dropbear/initramfs/authorized_keys
+        mode: "0644"
+        checksum: sha256:ec0331c606c86b1c0fdf19c34f898d7b164ba63c5713b720e97f6f1c95a5d48d
+        # The checksum can be calculated with `curl -sL https://github.com/ludelafo.keys | sha256sum`
+
+    - name: Create /etc/initramfs-tools/initramfs.conf
+      ansible.builtin.template:
+        src: etc/initramfs-tools/initramfs.conf.j2
+        dest: /etc/initramfs-tools/initramfs.conf
+        mode: "0644"
+
+    - name: Create /etc/dropbear/initramfs/dropbear.conf
+      ansible.builtin.template:
+        src: etc/dropbear/initramfs/dropbear.conf.j2
+        dest: /etc/dropbear/initramfs/dropbear.conf
+        mode: "0644"
+
+    - name: Update initramfs # noqa: no-changed-when
+      ansible.builtin.command:
+        cmd: update-initramfs -c -k all

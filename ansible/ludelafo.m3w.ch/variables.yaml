@@ -11,3 +11,5 @@ interface_mac_address: "bc:24:11:45:83:93"
 interface_ip_address: 192.168.1.3
 interface_netmask: 255.255.255.0
 interface_gateway: 192.168.1.1
+
+dropbear_ssh_port: 2222
