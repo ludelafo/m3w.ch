@@ -47,3 +47,4 @@ certificatesResolvers:
         # Please visit the docs:
         # https://doc.traefik.io/traefik/https/acme/#providers
         provider: infomaniak # CHANGE_ME
+        delayBeforeCheck: 60

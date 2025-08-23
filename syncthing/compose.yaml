@@ -1,3 +1,5 @@
+name: Syncthing
+
 services:
   syncthing:
     container_name: syncthing
@@ -5,6 +7,9 @@ services:
     restart: unless-stopped
     env_file:
       - syncthing.env
+    # https://github.com/syncthing/syncthing/blob/main/README-Docker.md#gui-security
+    environment:
+      - STGUIADDRESS=
     # https://github.com/syncthing/syncthing/blob/main/README-Docker.md#discovery
     network_mode: host
     volumes:
