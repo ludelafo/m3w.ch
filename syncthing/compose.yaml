@@ -7,11 +7,11 @@ services:
     restart: unless-stopped
     env_file:
       - syncthing.env
-    # https://github.com/syncthing/syncthing/blob/main/README-Docker.md#gui-security
-    environment:
-      - STGUIADDRESS=
-    # https://github.com/syncthing/syncthing/blob/main/README-Docker.md#discovery
-    network_mode: host
+    ports:
+      - 8384:8384
+      - 22000:22000
+      - 22000:22000/udp
+      - 21027:21027/udp
     volumes:
       - ./config:/var/syncthing
       - ./data:/data

@@ -1,0 +1,22 @@
+networks:
+  traefik_network:
+    external: true
+
+services:
+  syncthing:
+    networks:
+      - traefik_network
+    expose:
+      - 8384
+    ports: !override
+      - 22000:22000
+      - 22000:22000/udp
+      - 21027:21027/udp
+    labels:
+      ## Traefik
+      - traefik.enable=true
+      # Router
+      - traefik.http.routers.syncthing.entryPoints=websecure
+      - traefik.http.routers.syncthing.rule=Host(`${SYNCTHING_FQDN}`)
+      # Service
+      - traefik.http.services.syncthing.loadbalancer.server.port=8384
