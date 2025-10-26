@@ -28,6 +28,8 @@ ansible-pull --url https://github.com/ludelafo/m3w.ch ansible/playbooks/host/pla
 ansible-pull --url https://github.com/ludelafo/m3w.ch --ask-become-pass ansible/proxmox.m3w.ch/playbook.yaml --extra-vars "@~/.ansible/pull/proxmox.m3w.ch/ansible/proxmox.m3w.ch/variables.yaml" [--checkout <name of the branch>]
 ```
 
+This will install and configure the `proxmox.m3w.ch` host.
+
 ## `common.m3w.ch` host
 
 ### Create the virtual machine within Proxmox
@@ -160,7 +162,10 @@ These steps must be executed on the `proxmox.m3w.ch` host to finalize the
 virtual machine configuration before the first boot.
 
 ```sh
-# Execute Ansible to finalize the configuration of the virtual machine on Proxmox
+# Execute Ansible for the first time to pull the files
+ansible-pull --url https://github.com/ludelafo/m3w.ch ansible/proxmox.m3w.ch/playbook.yaml --check [--checkout <name of the branch>]
+
+# Execute Ansible for the second time to apply the configuration
 ansible-pull --url https://github.com/ludelafo/m3w.ch --ask-become-pass ansible/proxmox.m3w.ch/playbook.yaml --extra-vars "@~/.ansible/pull/proxmox.m3w.ch/ansible/mathilde.m3w.ch/variables.yaml" [--checkout <name of the branch>]
 ```
 
@@ -200,6 +205,8 @@ logout
 # Delete the root home
 sudo rm -rf /root
 ```
+
+This will install and configure the `mathilde.m3w.ch` host.
 
 # OLD DOCUMENTATION
 

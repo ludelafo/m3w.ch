@@ -3,9 +3,13 @@
   gather_facts: true
   become: true
   tasks:
-    - name: Print all available facts
-      ansible.builtin.debug:
-        var: ansible_facts
+    - name: Gather devices info
+      ansible.builtin.setup:
+        filter: ansible_devices
+
+    # - name: Print all available facts
+    #   ansible.builtin.debug:
+    #     var: ansible_facts
 
     # ## Updates and packages
     # - name: Download Proxmox GPG key
@@ -166,11 +170,12 @@
     #     path: /etc/pve/lxc/{{ ct_id }}.conf
     #     line: "lxc.cap.drop:"
 
-    # ## Virtual machine configuration
-    # - name: Mount the disk to the virtual machine
-    #   when: proxmox_vm_id is defined
-    #   ansible.builtin.lineinfile:
-    #     path: /etc/pve/qemu-server/{{ proxmox_vm_id }}.conf
-    #     line:
-    #       "{{ disk_number }}: /dev/disk/by-id/{{ disk_id }},backup=0,size={{
-    #       disk_size }}"
+    ## Virtual machine configuration
+    - name: Mount the disk to the virtual machine
+      when: proxmox_vm_id is defined
+      ansible.builtin.lineinfile:
+        path: /etc/pve/qemu-server/{{ proxmox_vm_id }}.conf
+        line:
+          '{{ proxmox_disk_number }}: /dev/disk/by-id/wwn-{{
+          ansible_devices[disk]["wwn"] }},backup=0,size={{
+          ansible_devices[disk]["size"] }}'

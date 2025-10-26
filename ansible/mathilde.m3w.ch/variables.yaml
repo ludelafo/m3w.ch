@@ -1,6 +1,6 @@
 ## Proxmox configuration
 # Virtual machine ID.
-proxmox_vm_id: 104
+proxmox_vm_id: 102
 
 # Disk number should be updated only if using more than one (1) disk in Proxmox.
 proxmox_disk_number: "sata1"
@@ -13,7 +13,7 @@ group_id: 1000
 
 ## Disks
 # Disk can be obtained with the following command: `lsblk`.
-disk: "/dev/sdc"
+disk: "sdc"
 
 # Network
 hostname: mathilde
