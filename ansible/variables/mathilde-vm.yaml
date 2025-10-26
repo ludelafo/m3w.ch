@@ -2,6 +2,6 @@ user: debian
 user_id: 1000
 group: debian
 group_id: 1000
-disk_label: ludelafo
+disk_label: mathilde
 disk_uuid: null
-lxc_id: 101
+ct_id: 102

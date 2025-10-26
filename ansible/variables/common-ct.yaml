@@ -4,4 +4,4 @@ group: debian
 group_id: 1000
 disk_label: common
 disk_uuid: de462c3d-f531-46d6-8204-b4d69df36de1
-lxc_id: 100
+ct_id: 100

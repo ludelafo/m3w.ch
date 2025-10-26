@@ -1,0 +1,107 @@
+- name: Configure ludelafo.m3w.ch instance
+  hosts: localhost
+  become: true
+  tasks:
+    ## Updates and packages
+    - name: Upgrade the OS
+      ansible.builtin.apt:
+        upgrade: full
+        autoclean: true
+        autoremove: true
+
+    - name: Install packages
+      ansible.builtin.apt:
+        pkg:
+          - ansible
+          - dropbear-initramfs
+          - git
+          - neovim
+          - tmux
+
+    ## Docker
+    - name: Download Docker GPG key
+      ansible.builtin.get_url:
+        url: https://download.docker.com/linux/debian/gpg
+        dest: /etc/apt/trusted.gpg.d/docker.asc
+        mode: "0644"
+        checksum: sha256:1500c1f56fa9e26b9b8f42452a553675796ade0807cdce11975eb98170b3a570
+        # The checksum can be calculated with `curl -sL https://download.docker.com/linux/debian/gpg | sha256sum`
+
+    - name: Add Docker APT repository
+      ansible.builtin.apt_repository:
+        repo: >-
+          deb [arch=amd64 signed-by=/etc/apt/trusted.gpg.d/docker.asc]
+          https://download.docker.com/{{ ansible_system | lower }}/{{
+          ansible_distribution | lower }} {{ ansible_distribution_release }}
+          stable
+        filename: docker-repository
+
+    - name: Install Docker with its Compose plugin
+      ansible.builtin.apt:
+        pkg:
+          - docker-ce
+          - docker-ce-cli
+          - containerd.io
+          - docker-compose-plugin
+
+    - name: Enable journald logging driver
+      ansible.builtin.template:
+        src: etc/docker/daemon.json.j2
+        dest: /etc/docker/daemon.json
+        mode: "0644"
+
+    - name: Enable and start Docker service
+      ansible.builtin.service:
+        name: docker
+        state: started
+        enabled: true
+
+    ## Network configuration
+    - name: Configure /etc/hosts
+      ansible.builtin.template:
+        src: etc/hosts.j2
+        dest: /etc/hosts
+        mode: "0644"
+
+    - name: Configure /etc/hostname
+      ansible.builtin.template:
+        src: etc/hostname.j2
+        dest: /etc/hostname
+        mode: "0644"
+
+    - name: Configure /etc/network/interfaces
+      ansible.builtin.template:
+        src: etc/network/interfaces.j2
+        dest: /etc/network/interfaces
+        mode: "0644"
+
+    - name: Configure interface name for lan0 network
+      ansible.builtin.template:
+        src: etc/systemd/network/xx-persistent-link.link.j2
+        dest: /etc/systemd/network/10-lan0-persistent-link.link
+        mode: "0644"
+
+    ## Dropbear configuration
+    - name: Create /etc/dropbear/initramfs/authorized_keys
+      ansible.builtin.get_url:
+        url: https://github.com/ludelafo.keys
+        dest: /etc/dropbear/initramfs/authorized_keys
+        mode: "0644"
+        checksum: sha256:ec0331c606c86b1c0fdf19c34f898d7b164ba63c5713b720e97f6f1c95a5d48d
+        # The checksum can be calculated with `curl -sL https://github.com/ludelafo.keys | sha256sum`
+
+    - name: Create /etc/initramfs-tools/initramfs.conf
+      ansible.builtin.template:
+        src: etc/initramfs-tools/initramfs.conf.j2
+        dest: /etc/initramfs-tools/initramfs.conf
+        mode: "0644"
+
+    - name: Create /etc/dropbear/initramfs/dropbear.conf
+      ansible.builtin.template:
+        src: etc/dropbear/initramfs/dropbear.conf.j2
+        dest: /etc/dropbear/initramfs/dropbear.conf
+        mode: "0644"
+
+    - name: Update initramfs # noqa: no-changed-when
+      ansible.builtin.command:
+        cmd: update-initramfs -c -k all
