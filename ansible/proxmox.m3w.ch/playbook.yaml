@@ -1,0 +1,176 @@
+- name: Configure proxmox.m3w.ch instance
+  hosts: localhost
+  gather_facts: true
+  become: true
+  tasks:
+    - name: Print all available facts
+      ansible.builtin.debug:
+        var: ansible_facts
+
+    # ## Updates and packages
+    # - name: Download Proxmox GPG key
+    #   ansible.builtin.get_url:
+    #     url:
+    #       https://enterprise.proxmox.com/debian/proxmox-release-{{
+    #       ansible_distribution_release }}.gpg
+    #     dest:
+    #       /etc/apt/trusted.gpg.d/proxmox-release-{{ ansible_distribution_release
+    #       }}.gpg
+    #     mode: "0644"
+    #     checksum: sha256:13a87cec79f2d05f40f125629e4b509080a5c0286608bea273e36be9809ecaba
+    #     # The checksum can be calculated with `curl -sL https://enterprise.proxmox.com/debian/proxmox-release-bookworm.gpg | sha256sum`
+
+    # - name: Add Proxmox APT repository
+    #   ansible.builtin.apt_repository:
+    #     repo: >-
+    #       deb [arch=amd64 signed-by=/etc/apt/trusted.gpg.d/proxmox-release-{{
+    #       ansible_distribution_release }}.gpg] http://download.proxmox.com/{{
+    #       ansible_distribution | lower }}/pve {{ ansible_distribution_release }}
+    #       pve-no-subscription
+    #     filename: pve-repository
+
+    # - name: Upgrade the OS
+    #   ansible.builtin.apt:
+    #     upgrade: full
+    #     autoclean: true
+    #     autoremove: true
+
+    # - name: Install Proxmox packages
+    #   ansible.builtin.apt:
+    #     pkg:
+    #       - chrony
+    #       - open-iscsi
+    #       - postfix
+    #       - proxmox-default-kernel
+    #       - proxmox-ve
+
+    # - name: Remove Proxmox conflicting packages
+    #   ansible.builtin.apt:
+    #     name:
+    #       - "linux-image-6.1*"
+    #       - linux-image-amd64
+    #       - os-prober
+    #     state: absent
+
+    # - name: Install additional packages
+    #   ansible.builtin.apt:
+    #     pkg:
+    #       - ansible
+    #       - git
+    #       - lshw
+    #       - neovim
+    #       - powertop
+    #       - smartmontools
+    #       - tmux
+
+    # # https://github.com/miskcoo/ugreen_leds_controller
+    # - name: Install UGREEN LEDs driver
+    #   ansible.builtin.apt:
+    #     deb: https://github.com/miskcoo/ugreen_leds_controller/releases/download/v0.3/led-ugreen-dkms_0.3_amd64.deb
+
+    # - name: Create UGREEN LED modules configuration
+    #   ansible.builtin.copy:
+    #     dest: /etc/modules-load.d/ugreen-led.conf
+    #     content: |
+    #       i2c-dev
+    #       led-ugreen
+    #       ledtrig-oneshot
+    #       ledtrig-netdev
+    #     mode: "0644"
+
+    # ## Network configuration
+    # - name: Configure /etc/hosts
+    #   when: ct_id is not defined
+    #   ansible.builtin.template:
+    #     src: etc/hosts.j2
+    #     dest: /etc/hosts
+    #     mode: "0644"
+    #   vars:
+    #     ip_address: "{{ lan0_ip_address }}"
+
+    # - name: Configure /etc/hostname
+    #   when: ct_id is not defined
+    #   ansible.builtin.template:
+    #     src: etc/hostname.j2
+    #     dest: /etc/hostname
+    #     mode: "0644"
+
+    # - name: Configure /etc/network/interfaces
+    #   when: ct_id is not defined
+    #   ansible.builtin.template:
+    #     src: etc/network/interfaces.j2
+    #     dest: /etc/network/interfaces
+    #     mode: "0644"
+
+    # - name: Configure interface name for lan0 network
+    #   when: ct_id is not defined
+    #   ansible.builtin.template:
+    #     src: etc/systemd/network/xx-persistent-link.link.j2
+    #     dest: /etc/systemd/network/10-lan0-persistent-link.link
+    #     mode: "0644"
+    #   vars:
+    #     interface_name: "{{ lan0_interface_name }}"
+    #     mac_address: "{{ lan0_mac_address }}"
+
+    # - name: Configure interface name for lan1 network
+    #   when: ct_id is not defined
+    #   ansible.builtin.template:
+    #     src: etc/systemd/network/xx-persistent-link.link.j2
+    #     dest: /etc/systemd/network/11-lan1-persistent-link.link
+    #     mode: "0644"
+    #   vars:
+    #     interface_name: "{{ lan1_interface_name }}"
+    #     mac_address: "{{ lan1_mac_address }}"
+
+    # ## Disks
+    # - name: Create the systemd mount unit file
+    #   when: ct_id is defined
+    #   ansible.builtin.template:
+    #     src: etc/systemd/system/mnt-pve-disk.mount.j2
+    #     dest: /etc/systemd/system/mnt-pve-{{ disk_label }}.mount
+    #     mode: "0644"
+
+    # - name: Enable and start the systemd mount unit
+    #   when: ct_id is defined
+    #   ansible.builtin.systemd:
+    #     name: mnt-pve-{{ disk_label }}.mount
+    #     state: started
+    #     daemon_reload: true
+    #     enabled: true
+
+    # ## Container configuration
+    # - name: Mount the disk to the container
+    #   when: ct_id is defined
+    #   ansible.builtin.lineinfile:
+    #     path: /etc/pve/lxc/{{ ct_id }}.conf
+    #     line:
+    #       "mp0: /mnt/pve/{{ disk_label }},mp=/home/{{ user
+    #       }},mountoptions=noatime,backup=0"
+
+    # - name: Enable nesting feature for using Docker in the container
+    #   when: ct_id is defined
+    #   ansible.builtin.lineinfile:
+    #     path: /etc/pve/lxc/{{ ct_id }}.conf
+    #     line: "features: nesting=1"
+
+    # - name: Enable start on boot
+    #   when: ct_id is defined
+    #   ansible.builtin.lineinfile:
+    #     path: /etc/pve/lxc/{{ ct_id }}.conf
+    #     line: "onboot: 1"
+
+    # # Source: https://github.com/portainer/portainer/issues/8478#issuecomment-1426866713
+    # - name: Clear the cap drops
+    #   when: ct_id is defined
+    #   ansible.builtin.lineinfile:
+    #     path: /etc/pve/lxc/{{ ct_id }}.conf
+    #     line: "lxc.cap.drop:"
+
+    # ## Virtual machine configuration
+    # - name: Mount the disk to the virtual machine
+    #   when: proxmox_vm_id is defined
+    #   ansible.builtin.lineinfile:
+    #     path: /etc/pve/qemu-server/{{ proxmox_vm_id }}.conf
+    #     line:
+    #       "{{ disk_number }}: /dev/disk/by-id/{{ disk_id }},backup=0,size={{
+    #       disk_size }}"
