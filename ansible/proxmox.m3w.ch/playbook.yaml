@@ -178,4 +178,5 @@
         line:
           '{{ proxmox_disk_number }}: /dev/disk/by-id/wwn-{{
           ansible_devices[disk]["wwn"] }},backup=0,size={{
-          ansible_devices[disk]["size"] }}'
+          ansible_devices[disk]["size"] | regex_replace("([0-9.]+) ([KMGTP])B",
+          "\1\2") | regex_replace("([0-9.]+) B", "\1B") }}'
