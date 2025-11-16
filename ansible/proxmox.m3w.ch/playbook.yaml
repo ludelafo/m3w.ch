@@ -186,6 +186,8 @@
           ENV{ID_WWN}=="{{ ansible_devices[disk]["wwn"] }}",
           ATTRS{queue/rotational}=="1", RUN+="hdparm -B 128 -S 244
           $env{DEVNAME}"'
+        create: true
+        mode: "0644"
 
     ## Virtual machine configuration
     - name: Mount the disk to the virtual machine
