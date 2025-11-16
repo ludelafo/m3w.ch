@@ -179,12 +179,12 @@
     # - <https://wiki.archlinux.org/title/Udev>
     - name: Configure hard drive disk power management
       when: proxmox_vm_id is defined
-      ansible.builtin.lineinfile:
+      ansible.builtin.blockinfile:
         path: /etc/udev/rules.d/69-disks.rules
-        line:
-          'ACTION=="add|change", SUBSYSTEM=="block", KERNEL=="sd[a-z]",
-          ATTR{queue/rotational}=="1", RUN+="/usr/sbin/hdparm -B 128 -S 244
-          $env{DEVNAME}"'
+        # noqa yaml[line-length]
+        block: |
+          # Set power management for Western Digital hard drives
+          ACTION=="add|change", SUBSYSTEM=="block", KERNEL=="sd[a-z]", ATTR{queue/rotational}=="1", ATTRS{model}=="WDC *", RUN+="/usr/sbin/hdparm -B 130 -S 244 -J 30 --please-destroy-my-drive $env{DEVNAME}"
         create: true
         mode: "0644"
 
