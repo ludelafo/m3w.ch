@@ -173,7 +173,10 @@ This will add the disk to the virtual machine.
 
 ### Install the operating system
 
-Start the Proxmox virtual machine and install the operating system.
+Start the Proxmox virtual machine and install the operating system with the
+following parameters:
+
+- Hostname: `mathilde.m3w.ch`
 
 ### Configure the virtual machine with Ansible
 

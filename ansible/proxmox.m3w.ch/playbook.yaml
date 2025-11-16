@@ -43,6 +43,7 @@
     #   ansible.builtin.apt:
     #     pkg:
     #       - chrony
+    #       - hdparm
     #       - open-iscsi
     #       - postfix
     #       - proxmox-default-kernel
@@ -169,6 +170,22 @@
     #   ansible.builtin.lineinfile:
     #     path: /etc/pve/lxc/{{ ct_id }}.conf
     #     line: "lxc.cap.drop:"
+
+    ## Hard drive disk
+    #
+    # Source:
+    #
+    # - <https://wiki.archlinux.org/title/Hdparm>
+    # - <https://wiki.archlinux.org/title/Udev>
+    - name: Configure hard drive disk power management
+      when: proxmox_vm_id is defined
+      ansible.builtin.lineinfile:
+        path: /etc/udev/rules.d/69-disks.rules
+        line:
+          'ACTION=="add|change", SUBSYSTEM=="block", KERNEL=="sd[a-z]",
+          ENV{ID_WWN}=="{{ ansible_devices[disk]["wwn"] }}",
+          ATTRS{queue/rotational}=="1", RUN+="hdparm -B 128 -S 244
+          $env{DEVNAME}"'
 
     ## Virtual machine configuration
     - name: Mount the disk to the virtual machine
