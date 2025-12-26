@@ -25,6 +25,7 @@ services:
       # Additional volumes can be mounted here
     labels:
       ## Glance
+      - glance.hide=false
       - glance.name=Samba
       - glance.icon=mdi:folder-network
       - glance.url=smb://${SAMBA_FQDN}

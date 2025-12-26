@@ -21,6 +21,7 @@ services:
       # Service
       - traefik.http.services.${WG_EASY_CONTAINER_NAME}.loadbalancer.server.port=51821
       ## Glance
+      - glance.hide=false
       - glance.name=WireGuard Easy
       - glance.icon=sh:wireguard
       - glance.url=https://${WG_EASY_FQDN}

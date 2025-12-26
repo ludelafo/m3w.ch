@@ -20,6 +20,7 @@ services:
       # Service
       - traefik.http.services.${QBITTORRENT_CONTAINER_NAME}.loadbalancer.server.port=8080
       ## Glance
+      - glance.hide=false
       - glance.name=qBittorrent
       - glance.icon=sh:qbittorrent
       - glance.url=https://${QBITTORRENT_FQDN}

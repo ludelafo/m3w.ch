@@ -21,6 +21,7 @@ services:
       # Service
       - traefik.http.services.${SYNCTHING_CONTAINER_NAME}.loadbalancer.server.port=8384
       ## Glance
+      - glance.hide=false
       - glance.name=Syncthing
       - glance.icon=sh:syncthing
       - glance.url=https://${SYNCTHING_FQDN}

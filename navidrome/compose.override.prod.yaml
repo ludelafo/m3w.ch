@@ -18,6 +18,7 @@ services:
       # Service
       - traefik.http.services.${NAVIDROME_CONTAINER_NAME}.loadbalancer.server.port=4533
       ## Glance
+      - glance.hide=false
       - glance.name=Navidrome
       - glance.icon=sh:navidrome
       - glance.url=https://${NAVIDROME_FQDN}

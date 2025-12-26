@@ -38,6 +38,7 @@ services:
       # Service
       - traefik.http.routers.${TRAEFIK_CONTAINER_NAME}.service=api@internal
       ## Glance
+      - glance.hide=false
       - glance.name=Traefik
       - glance.icon=sh:traefik
       - glance.url=https://${TRAEFIK_FQDN}
