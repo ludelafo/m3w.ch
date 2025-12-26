@@ -25,7 +25,7 @@ Edit the `*.env` files to your needs.
 
 You must create a `glance.yml` file prior to run the container. You can check
 examples in the [`examples`](./examples) directory and copy an example to
-`glance.yml`.
+`config/glance.yml`.
 
 ## Run the application with Docker
 

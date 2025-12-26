@@ -69,7 +69,7 @@ pages:
 
   - name: Your page name
     columns:
-      - size: small
+      - size: full
         widgets:
           - type: docker-containers
-            hide-by-default: false
+            hide-by-default: true
