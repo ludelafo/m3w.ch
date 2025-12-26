@@ -22,4 +22,4 @@ services:
       - glance.icon=sh:adguard-home
       - glance.url=https://${ADGUARD_HOME_FQDN}
       - glance.description=AdGuard Home is a network-wide software for blocking ads & tracking.
-      - glance.tags=network
+      - glance.category=network

@@ -30,4 +30,4 @@ services:
       - glance.icon=mdi:folder-network
       - glance.url=smb://${SAMBA_FQDN}
       - glance.description=Samba is a free software re-implementation of the SMB networking protocol.
-      - glance.tags=network
+      - glance.category=network

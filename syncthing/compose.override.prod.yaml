@@ -26,4 +26,4 @@ services:
       - glance.icon=sh:syncthing
       - glance.url=https://${SYNCTHING_FQDN}
       - glance.description=Syncthing is an open-source continuous file synchronization program.
-      - glance.tags=network
+      - glance.category=network
