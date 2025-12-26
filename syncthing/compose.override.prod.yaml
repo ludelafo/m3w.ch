@@ -16,7 +16,13 @@ services:
       ## Traefik
       - traefik.enable=true
       # Router
-      - traefik.http.routers.syncthing.entryPoints=websecure
-      - traefik.http.routers.syncthing.rule=Host(`${SYNCTHING_FQDN}`)
+      - traefik.http.routers.${SYNCTHING_CONTAINER_NAME}.entryPoints=websecure
+      - traefik.http.routers.${SYNCTHING_CONTAINER_NAME}.rule=Host(`${SYNCTHING_FQDN}`)
       # Service
-      - traefik.http.services.syncthing.loadbalancer.server.port=8384
+      - traefik.http.services.${SYNCTHING_CONTAINER_NAME}.loadbalancer.server.port=8384
+      ## Glance
+      - glance.name=Syncthing
+      - glance.icon=sh:syncthing
+      - glance.url=https://${SYNCTHING_FQDN}
+      - glance.description=Syncthing is an open-source continuous file synchronization program.
+      - glance.tags=network

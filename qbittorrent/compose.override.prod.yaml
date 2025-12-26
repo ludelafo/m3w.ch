@@ -15,7 +15,13 @@ services:
       ## Traefik
       - traefik.enable=true
       # Router
-      - traefik.http.routers.qbittorrent.entryPoints=websecure
-      - traefik.http.routers.qbittorrent.rule=Host(`${QBITTORRENT_FQDN}`)
+      - traefik.http.routers.${QBITTORRENT_CONTAINER_NAME}.entryPoints=websecure
+      - traefik.http.routers.${QBITTORRENT_CONTAINER_NAME}.rule=Host(`${QBITTORRENT_FQDN}`)
       # Service
-      - traefik.http.services.qbittorrent.loadbalancer.server.port=8080
+      - traefik.http.services.${QBITTORRENT_CONTAINER_NAME}.loadbalancer.server.port=8080
+      ## Glance
+      - glance.name=qBittorrent
+      - glance.icon=sh:qbittorrent
+      - glance.url=https://${QBITTORRENT_FQDN}
+      - glance.description=qBittorrent is a free and open-source, cross-platform BitTorrent client.
+      - glance.tags=media

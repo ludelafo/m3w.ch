@@ -2,7 +2,7 @@ name: Syncthing
 
 services:
   syncthing:
-    container_name: syncthing
+    container_name: ${SYNCTHING_CONTAINER_NAME}
     image: syncthing/syncthing:${SYNCTHING_VERSION}
     restart: unless-stopped
     env_file:
@@ -16,8 +16,7 @@ services:
       - ./config:/var/syncthing
       - ./data:/data
     healthcheck:
-      test:
-        curl -fkLsS -m 2 127.0.0.1:8384/rest/noauth/health | grep -o
+      test: curl -fkLsS -m 2 127.0.0.1:8384/rest/noauth/health | grep -o
         --color=never OK || exit 1
       interval: 1m
       timeout: 10s
