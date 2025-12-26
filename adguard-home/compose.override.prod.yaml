@@ -17,6 +17,7 @@ services:
       # Service
       - traefik.http.services.${ADGUARD_HOME_CONTAINER_NAME}.loadbalancer.server.port=80
       ## Glance
+      - glance.hide=false
       - glance.name=AdGuard Home
       - glance.icon=st:adguard
       - glance.url=https://${ADGUARD_HOME_FQDN}
