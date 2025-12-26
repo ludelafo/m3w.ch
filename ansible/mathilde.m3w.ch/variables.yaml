@@ -1,0 +1,25 @@
+## Proxmox configuration
+# Virtual machine ID.
+proxmox_vm_id: 102
+
+# Disk number should be updated only if using more than one (1) disk in Proxmox.
+proxmox_disk_number: "sata1"
+
+## Users and groups
+user: mathilde
+user_id: 1000
+group: mathilde
+group_id: 1000
+
+## Disks
+# Disk can be obtained with the following command: `lsblk`.
+disk: "sdc"
+
+# Network
+hostname: mathilde
+domain: m3w.ch
+interface_name: lan0
+interface_mac_address: "bc:24:11:45:83:93"
+interface_ip_address: 192.168.1.4
+interface_netmask: 255.255.255.0
+interface_gateway: 192.168.1.1

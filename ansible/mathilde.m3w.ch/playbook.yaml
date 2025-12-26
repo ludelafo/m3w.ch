@@ -1,0 +1,79 @@
+- name: Configure mathilde.m3w.ch virtual machine
+  hosts: localhost
+  become: true
+  tasks:
+    ## Updates and packages
+    - name: Upgrade the OS
+      ansible.builtin.apt:
+        upgrade: full
+        autoclean: true
+        autoremove: true
+
+    - name: Install packages
+      ansible.builtin.apt:
+        pkg:
+          - ansible
+          - git
+
+    ## Docker
+    - name: Download Docker GPG key
+      ansible.builtin.get_url:
+        url: https://download.docker.com/linux/debian/gpg
+        dest: /etc/apt/trusted.gpg.d/docker.asc
+        mode: "0644"
+        checksum: sha256:1500c1f56fa9e26b9b8f42452a553675796ade0807cdce11975eb98170b3a570
+        # The checksum can be calculated with `curl -sL https://download.docker.com/linux/debian/gpg | sha256sum`
+
+    - name: Add Docker APT repository
+      ansible.builtin.apt_repository:
+        repo: >-
+          deb [arch=amd64 signed-by=/etc/apt/trusted.gpg.d/docker.asc]
+          https://download.docker.com/{{ ansible_system | lower }}/{{
+          ansible_distribution | lower }} {{ ansible_distribution_release }}
+          stable
+        filename: docker-repository
+
+    - name: Install Docker with its Compose plugin
+      ansible.builtin.apt:
+        pkg:
+          - docker-ce
+          - docker-ce-cli
+          - containerd.io
+          - docker-compose-plugin
+
+    - name: Enable journald logging driver
+      ansible.builtin.template:
+        src: etc/docker/daemon.json.j2
+        dest: /etc/docker/daemon.json
+        mode: "0644"
+
+    - name: Enable and start Docker service
+      ansible.builtin.service:
+        name: docker
+        state: started
+        enabled: true
+
+    ## Network configuration
+    - name: Configure /etc/hosts
+      ansible.builtin.template:
+        src: etc/hosts.j2
+        dest: /etc/hosts
+        mode: "0644"
+
+    - name: Configure /etc/hostname
+      ansible.builtin.template:
+        src: etc/hostname.j2
+        dest: /etc/hostname
+        mode: "0644"
+
+    - name: Configure /etc/network/interfaces
+      ansible.builtin.template:
+        src: etc/network/interfaces.j2
+        dest: /etc/network/interfaces
+        mode: "0644"
+
+    - name: Configure interface name for lan0 network
+      ansible.builtin.template:
+        src: etc/systemd/network/xx-persistent-link.link.j2
+        dest: /etc/systemd/network/10-lan0-persistent-link.link
+        mode: "0644"
