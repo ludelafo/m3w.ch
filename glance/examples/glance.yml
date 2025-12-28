@@ -46,7 +46,8 @@ pages:
             cache: 12h
             subreddit: selfhosted
 
-          - type: videos
+          - title: YouTube
+            type: videos
             style: vertical-list
             collapse-after: 5
             channels:
