@@ -1,6 +1,7 @@
 pages:
   - name: Glance
     hide-desktop-navigation: true
+
     columns:
       - size: small
         widgets:
@@ -57,7 +58,12 @@ pages:
         widgets:
           - type: server-stats
             servers:
-              - type: local
+              - name: Common
+                type: local
+                hide-mountpoints-by-default: true
+                mountpoints:
+                  "/":
+                    hide: false
 
           - title: Media
             type: docker-containers
