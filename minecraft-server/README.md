@@ -1,18 +1,17 @@
-# qBittorrent
+# Minecraft server
 
-> The qBittorrent project aims to provide an open-source software alternative to
-> µTorrent.
+> Build anything you can imagine, uncover eerie mysteries, and survive the night
+> in the ultimate sandbox adventure game.
 >
-> <https://www.qbittorrent.org/>
+> <https://www.minecraft.net/about-minecraft>
 
 ## Table of contents
 
-- [qBittorrent](#qbittorrent)
+- [Minecraft server](#minecraft-server)
   - [Table of contents](#table-of-contents)
   - [Pre-configuration](#pre-configuration)
     - [Set the environment variables](#set-the-environment-variables)
   - [Run the application with Docker](#run-the-application-with-docker)
-  - [Post-configuration](#post-configuration)
   - [Additional resources](#additional-resources)
 
 ## Pre-configuration
@@ -36,10 +35,8 @@ docker compose pull
 docker compose up --detach
 ```
 
-## Post-configuration
-
-Set the right port forwarding rules in your router.
-
 ## Additional resources
 
-- [qBittorrent](https://www.qbittorrent.org/)
+- [Minecraft server](https://www.minecraft.net/download/server)
+- [Docker Minecraft Server](https://github.com/itzg/docker-minecraft-server)
+- [Commands - Minecraft Wiki](https://minecraft.wiki/w/Commands)

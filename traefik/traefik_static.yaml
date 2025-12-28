@@ -37,6 +37,9 @@ entryPoints:
             sans:
               - "*.m3w.ch" # CHANGE_ME
 
+  mc:
+    address: ":25565"
+
 certificatesResolvers:
   letsencrypt:
     acme:

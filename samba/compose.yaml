@@ -29,5 +29,5 @@ services:
       - glance.name=Samba
       - glance.icon=mdi:folder-network
       - glance.url=smb://${SAMBA_FQDN}
-      - glance.description=Re-implementation of the SMB networking protocol (${SAMBA_VERSION}).
+      - glance.description=Re-implementation of the SMB networking protocol.
       - glance.category=network

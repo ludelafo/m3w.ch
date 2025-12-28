@@ -22,5 +22,5 @@ services:
       - glance.name=Glance
       - glance.icon=sh:glance
       - glance.url=https://${GLANCE_FQDN}
-      - glance.description=Dashboard to monitor and access your services (${GLANCE_VERSION}).
+      - glance.description=Dashboard to monitor and access your services.
       - glance.category=other

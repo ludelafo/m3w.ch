@@ -63,7 +63,7 @@ pages:
         widgets:
           - type: server-stats
             servers:
-              - name: Common
+              - name: m3w.ch
                 type: local
                 hide-mountpoints-by-default: true
                 mountpoints:
@@ -77,6 +77,10 @@ pages:
           - title: Media
             type: docker-containers
             category: media
+
+          - title: Games
+            type: docker-containers
+            category: games
 
           - title: Network
             type: docker-containers
