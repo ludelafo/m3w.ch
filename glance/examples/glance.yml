@@ -63,8 +63,10 @@ pages:
                 hide-mountpoints-by-default: true
                 mountpoints:
                   "/":
+                    name: Container
                     hide: false
-                  "/dev/sda1":
+                  "/app/config":
+                    name: Data
                     hide: false
 
           - title: Media
