@@ -21,5 +21,5 @@ services:
       - glance.name=AdGuard Home
       - glance.icon=sh:adguard-home
       - glance.url=https://${ADGUARD_HOME_FQDN}
-      - glance.description=Network-wide software for blocking ads & tracking (${ADGUARD_HOME_VERSION}).
+      - glance.description=Network-wide software for blocking ads & tracking.
       - glance.category=network

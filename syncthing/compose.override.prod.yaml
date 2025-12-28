@@ -25,5 +25,5 @@ services:
       - glance.name=Syncthing
       - glance.icon=sh:syncthing
       - glance.url=https://${SYNCTHING_FQDN}
-      - glance.description=Continuous file synchronization program (${SYNCTHING_VERSION}).
+      - glance.description=Continuous file synchronization program.
       - glance.category=network
