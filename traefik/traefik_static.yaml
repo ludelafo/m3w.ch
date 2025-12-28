@@ -39,9 +39,6 @@ entryPoints:
 
   mc:
     address: ":25565"
-    tcp:
-      tls:
-        passthrough: true
 
 certificatesResolvers:
   letsencrypt:
