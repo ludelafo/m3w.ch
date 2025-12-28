@@ -8,7 +8,10 @@
 >
 > <https://syncthing.net/>
 
+## Table of contents
+
 - [Syncthing](#syncthing)
+  - [Table of contents](#table-of-contents)
   - [Pre-configuration](#pre-configuration)
     - [Set the environment variables](#set-the-environment-variables)
   - [Create the required directories](#create-the-required-directories)

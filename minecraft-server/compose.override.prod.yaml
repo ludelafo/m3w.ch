@@ -1,0 +1,25 @@
+networks:
+  traefik_network:
+    external: true
+
+services:
+  minecraft-server:
+    networks:
+      - traefik_network
+    expose:
+      - 25565
+    ports: !reset []
+    labels:
+      ## Traefik
+      - traefik.enable=true
+      # Router
+      - traefik.tcp.routers.${MINECRAFT_SERVER_CONTAINER_NAME}.rule=HostSNI(`*`)
+      # Service
+      - traefik.tcp.services.${MINECRAFT_SERVER_CONTAINER_NAME}.loadbalancer.server.port=25565
+      ## Glance
+      - glance.hide=false
+      - glance.name=Minecraft server
+      - glance.icon=sh:minecraft
+      - glance.url=${MINECRAFT_SERVER_FQDN}
+      - glance.description=Minecraft server (${MINECRAFT_SERVER_VERSION}).
+      - glance.category=games
