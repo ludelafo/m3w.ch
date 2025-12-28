@@ -64,6 +64,8 @@ pages:
                 mountpoints:
                   "/":
                     hide: false
+                  "/dev/sda1":
+                    hide: false
 
           - title: Media
             type: docker-containers
