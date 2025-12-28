@@ -22,5 +22,5 @@ services:
       - glance.name=Navidrome
       - glance.icon=sh:navidrome
       - glance.url=https://${NAVIDROME_FQDN}
-      - glance.description=Navidrome is a self-hosted music server and streamer that runs on all platforms.
+      - glance.description=Music server and streamer that runs on all platforms (${NAVIDROME_VERSION}).
       - glance.category=media
