@@ -13,6 +13,7 @@ services:
       ## Traefik
       - traefik.enable=true
       # Router
+      - traefik.tcp.routers.${MINECRAFT_SERVER_CONTAINER_NAME}.entryPoints=mc
       - traefik.tcp.routers.${MINECRAFT_SERVER_CONTAINER_NAME}.rule=HostSNI(`*`)
       # Service
       - traefik.tcp.services.${MINECRAFT_SERVER_CONTAINER_NAME}.loadbalancer.server.port=25565
