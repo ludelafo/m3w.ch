@@ -1,14 +1,17 @@
 pages:
-  - name: Home
+  - name: Glance
     hide-desktop-navigation: true
     columns:
       - size: small
         widgets:
+          - type: clock
+            hour-format: 24h
+
           - type: calendar
             first-day-of-week: monday
 
           - type: weather
-            location: Yverdon-les-Bains, Switzerland
+            location: ${GLANCE_WEATHER_LOCATION}
             units: metric
             hour-format: 24h
 
@@ -52,6 +55,10 @@ pages:
 
       - size: small
         widgets:
+          - type: server-stats
+            servers:
+              - type: local
+
           - title: Media
             type: docker-containers
             category: media
