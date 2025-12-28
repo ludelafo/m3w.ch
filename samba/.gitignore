@@ -1,3 +1,6 @@
+## Compose overrides
+compose.override.yaml
+
 ## Docker secrets
 user_password.txt
 

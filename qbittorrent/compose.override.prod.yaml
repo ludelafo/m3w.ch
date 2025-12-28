@@ -24,5 +24,5 @@ services:
       - glance.name=qBittorrent
       - glance.icon=sh:qbittorrent
       - glance.url=https://${QBITTORRENT_FQDN}
-      - glance.description=qBittorrent is a free and open-source, cross-platform BitTorrent client.
+      - glance.description=BitTorrent client (${QBITTORRENT_VERSION}).
       - glance.category=media

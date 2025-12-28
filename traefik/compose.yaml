@@ -42,5 +42,5 @@ services:
       - glance.name=Traefik
       - glance.icon=sh:traefik
       - glance.url=https://${TRAEFIK_FQDN}
-      - glance.description=Traefik is a modern reverse proxy and load balancer that makes deploying microservices easy.
+      - glance.description=Modern reverse proxy and load balancer (${TRAEFIK_VERSION}).
       - glance.category=network

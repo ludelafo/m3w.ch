@@ -25,5 +25,5 @@ services:
       - glance.name=WireGuard Easy
       - glance.icon=sh:wireguard
       - glance.url=https://${WG_EASY_FQDN}
-      - glance.description=WireGuard Easy is a simple WireGuard VPN web interface to manage your WireGuard server and clients.
+      - glance.description=Simple WireGuard VPN web interface to manage your WireGuard server and clients (${WG_EASY_VERSION}).
       - glance.category=network
