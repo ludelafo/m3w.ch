@@ -8,27 +8,44 @@ pages:
           - type: calendar
             first-day-of-week: monday
 
-          - type: rss
-            limit: 10
-            collapse-after: 3
-            cache: 12h
-            feeds:
-              - url: https://selfh.st/rss/
-                title: selfh.st
-                limit: 4
-              - url: https://ciechanow.ski/atom.xml
-              - url: https://www.joshwcomeau.com/rss.xml
-                title: Josh Comeau
-              - url: https://samwho.dev/rss.xml
-              - url: https://ishadeed.com/feed.xml
-                title: Ahmad Shadeed
+          - type: weather
+            location: Yverdon-les-Bains, Switzerland
+            units: metric
+            hour-format: 24h
 
       - size: full
         widgets:
-          - type: group
-            widgets:
-              - type: hacker-news
-              - type: lobsters
+          - type: rss
+            limit: 25
+            collapse-after: 10
+            cache: 12h
+            feeds:
+              - title: selfh.st
+                url: https://selfh.st/rss/
+              - title: Bartosz Ciechanowski
+                url: https://ciechanow.ski/atom.xml
+              - title: Josh Comeau
+                url: https://www.joshwcomeau.com/rss.xml
+              - title: Sam Rose
+                url: https://samwho.dev/rss.xml
+              - title: Ahmad Shadeed
+                url: https://ishadeed.com/feed.xml
+
+          - type: hacker-news
+
+          - type: lobsters
+
+          - type: reddit
+            limit: 25
+            collapse-after: 10
+            cache: 12h
+            subreddit: technology
+
+          - type: reddit
+            limit: 25
+            collapse-after: 10
+            cache: 12h
+            subreddit: selfhosted
 
           - type: videos
             channels:
@@ -38,23 +55,10 @@ pages:
               - UCBJycsmduvYEL83R_U4JriQ # Marques Brownlee
               - UCHnyfMqiRRG1u-2MsSQLbXA # Veritasium
 
-          - type: group
-            widgets:
-              - type: reddit
-                subreddit: technology
-                show-thumbnails: true
-              - type: reddit
-                subreddit: selfhosted
-                show-thumbnails: true
-
       - size: small
         widgets:
-          - type: weather
-            location: Yverdon-les-Bains, Switzerland
-            units: metric # alternatively "imperial"
-            hour-format: 24h # alternatively "24h"
-            # Optionally hide the location from being displayed in the widget
-            # hide-location: false
+          - type: docker-containers
+            hide-by-default: true
 
           - type: releases
             cache: 1d
@@ -66,10 +70,3 @@ pages:
               - go-gitea/gitea
               - immich-app/immich
               - syncthing/syncthing
-
-  - name: Your page name
-    columns:
-      - size: full
-        widgets:
-          - type: docker-containers
-            hide-by-default: true
