@@ -63,7 +63,7 @@ pages:
                 hide-mountpoints-by-default: true
                 mountpoints:
                   "/":
-                    name: Root
+                    name: Container
                     hide: false
                   "/app/config":
                     name: Data
