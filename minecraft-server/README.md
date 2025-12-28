@@ -39,5 +39,4 @@ docker compose up --detach
 
 - [Minecraft server](https://www.minecraft.net/download/server)
 - [Docker Minecraft Server](https://github.com/itzg/docker-minecraft-server)
-- [RCON - Minecraft Wiki](https://minecraft.wiki/w/RCON)
 - [Commands - Minecraft Wiki](https://minecraft.wiki/w/Commands)
