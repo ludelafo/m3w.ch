@@ -41,11 +41,7 @@ entryPoints:
     address: ":25565"
     tcp:
       tls:
-        certResolver: letsencrypt
-        domains:
-          - main: "m3w.ch" # CHANGE_ME
-            sans:
-              - "*.m3w.ch" # CHANGE_ME
+        passthrough: true
 
 certificatesResolvers:
   letsencrypt:
