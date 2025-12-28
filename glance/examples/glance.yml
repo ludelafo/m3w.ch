@@ -78,6 +78,10 @@ pages:
             type: docker-containers
             category: media
 
+          - title: Games
+            type: docker-containers
+            category: games
+
           - title: Network
             type: docker-containers
             category: network
