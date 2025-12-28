@@ -17,3 +17,10 @@ services:
       - traefik.http.routers.${GLANCE_CONTAINER_NAME}.rule=Host(`${GLANCE_FQDN}`)
       # Service
       - traefik.http.services.${GLANCE_CONTAINER_NAME}.loadbalancer.server.port=8080
+      ## Glance
+      - glance.hide=false
+      - glance.name=Glance
+      - glance.icon=sh:glance
+      - glance.url=https://${GLANCE_FQDN}
+      - glance.description=Glance is a self-hosted dashboard to monitor and access your services.
+      - glance.category=other

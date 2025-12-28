@@ -82,6 +82,10 @@ pages:
             type: docker-containers
             category: network
 
+          - title: Other
+            type: docker-containers
+            category: other
+
           - type: releases
             cache: 1d
             repositories:
