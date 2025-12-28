@@ -31,8 +31,8 @@ pages:
                 url: https://samwho.dev/rss.xml
               - title: Ahmad Shadeed
                 url: https://ishadeed.com/feed.xml
-              - title: RTS
-                url: https://www.rts.ch/info/toute-info/?format=rss/news
+              # - title: RTS
+              #   url: https://www.rts.ch/info/toute-info/?format=rss/news
 
           - type: hacker-news
             cache: 12h
