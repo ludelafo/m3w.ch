@@ -47,6 +47,8 @@ pages:
             subreddit: selfhosted
 
           - type: videos
+            style: vertical-list
+            collapse-after: 5
             channels:
               - UCXuqSBlHAE6Xw-yeJA0Tunw # Linus Tech Tips
               - UCR-DXc1voovS8nhAvccRZhg # Jeff Geerling
@@ -63,7 +65,7 @@ pages:
                 hide-mountpoints-by-default: true
                 mountpoints:
                   "/":
-                    name: Container
+                    name: Root
                     hide: false
                   "/app/config":
                     name: Data
