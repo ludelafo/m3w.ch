@@ -1,7 +1,6 @@
 pages:
   - name: Home
-    # Optionally, if you only have a single page you can hide the desktop navigation for a cleaner look
-    # hide-desktop-navigation: true
+    hide-desktop-navigation: true
     columns:
       - size: small
         widgets:
@@ -16,8 +15,6 @@ pages:
       - size: full
         widgets:
           - type: rss
-            limit: 25
-            collapse-after: 10
             cache: 12h
             feeds:
               - title: selfh.st
@@ -32,18 +29,16 @@ pages:
                 url: https://ishadeed.com/feed.xml
 
           - type: hacker-news
+            cache: 12h
 
           - type: lobsters
+            cache: 12h
 
           - type: reddit
-            limit: 25
-            collapse-after: 10
             cache: 12h
             subreddit: technology
 
           - type: reddit
-            limit: 25
-            collapse-after: 10
             cache: 12h
             subreddit: selfhosted
 
@@ -57,16 +52,18 @@ pages:
 
       - size: small
         widgets:
-          - type: docker-containers
-            hide-by-default: true
+          - title: Media
+            type: docker-containers
+            category: media
+            # hide-by-default: true
+
+          - title: Network
+            type: docker-containers
+            category: network
+            # hide-by-default: true
 
           - type: releases
             cache: 1d
-            # Without authentication the Github API allows for up to 60 requests per hour. You can create a
-            # read-only token from your Github account settings and use it here to increase the limit.
-            # token: ...
             repositories:
               - glanceapp/glance
-              - go-gitea/gitea
-              - immich-app/immich
               - syncthing/syncthing
