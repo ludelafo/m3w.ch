@@ -89,5 +89,10 @@ pages:
           - type: releases
             cache: 1d
             repositories:
+              - AdguardTeam/AdGuardHome
               - glanceapp/glance
+              - navidrome/navidrome
+              - qbittorrent/qBittorrent
               - syncthing/syncthing
+              - traefik/traefik
+              - wg-easy/wg-easy
