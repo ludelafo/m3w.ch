@@ -13,7 +13,14 @@ services:
       ## Traefik
       - traefik.enable=true
       # Router
-      - traefik.http.routers.navidrome.entryPoints=websecure
-      - traefik.http.routers.navidrome.rule=Host(`${NAVIDROME_FQDN}`)
+      - traefik.http.routers.${NAVIDROME_CONTAINER_NAME}.entryPoints=websecure
+      - traefik.http.routers.${NAVIDROME_CONTAINER_NAME}.rule=Host(`${NAVIDROME_FQDN}`)
       # Service
-      - traefik.http.services.navidrome.loadbalancer.server.port=4533
+      - traefik.http.services.${NAVIDROME_CONTAINER_NAME}.loadbalancer.server.port=4533
+      ## Glance
+      - glance.hide=false
+      - glance.name=Navidrome
+      - glance.icon=sh:navidrome
+      - glance.url=https://${NAVIDROME_FQDN}
+      - glance.description=Music server and streamer that runs on all platforms (${NAVIDROME_VERSION}).
+      - glance.category=media

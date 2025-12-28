@@ -12,7 +12,14 @@ services:
       ## Traefik
       - traefik.enable=true
       # Router
-      - traefik.http.routers.adguard-home.entrypoints=websecure
-      - traefik.http.routers.adguard-home.rule=Host(`${ADGUARD_HOME_FQDN}`)
+      - traefik.http.routers.${ADGUARD_HOME_CONTAINER_NAME}.entrypoints=websecure
+      - traefik.http.routers.${ADGUARD_HOME_CONTAINER_NAME}.rule=Host(`${ADGUARD_HOME_FQDN}`)
       # Service
-      - traefik.http.services.adguard-home.loadbalancer.server.port=80
+      - traefik.http.services.${ADGUARD_HOME_CONTAINER_NAME}.loadbalancer.server.port=80
+      ## Glance
+      - glance.hide=false
+      - glance.name=AdGuard Home
+      - glance.icon=sh:adguard-home
+      - glance.url=https://${ADGUARD_HOME_FQDN}
+      - glance.description=Network-wide software for blocking ads & tracking (${ADGUARD_HOME_VERSION}).
+      - glance.category=network

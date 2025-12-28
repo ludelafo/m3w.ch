@@ -10,7 +10,7 @@ secrets:
 
 services:
   traefik:
-    container_name: traefik
+    container_name: ${TRAEFIK_CONTAINER_NAME}
     image: traefik:${TRAEFIK_VERSION}
     command:
       - --configFile=/etc/traefik/traefik_static.yaml
@@ -33,7 +33,14 @@ services:
       ## Traefik
       - traefik.enable=true
       # Router
-      - traefik.http.routers.traefik.entryPoints=websecure
-      - traefik.http.routers.traefik.rule=Host(`${TRAEFIK_FQDN}`)
+      - traefik.http.routers.${TRAEFIK_CONTAINER_NAME}.entryPoints=websecure
+      - traefik.http.routers.${TRAEFIK_CONTAINER_NAME}.rule=Host(`${TRAEFIK_FQDN}`)
       # Service
-      - traefik.http.routers.traefik.service=api@internal
+      - traefik.http.routers.${TRAEFIK_CONTAINER_NAME}.service=api@internal
+      ## Glance
+      - glance.hide=false
+      - glance.name=Traefik
+      - glance.icon=sh:traefik
+      - glance.url=https://${TRAEFIK_FQDN}
+      - glance.description=Modern reverse proxy and load balancer (${TRAEFIK_VERSION}).
+      - glance.category=network

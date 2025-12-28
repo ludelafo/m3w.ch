@@ -30,7 +30,8 @@ examples in the [`examples`](./examples) directory and copy an example to
 `config.yaml`.
 
 You might need to update the `volumes` section in the `compose.yaml` file to
-match your configuration.
+match your configuration or copy one of the override files to
+`compose.override.yaml` in this directory.
 
 ### Create the user password
 

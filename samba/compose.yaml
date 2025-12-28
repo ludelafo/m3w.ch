@@ -6,7 +6,7 @@ secrets:
 
 services:
   samba:
-    container_name: samba
+    container_name: ${SAMBA_CONTAINER_NAME}
     image: crazymax/samba:${SAMBA_VERSION}
     restart: unless-stopped
     env_file:
@@ -23,3 +23,11 @@ services:
       - ./cache:/data
       - ./config.yaml:/config.yaml
       # Additional volumes can be mounted here
+    labels:
+      ## Glance
+      - glance.hide=false
+      - glance.name=Samba
+      - glance.icon=mdi:folder-network
+      - glance.url=smb://${SAMBA_FQDN}
+      - glance.description=Re-implementation of the SMB networking protocol (${SAMBA_VERSION}).
+      - glance.category=network

@@ -14,7 +14,7 @@ networks:
 
 services:
   adguard-home:
-    container_name: adguard-home
+    container_name: ${ADGUARD_HOME_CONTAINER_NAME}
     image: adguard/adguardhome:${ADGUARD_HOME_VERSION}
     restart: unless-stopped
     # As this container uses a MACVLAN network, ports do not need to be published.
