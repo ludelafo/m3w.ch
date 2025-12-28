@@ -63,7 +63,7 @@ pages:
         widgets:
           - type: server-stats
             servers:
-              - name: Common
+              - name: m3w.ch
                 type: local
                 hide-mountpoints-by-default: true
                 mountpoints:

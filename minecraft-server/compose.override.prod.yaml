@@ -21,6 +21,5 @@ services:
       - glance.hide=false
       - glance.name=Minecraft server
       - glance.icon=sh:minecraft
-      - glance.url=${MINECRAFT_SERVER_FQDN}
       - glance.description=Minecraft server (${MINECRAFT_SERVER_VERSION}).
       - glance.category=games
