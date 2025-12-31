@@ -5,7 +5,9 @@ networks:
 services:
   adguard-home:
     networks:
-      - traefik_network
+      traefik_network:
+        interface_name: eth1
+        gw_priority: 0
     expose:
       - 80
     labels:

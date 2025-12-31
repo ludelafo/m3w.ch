@@ -12,7 +12,10 @@ services:
     environment:
       - INSECURE=true
     networks:
-      - wg_easy_network
+      # https://github.com/wg-easy/wg-easy/issues/2208#issuecomment-3398654919
+      wg_easy_network:
+        interface_name: eth0
+        gw_priority: 1
     ports:
       - 51820:51820/udp
       - 51821:51821/tcp
