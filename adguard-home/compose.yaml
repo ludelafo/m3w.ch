@@ -20,6 +20,8 @@ services:
     # As this container uses a MACVLAN network, ports do not need to be published.
     networks:
       adguard_home_network:
+        interface_name: eth0
+        gw_priority: 1
         ipv4_address: ${MACVLAN_NETWORK_IP}
     volumes:
       - ./config:/opt/adguardhome/conf

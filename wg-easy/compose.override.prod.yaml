@@ -7,7 +7,10 @@ services:
     environment:
       - INSECURE=false
     networks:
-      - traefik_network
+      # https://github.com/wg-easy/wg-easy/issues/2208#issuecomment-3398654919
+      traefik_network:
+        interface_name: eth1
+        gw_priority: 0
     ports: !override
       - 51820:51820/udp
     expose:
