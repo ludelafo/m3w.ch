@@ -44,7 +44,7 @@ item_fields:
       return 'audiobooks'
     elif albumtype == 'interview':
       return 'podcasts'
-    elif albumtype == 'soundtrack' or albumtype == 'compilation':
+    elif albumtype == 'soundtrack':
       return 'soundtracks'
     else:
       return 'music'
