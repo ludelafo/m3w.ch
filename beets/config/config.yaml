@@ -56,7 +56,7 @@ item_fields:
   custom_source: |
     if media == 'Digital Media':
       return 'WEB'
-    elif media == 'Enhanced CD':
+    elif media == 'Enhanced CD' or media == 'CD-R':
       return 'CD'
     elif media == '':
       return False
@@ -100,7 +100,7 @@ paths:
     $custom_source}]%if{$catalognum, {$catalognum$}}/%if{$custom_multidisc,CD
     $custom_discnumber/}$track. $title
 
-format_item: $albumartist - $year - $album - $track - $title
+format_item: $albumartist - $year - $album - $track. $title
 
 format_album: $albumartist - $year - $album
 
