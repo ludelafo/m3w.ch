@@ -99,6 +99,12 @@ paths:
     $custom_bitdepth-$custom_samplerate}%if{$custom_source,
     $custom_source}]%if{$catalognum, {$catalognum$}}/%if{$custom_multidisc,CD
     $custom_discnumber/}$track. $title
+  comp:
+    $custom_album_type/$custom_album_type/$album ($year)
+    [$custom_format%if{$custom_bitdepth && $custom_samplerate,
+    $custom_bitdepth-$custom_samplerate}%if{$custom_source,
+    $custom_source}]%if{$catalognum, {$catalognum$}}/%if{$custom_multidisc,CD
+    $custom_discnumber/}$track. $title
 
 format_item: $albumartist - $year - $album - $track. $title
 
