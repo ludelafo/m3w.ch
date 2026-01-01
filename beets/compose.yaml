@@ -1,0 +1,23 @@
+name: Beets
+
+services:
+  beets:
+    container_name: ${BEETS_CONTAINER_NAME}
+    user: "${PUID}:${PGID}"
+    image: lscr.io/linuxserver/beets:${BEETS_VERSION}
+    entrypoint: /config/entrypoint.sh
+    command: --help
+    env_file:
+      - beets.env
+    environment:
+      - PIP_TARGET=/tmp/.pip
+      - PYTHONPATH=/tmp/.pip
+    # Allow to run commands on the server with Docker `run` command
+    stdin_open: true
+    tty: true
+    volumes:
+      - ./config:/config
+      - ./data:/data
+    ports:
+      - 8337:8337
+    restart: unless-stopped

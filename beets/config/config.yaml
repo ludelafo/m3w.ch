@@ -1,0 +1,291 @@
+## https://beets.readthedocs.io/en/stable/index.html
+
+# Where to keep the database
+# Do not edit the `/config` path
+library: /config/beets.db
+
+# Where to import the music
+# Do not edit the `/data` path
+directory: /data
+
+# Import options
+import:
+  # Do not edit the `/config` path
+  log: /config/beets.log
+  write: yes
+  hardlink: no
+  copy: yes
+  move: no
+  incremental: yes
+  incremental_skip_later: yes
+  resume: ask
+  detail: yes
+  autotag: yes
+  duplicate_keys:
+    album: albumartist album
+    item: artist title
+  duplicate_action: ask
+  duplicate_verbose_prompt: yes
+  none_rec_action: skip
+  bell: yes
+  timid: no
+
+match:
+  strong_rec_thresh: 0.01
+  max_rec:
+    missing_tracks: strong
+    unmatched_tracks: strong
+
+original_date: no
+
+item_fields:
+  custom_album_type: |
+    if albumtype == 'audiobook':
+      return 'audiobooks'
+    elif albumtype == 'interview':
+      return 'podcasts'
+    elif albumtype == 'soundtrack':
+      return 'soundtracks'
+    else:
+      return 'music'
+
+  custom_multidisc: 1 if disctotal > 1 else 0
+
+  custom_discnumber: u'%i' % disc
+
+  custom_source: |
+    if media == 'Digital Media':
+      return 'WEB'
+    elif media == 'Enhanced CD':
+      return 'CD'
+    elif media == '':
+      return False
+    else:
+      return media
+
+  custom_samplerate: |
+    if format == "FLAC":
+      return round(int(samplerate) / 1000, 1)
+
+  custom_bitdepth: |
+    if format == "FLAC":
+      return bitdepth
+
+  custom_reissue: year != original_year
+
+album_fields:
+  custom_format: |
+    average_bitrate = sum([item.bitrate for item in items]) / len(items)
+
+    if average_bitrate > 480:
+      return 'FLAC'
+    elif average_bitrate < 480 and average_bitrate >= 320:
+      return 'MP3 320'
+    elif average_bitrate < 320 and average_bitrate >= 220:
+      return 'MP3 V0'
+    elif average_bitrate < 215 and average_bitrate >= 170 and average_bitrate != 192:
+      return 'MP3 V2'
+    elif average_bitrate == 192:
+      return 'MP3 192'
+    elif average_bitrate < 170:
+      return 'MP3 %i' % average_bitrate
+
+paths:
+  default:
+    $custom_album_type/$custom_album_type/$albumartist
+    (%upper{$artist_country})/$albumartist - $original_year -
+    $album%if{$custom_reissue, [Reissue $year]}
+    [$custom_format%if{$custom_bitdepth && $custom_samplerate,
+    $custom_bitdepth-$custom_samplerate}%if{$custom_source,
+    $custom_source}]%if{$catalognum, {$catalognum$}}/%if{$custom_multidisc,CD
+    $custom_discnumber/}$track. $title
+
+format_item: $albumartist - $year - $album - $track - $title
+
+format_album: $albumartist - $year - $album
+
+sort_item:
+  $albumartist+ $album+ $albumdisambig+ $original_year+ $disc+ $track+ $title+
+
+sort_album: $albumartist+ $album+ $albumdisambig+ $original_year+ $disc+
+
+sort_case_insensitive: yes
+
+per_disc_numbering: yes
+
+# If the process is threaded
+threaded: yes
+
+# The musicbrainz host
+musicbrainz:
+  host: musicbrainz.org
+  ratelimit: 1
+  searchlimit: 3
+
+# UI customization
+ui:
+  color: yes
+  colors:
+    text_success: ["bold", "green"]
+    text_warning: ["bold", "yellow"]
+    text_error: ["bold", "red"]
+    text_highlight: ["bold", "red"]
+    text_highlight_minor: ["white"]
+    action_default: ["bold", "cyan"]
+    action: ["bold", "cyan"]
+    # New colors after UI overhaul
+    text_faint: ["faint"]
+    import_path: ["bold", "blue"]
+    import_path_items: ["bold", "blue"]
+    changed: ["yellow"]
+    text_diff_added: ["bold", "green"]
+    text_diff_removed: ["bold", "red"]
+    action_description: ["white"]
+
+art_filename: cover
+
+aunique:
+  keys: albumartist year album
+  disambiguators:
+    albumtype year label catalognum albumdisambig releasegroupdisambig
+  bracket: "[]"
+
+sunique:
+  keys: artist year title
+  disambiguators: year label catalognum trackdisambig releasegroupdisambig
+  bracket: "[]"
+
+ignore: [
+    ## Linux
+    "*~",
+
+    ## macOS
+    # General
+    ".DS_Store",
+
+    # Thumbnails
+    "._*",
+
+    ## Windows
+    # Windows thumbnail cache files
+    "Thumbs.db",
+    "Thumbs.db:encryptable",
+    "ehthumbs.db",
+    "ehthumbs_vista.db",
+
+    # Folder config file
+    "[Dd]esktop.ini",
+
+    # Windows shortcuts
+    "*.lnk",
+  ]
+
+ignore_hidden: yes
+
+clutter: [".DS_Store", "[Dd]esktop.ini", "Thumbs.DB"]
+
+asciify_paths: false
+
+replace:
+  # Replace `\/`
+  '[\\/]': "_"
+  # Replace `.`
+  '^\.': "_"
+  # Replace control characters
+  '[\x00-\x1f]': "_"
+  # Replace Windows illegal filename characters
+  '[<>:"\?\*\|]': "_"
+  # Replace white space characters
+  '\.$': "_"
+  '\s+$': "_"
+  '^\s+': "_"
+  "^-": "_"
+  # Replace special quotes
+  "‘": "'"
+  "’": "'"
+  "[“”]": '"'
+  # # Replace accented characters
+  # '[\xE2-\xE6]': a
+  # '[\xE8-\xEB]': e
+  # '[\xEC-\xEF]': i
+  # '[\xF2-\xF6,\xF8]': o
+  # '[\xF9-\xFC]': u
+  # '\xE7': c
+
+max_filename_length: 180
+
+va_name: "Various Artists"
+
+# Plugins
+plugins: [
+    ## Autotagger
+    chroma,
+    # deezer,
+    discogs,
+    # spotify,
+    musicbrainz,
+    fromfilename,
+    ## Metadata
+    artistcountry,
+    edit,
+    fetchart,
+    ftintitle,
+    lastgenre,
+    ## Path Formats
+    inline,
+    ## Miscellaneous
+    badfiles,
+    ihate,
+    web,
+  ]
+
+badfiles:
+  check_on_import: yes
+  commands:
+    flac: flac --test --warnings-as-errors --silent
+
+discogs:
+  user_token: "CHANGE_ME"
+
+edit:
+  itemfields: [track, title, artist, album]
+  albumfields: [album, albumartist]
+
+fetchart:
+  auto: yes
+  cautious: yes
+  minwidth: 1000
+  maxwidth: 1000
+  enforce_ratio: yes
+  sources: [filesystem, coverart, itunes, amazon, albumart, wikipedia]
+  quality: 75
+
+ftintitle:
+  auto: yes
+  drop: no
+  format: "(feat. {0})"
+
+hook:
+  hooks:
+    - event: write
+      command: echo 'Processing "{item.path}"...'
+
+    - event: album_imported
+      command: echo 'Album "{album.path}" imported.'
+
+ihate:
+  warn: ["albumtype:live"]
+  skip: []
+
+lastgenre:
+  auto: yes
+  count: 1
+  fallback: ""
+  force: no
+  prefer_specific: no
+  souce: album
+  title_case: yes
+
+web:
+  host: 0.0.0.0
+  port: 8337
