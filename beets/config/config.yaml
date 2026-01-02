@@ -226,15 +226,15 @@ va_name: "Various Artists"
 plugins:
   ## Autotagger
   - chroma
-  # deezer
+  # - deezer
   - discogs
-  # spotify
+  # - spotify
   - musicbrainz
   - fromfilename
   ## Metadata
   - artistcountry
   - edit
-  - extrafiles
+  # - extrafiles
   - fetchart
   - ftintitle
   - lastgenre
