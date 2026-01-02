@@ -255,7 +255,7 @@ discogs:
 
 edit:
   itemfields: [track, title, artist, album]
-  albumfields: [album, albumartist]
+  albumfields: [album, albumartist, label, catalognum]
 
 extrafiles:
   patterns:
