@@ -223,27 +223,27 @@ max_filename_length: 180
 va_name: "Various Artists"
 
 # Plugins
-plugins: [
-    ## Autotagger
-    chroma,
-    # deezer,
-    discogs,
-    # spotify,
-    musicbrainz,
-    fromfilename,
-    ## Metadata
-    artistcountry,
-    edit,
-    fetchart,
-    ftintitle,
-    lastgenre,
-    ## Path Formats
-    inline,
-    ## Miscellaneous
-    badfiles,
-    ihate,
-    web,
-  ]
+plugins:
+  ## Autotagger
+  - chroma
+  # deezer
+  - discogs
+  # spotify
+  - musicbrainz
+  - fromfilename
+  ## Metadata
+  - artistcountry
+  - edit
+  - extrafiles
+  - fetchart
+  - ftintitle
+  - lastgenre
+  ## Path Formats
+  - inline
+  ## Miscellaneous
+  - badfiles
+  - ihate
+  - web
 
 badfiles:
   check_on_import: yes
@@ -257,13 +257,28 @@ edit:
   itemfields: [track, title, artist, album]
   albumfields: [album, albumartist]
 
+extrafiles:
+  patterns:
+    all:
+      - "*.log"
+      - "*.cue"
+
 fetchart:
   auto: yes
   cautious: yes
   minwidth: 1000
   maxwidth: 1000
   enforce_ratio: yes
-  sources: [filesystem, coverart, itunes, amazon, albumart, wikipedia]
+  sources:
+    - itunes
+    - coverart
+    - albumart
+    - lastfm
+    - amazon
+    - fanarttv
+    - wikipedia
+    - google
+    - filesystem
   quality: 75
 
 ftintitle:
