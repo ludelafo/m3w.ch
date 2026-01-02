@@ -270,7 +270,7 @@ fetchart:
   minwidth: 1000
   maxwidth: 1000
   enforce_ratio: yes
-  cover_format: yes
+  cover_format: "jpg"
   quality: 100
   sources:
     - itunes
