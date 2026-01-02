@@ -273,9 +273,9 @@ fetchart:
     - itunes
     - coverart
     - albumart
-    - lastfm
+    # - lastfm
     - amazon
-    - fanarttv
+    # - fanarttv
     - wikipedia
     - google
     - filesystem
