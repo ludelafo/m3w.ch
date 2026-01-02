@@ -265,10 +265,13 @@ extrafiles:
 
 fetchart:
   auto: yes
+  cover_names: [cover front art album folder]
   cautious: yes
   minwidth: 1000
   maxwidth: 1000
   enforce_ratio: yes
+  cover_format: yes
+  quality: 100
   sources:
     - itunes
     - coverart
@@ -277,9 +280,8 @@ fetchart:
     - amazon
     # - fanarttv
     - wikipedia
-    - google
     - filesystem
-  quality: 75
+    # - google
 
 ftintitle:
   auto: yes
