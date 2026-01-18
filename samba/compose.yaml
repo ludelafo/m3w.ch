@@ -25,9 +25,9 @@ services:
       # Additional volumes can be mounted here
     labels:
       ## Glance
-      - glance.hide=false
       - glance.name=Samba
+      # https://github.com/glanceapp/glance/blob/main/docs/configuration.md#icons
       - glance.icon=mdi:folder-network
       - glance.url=smb://${SAMBA_FQDN}
       - glance.description=Re-implementation of the SMB networking protocol.
-      - glance.category=network
+      - glance.category=infrastructure

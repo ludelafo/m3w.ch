@@ -1,16 +1,10 @@
 name: qbittorrent
 
-networks:
-  qbittorrent_network:
-    name: qbittorrent_network
-
 services:
   qbittorrent:
     container_name: ${QBITTORRENT_CONTAINER_NAME}
     image: qbittorrentofficial/qbittorrent-nox:${QBITTORRENT_VERSION}
     restart: unless-stopped
-    networks:
-      - qbittorrent_network
     env_file:
       - ./qbittorrent.env
     environment:

@@ -18,9 +18,9 @@ services:
       # Service
       - traefik.http.services.${GLANCE_CONTAINER_NAME}.loadbalancer.server.port=8080
       ## Glance
-      - glance.hide=false
       - glance.name=Glance
+      # https://github.com/glanceapp/glance/blob/main/docs/configuration.md#icons
       - glance.icon=sh:glance
       - glance.url=https://${GLANCE_FQDN}
       - glance.description=Dashboard to monitor and access your services.
-      - glance.category=other
+      - glance.category=infrastructure

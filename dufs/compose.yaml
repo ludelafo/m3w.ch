@@ -1,0 +1,21 @@
+name: dufs
+
+services:
+  dufs:
+    container_name: ${DUFS_CONTAINER_NAME}
+    image: sigoden/dufs:${DUFS_VERSION}
+    command:
+      - /public
+      - --allow-all
+      - --render-try-index
+      - --compress=high
+    user: 1000:1000
+    restart: unless-stopped
+    env_file:
+      - ./dufs.env
+    environment:
+      - DUFS_SERVE_PATH=/public
+    ports:
+      - 5000:5000
+    volumes:
+      - ./public:/public
