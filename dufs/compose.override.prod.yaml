@@ -1,0 +1,26 @@
+networks:
+  traefik_network:
+    external: true
+
+services:
+  dufs:
+    networks:
+      - traefik_network
+    expose:
+      - 5000
+    ports: !reset []
+    labels:
+      ## Traefik
+      - traefik.enable=true
+      # Router
+      - traefik.http.routers.${DUFS_CONTAINER_NAME}.entryPoints=websecure
+      - traefik.http.routers.${DUFS_CONTAINER_NAME}.rule=Host(`${DUFS_FQDN}`)
+      # Service
+      - traefik.http.services.${DUFS_CONTAINER_NAME}.loadbalancer.server.port=5000
+      ## Glance
+      - glance.name=Dufs
+      # https://github.com/glanceapp/glance/blob/main/docs/configuration.md#icons
+      - glance.icon=mdi:file-multiple
+      - glance.url=https://${DUFS_FQDN}
+      - glance.description=Web/WebDAV server.
+      - glance.category=infrastructure

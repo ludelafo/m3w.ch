@@ -39,9 +39,9 @@ services:
       # Service
       - traefik.http.routers.${TRAEFIK_CONTAINER_NAME}.service=api@internal
       ## Glance
-      - glance.hide=false
       - glance.name=Traefik
+      # https://github.com/glanceapp/glance/blob/main/docs/configuration.md#icons
       - glance.icon=sh:traefik
       - glance.url=https://${TRAEFIK_FQDN}
       - glance.description=Modern reverse proxy and load balancer.
-      - glance.category=network
+      - glance.category=infrastructure

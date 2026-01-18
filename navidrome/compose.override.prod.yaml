@@ -18,8 +18,8 @@ services:
       # Service
       - traefik.http.services.${NAVIDROME_CONTAINER_NAME}.loadbalancer.server.port=4533
       ## Glance
-      - glance.hide=false
       - glance.name=Navidrome
+      # https://github.com/glanceapp/glance/blob/main/docs/configuration.md#icons
       - glance.icon=sh:navidrome
       - glance.url=https://${NAVIDROME_FQDN}
       - glance.description=Music server and streamer that runs on all platforms.

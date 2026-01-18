@@ -19,9 +19,9 @@ services:
       # Service
       - traefik.http.services.${ADGUARD_HOME_CONTAINER_NAME}.loadbalancer.server.port=80
       ## Glance
-      - glance.hide=false
       - glance.name=AdGuard Home
+      # https://github.com/glanceapp/glance/blob/main/docs/configuration.md#icons
       - glance.icon=sh:adguard-home
       - glance.url=https://${ADGUARD_HOME_FQDN}
       - glance.description=Network-wide software for blocking ads & tracking.
-      - glance.category=network
+      - glance.category=infrastructure
