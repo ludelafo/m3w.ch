@@ -1,0 +1,26 @@
+networks:
+  traefik_network:
+    external: true
+
+services:
+  tang:
+    networks:
+      - traefik_network
+    expose:
+      - 8080
+    ports: !reset []
+    labels:
+      ## Traefik
+      - traefik.enable=true
+      # Router
+      - traefik.http.routers.${TANG_CONTAINER_NAME}.entryPoints=websecure
+      - traefik.http.routers.${TANG_CONTAINER_NAME}.rule=Host(`${TANG_FQDN}`)
+      # Service
+      - traefik.http.services.${TANG_CONTAINER_NAME}.loadbalancer.server.port=8080
+      ## Glance
+      - glance.name=Tang
+      # https://github.com/glanceapp/glance/blob/main/docs/configuration.md#icons
+      - glance.icon=mdi:cloud-lock
+      - glance.url=https://${TANG_FQDN}
+      - glance.description=Automated unlocking of LUKS volumes.
+      - glance.category=infrastructure

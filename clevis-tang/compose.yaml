@@ -1,0 +1,13 @@
+name: tang
+
+services:
+  tang:
+    container_name: ${TANG_CONTAINER_NAME}
+    image: padhihomelab/tang:${TANG_VERSION}
+    restart: unless-stopped
+    env_file:
+      - ./tang.env
+    ports:
+      - 8080:8080
+    volumes:
+      - ./data:/db
