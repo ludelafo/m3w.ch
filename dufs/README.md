@@ -12,7 +12,6 @@
   - [Pre-configuration](#pre-configuration)
     - [Set the environment variables](#set-the-environment-variables)
   - [Run the application with Docker](#run-the-application-with-docker)
-  - [Post-configuration](#post-configuration)
   - [Additional resources](#additional-resources)
 
 ## Pre-configuration
@@ -35,10 +34,6 @@ docker compose pull
 # Start the application with Docker
 docker compose up --detach
 ```
-
-## Post-configuration
-
-Set the right port forwarding rules in your router.
 
 ## Additional resources
 
