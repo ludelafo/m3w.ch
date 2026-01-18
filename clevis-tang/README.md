@@ -1,4 +1,4 @@
-# Clevis / Tang
+# Clevis/Tang
 
 > Clevis is a pluggable framework for automated decryption. It can be used to
 > provide automated decryption of data or even automated unlocking of LUKS
@@ -30,7 +30,7 @@
 
 ## Table of contents
 
-- [Clevis / Tang](#clevis--tang)
+- [Clevis/Tang](#clevistang)
   - [Table of contents](#table-of-contents)
   - [Pre-configuration](#pre-configuration)
     - [Set the environment variables](#set-the-environment-variables)
@@ -38,6 +38,8 @@
   - [Binding LUKS volumes with Clevis](#binding-luks-volumes-with-clevis)
     - [Install Clevis](#install-clevis)
     - [Bind LUKS volume](#bind-luks-volume)
+    - [Add SSL certificates to initramfs](#add-ssl-certificates-to-initramfs)
+    - [Update initramfs](#update-initramfs)
   - [Additional resources](#additional-resources)
     - [Main resources](#main-resources)
     - [Articles and tutorials](#articles-and-tutorials)
@@ -73,7 +75,8 @@ docker compose up --detach
 On Debian-based systems, you can install Clevis with the following command:
 
 ```bash
-sudo apt install clevis clevis-luks clevis-initramfs
+# Install required packages
+sudo apt install --yes clevis clevis-luks clevis-initramfs
 ```
 
 ### Bind LUKS volume
@@ -82,8 +85,37 @@ To bind LUKS volumes with Clevis and Tang, you can use the following command on
 the client machine:
 
 ```bash
-
+# Bind LUKS volume with Clevis and Tang
 sudo clevis luks bind -d /dev/sda3 tang '{"url": "https://tang.m3w.ch"}'
+```
+
+### Add SSL certificates to initramfs
+
+In order to allow the initramfs to verify the Tang server's SSL certificate, the
+CA certificates need to be added to the initramfs:
+
+```bash
+# Download the hook made by francsw to add SSL CA certificates to initramfs
+sudo wget -O /usr/share/initramfs-tools/hooks/sslcerts \
+  https://raw.githubusercontent.com/francsw/clevis-HTTPS/refs/heads/main/sslcerts
+```
+
+### Update initramfs
+
+Finally, update the initramfs to include the CA certificates with the following
+command:
+
+```bash
+# Update initramfs
+sudo update-initramfs -u -k 'all'
+```
+
+If needed, the content of the generated initramfs can be inspected with the
+following commands:
+
+```bash
+# Validate the CA certificates are included in initramfs
+lsinitramfs "/boot/initrd.img-$(uname -r)" | grep etc/ssl
 ```
 
 ## Additional resources
