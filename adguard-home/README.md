@@ -89,8 +89,43 @@ On first run, you must access the web interface to configure AdGuard Home at
 Once the configuration is done, you can access the web interface on the port you
 set during the configuration (`192.168.1.254:80` by default).
 
+Add/update the following configuration to the `config/AdGuardHome.yaml` file:
+
+```yaml
+user_rules:
+  - "## m3w.ch"
+  - "||m3w.ch^$dnsrewrite=192.168.1.2,dnstype=~CNAME|~NS|~SOA|~TXT"
+  - "## l.m3w.ch"
+  - "||l.m3w.ch^$dnsrewrite=192.168.1.3,dnstype=~CNAME|~NS|~SOA|~TXT"
+  - "## m.m3w.ch"
+  - "||m.m3w.ch^$dnsrewrite=192.168.1.4,dnstype=~CNAME|~NS|~SOA|~TXT"
+
+# ...
+
+dhcp:
+  enabled: true
+  interface_name: eth0
+  local_domain_name: m3w.ch
+  dhcpv4:
+    gateway_ip: 192.168.1.1
+    subnet_mask: 255.255.255.0
+    range_start: 192.168.1.11
+    range_end: 192.168.1.249
+    lease_duration: 86400
+    icmp_timeout_msec: 1000
+    options:
+      - 6 ips 192.168.1.254,192.168.1.254
+  dhcpv6:
+    range_start: ""
+    lease_duration: 86400
+    ra_slaac_only: false
+    ra_allow_slaac: false
+```
+
 ## Additional resources
 
-- [AdGuard Home](https://adguard.com/adguard-home.html)
-- [_"Docker host can’t access containers running on macvlan"_ by Karlo Abaga / 2021-11-05](https://www.networkshinobi.com/docker-host-cant-access-containers-running-on-macvlan/)
-- [_Issue with Container/Host to Container/macvlan communication_ by necromancyr\_ / 2020-10-04](https://old.reddit.com/r/docker/comments/j544p8/issue_with_containerhost_to_containermacvlan/)
+- <https://adguard.com/adguard-home.html>
+- <https://github.com/adguardTeam/adGuardHome/wiki/DHCP>
+- <https://datatracker.ietf.org/doc/html/rfc2132#section-3.8>
+- <https://www.networkshinobi.com/docker-host-cant-access-containers-running-on-macvlan/>
+- <https://old.reddit.com/r/docker/comments/j544p8/issue_with_containerhost_to_containermacvlan/>
