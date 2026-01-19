@@ -1,0 +1,5 @@
+## Docker volumes
+config/*
+!config/config.yaml
+!config/entrypoint.sh
+data
