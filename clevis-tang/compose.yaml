@@ -1,0 +1,18 @@
+name: Tang
+
+volumes:
+  tang_data:
+    name: tang_data
+
+services:
+  tang:
+    container_name: ${TANG_CONTAINER_NAME}
+    # Update once this PR is merged: https://github.com/latchset/tang/pull/162
+    image: padhihomelab/tang:${TANG_VERSION}
+    restart: unless-stopped
+    env_file:
+      - ./tang.env
+    ports:
+      - 8080:8080
+    volumes:
+      - tang_data:/db
