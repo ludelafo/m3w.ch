@@ -2,11 +2,10 @@
 
 ## Prerequisites
 
-- Debian 12 must be installed on the host.
+- Debian 13 must be installed on the host.
+- Proxmox must be installed on the host.
 
-## `proxmox.m3w.ch` host
-
-### Configure host with Ansible
+## Configure host with Ansible
 
 Install Ansible and Git:
 
@@ -30,7 +29,54 @@ ansible-pull --url https://github.com/ludelafo/m3w.ch --ask-become-pass ansible/
 
 This will install and configure the `proxmox.m3w.ch` host.
 
-## `common.m3w.ch` host
+## Configure guest(s) with Ansible
+
+- `common.m3w.ch`:
+  - test
+
+## Change LUKS passphrase
+
+### Identify the disk(s) that are set up with LUKS
+
+```bash
+
+sudo cat /etc/crypttab
+```
+
+### Visualize the LUKS keyslot(s)
+
+```bash
+
+sudo cryptsetup luksDump /dev/sda3
+```
+
+### Identify the exact LUKS keyslot related to a passphrase
+
+```bash
+
+sudo cryptsetup --verbose open --test-passphrase /dev/sda3
+```
+
+### Change LUKS keyslot passphrase
+
+```bash
+
+sudo cryptsetup luksChangeKey /dev/sda3 -S 0
+```
+
+### Add another keyslot to unlock the drive
+
+```bash
+
+sudo cryptsetup luksAddKey /dev/sda3
+```
+
+### Remove a LUKS keyslot
+
+```bash
+
+sudo cryptsetup luksKillSlot /dev/sda3 0
+```
 
 ### Create the virtual machine within Proxmox
 
@@ -49,10 +95,7 @@ Create the following virtual machine within Proxmox:
   - Machine: `q35`
   - SCSI Controller: `VirtIO SCSI single`
   - BIOS: `OVMF (UEFI)`
-  - Add EFI Disk: `checked`
-  - EFI Storage: `local`
-  - Format: `QEMU image format (qcow2)`
-  - Pre-Enroll keys: `checked`
+  - Add EFI Disk: `unchecked`
 - **Disks**:
   - Bus/Device: `SATA0`
   - Storage: `local`
@@ -176,7 +219,19 @@ This will add the disk to the virtual machine.
 Start the Proxmox virtual machine and install the operating system with the
 following parameters:
 
+- Language: `English`
+- Country: `Other` > `Europe` > `Switzerland`
+- Locale settings: `en_US.UTF-8`
+- Keymap: `American English`
 - Hostname: `mathilde.m3w.ch`
+- Skip root password
+- Full name for the new user: Debian
+- Username for your account: debian
+- Set a password of your choice
+- Partitioning method: Guided - use entire disk and set up encrypted LVM
+- Select the right disk
+- Partitioning scheme: All files in one partition
+- Set an encryption password of your choice
 
 ### Configure the virtual machine with Ansible
 
@@ -377,3 +432,7 @@ logout
 # Delete the root home
 sudo rm -rf /root
 ```
+
+## Additional resources
+
+- <https://www.cyberciti.biz/security/how-to-change-luks-disk-encryption-passphrase-in-linux/>

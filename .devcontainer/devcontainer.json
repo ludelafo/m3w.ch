@@ -2,9 +2,12 @@
 	"name": "m3w.ch Development Container",
 	"dockerComposeFile": "compose.yaml",
 	"service": "devcontainer",
+	"runServices": ["plantuml"],
 	"workspaceFolder": "/workspace",
 	"features": {
-		"ghcr.io/devcontainers/features/docker-in-docker:2": {}
+		"ghcr.io/devcontainers/features/docker-in-docker:2": {
+			"moby": false
+		}
 	},
 	"customizations": {
 		"vscode": {
@@ -13,9 +16,6 @@
 				"esbenp.prettier-vscode",
 				"GitHub.copilot",
 				"jebbs.plantuml",
-				"marp-team.marp-vscode",
-				"ms-vsliveshare.vsliveshare-pack",
-				"qwtel.sqlite-viewer",
 				"redhat.ansible",
 				"redhat.vscode-yaml",
 				"streetsidesoftware.code-spell-checker",
@@ -28,6 +28,13 @@
 	"mounts": [
 		"type=bind,source=${localEnv:HOME}/.ssh,target=${localEnv:HOME}/.ssh,type=bind,consistency=cached"
 	],
+	// Ports to expose on the container's network host
+	"forwardPorts": [9090],
+	"portsAttributes": {
+		"9090": {
+			"label": "PlantUML Server"
+		}
+	},
 	// Execute the post-create.sh script once the container is created
 	"postCreateCommand": ".devcontainer/post-create.sh"
 }
