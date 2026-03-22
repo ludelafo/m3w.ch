@@ -1,5 +1,2 @@
 ## Compose overrides
 compose.override.yaml
-
-## Docker volumes
-data

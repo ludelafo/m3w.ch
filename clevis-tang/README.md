@@ -30,22 +30,21 @@
 
 ## Table of contents
 
-- [Clevis/Tang](#clevistang)
-  - [Table of contents](#table-of-contents)
-  - [Pre-configuration](#pre-configuration)
-    - [Set the environment variables](#set-the-environment-variables)
-  - [Run the application with Docker](#run-the-application-with-docker)
-  - [Binding LUKS volumes with Clevis](#binding-luks-volumes-with-clevis)
-    - [Install Clevis](#install-clevis)
-    - [Bind LUKS volume](#bind-luks-volume)
-    - [Add SSL certificates to initramfs](#add-ssl-certificates-to-initramfs)
-    - [Update initramfs](#update-initramfs)
-  - [Additional resources](#additional-resources)
-    - [Main resources](#main-resources)
-    - [Articles and tutorials](#articles-and-tutorials)
-    - [Posts](#posts)
-    - [Alternatives](#alternatives)
-    - [Miscellaneous](#miscellaneous)
+- [Table of contents](#table-of-contents)
+- [Pre-configuration](#pre-configuration)
+  - [Set the environment variables](#set-the-environment-variables)
+- [Run the application with Docker](#run-the-application-with-docker)
+- [Binding LUKS volumes with Clevis](#binding-luks-volumes-with-clevis)
+  - [Install Clevis](#install-clevis)
+  - [Bind LUKS volume](#bind-luks-volume)
+  - [Add SSL certificates to initramfs](#add-ssl-certificates-to-initramfs)
+  - [Update initramfs](#update-initramfs)
+- [Additional resources](#additional-resources)
+  - [Main resources](#main-resources)
+  - [Articles and tutorials](#articles-and-tutorials)
+  - [Posts](#posts)
+  - [Alternatives](#alternatives)
+  - [Miscellaneous](#miscellaneous)
 
 ## Pre-configuration
 
@@ -66,6 +65,13 @@ docker compose pull
 
 # Start the application with Docker
 docker compose up --detach
+```
+
+You can then test the Tang server using the `GET /adv` endpoint:
+
+```bash
+# Test the Tang server
+curl -s http://localhost:8080/adv | jq
 ```
 
 ## Binding LUKS volumes with Clevis

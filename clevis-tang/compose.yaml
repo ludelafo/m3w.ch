@@ -1,4 +1,8 @@
-name: tang
+name: Tang
+
+volumes:
+  tang_data:
+    name: tang_data
 
 services:
   tang:
@@ -11,4 +15,4 @@ services:
     ports:
       - 8080:8080
     volumes:
-      - ./data:/db
+      - tang_data:/db
