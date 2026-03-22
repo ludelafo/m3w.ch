@@ -1,5 +1,0 @@
-## Compose override files
-compose.override.yaml
-
-## Docker secrets
-technitium_password.txt

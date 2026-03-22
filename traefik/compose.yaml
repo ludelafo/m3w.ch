@@ -3,6 +3,8 @@ name: Traefik
 networks:
   traefik_network:
     name: traefik_network
+    driver_opts:
+      com.docker.network.bridge.name: traefik_network
 
 secrets:
   infomaniak_access_token:
