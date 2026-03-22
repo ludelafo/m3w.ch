@@ -249,8 +249,6 @@ sudo umount /dev/sdb1
 ## Start and configure Alpine Linux
 
 ```sh
-# Login to the Raspberry Pi 3 with the default credentials (root / no password)
-
 # Setup keyboard
 setup-keymap us us
 
@@ -317,7 +315,7 @@ exit
 # Login as alpine again
 
 # Install utils
-doas apk add vim bottom ncdu
+doas apk add git ncdu vim
 
 # Update fstab to mount the var and swap partitions
 doas vim /etc/fstab
@@ -342,6 +340,9 @@ doas reboot
 
 # Re-create the `/var/empty` directory after reboot
 doas mkdir -p /var/empty
+
+# Reboot the system again to apply the changes
+doas reboot
 ```
 
 ```text
