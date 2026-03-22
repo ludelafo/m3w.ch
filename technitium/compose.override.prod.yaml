@@ -5,7 +5,8 @@ networks:
 services:
   technitium:
     networks:
-      - traefik_network
+      traefik_network:
+        gw_priority: 0
     expose:
       - 5380
     labels:

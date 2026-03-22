@@ -1,5 +1,17 @@
 name: Technitium
 
+networks:
+  technitium_network:
+    name: technitium_network
+    driver: macvlan
+    driver_opts:
+      parent: ${MACVLAN_NETWORK_INTERFACE}
+    ipam:
+      driver: default
+      config:
+        - subnet: ${MACVLAN_NETWORK_SUBNET}
+          gateway: ${MACVLAN_NETWORK_GATEWAY}
+
 secrets:
   technitium_password:
     file: ./technitium_password.txt
@@ -15,7 +27,12 @@ services:
     restart: unless-stopped
     env_file:
       - technitium.env
-    network_mode: host
+    # As this container uses a MACVLAN network, ports do not need to be published.
+    networks:
+      technitium_network:
+        interface_name: wlan0
+        gw_priority: 1
+        # ipv4_address: ${MACVLAN_NETWORK_IP}
     secrets:
       - technitium_password
     volumes:
