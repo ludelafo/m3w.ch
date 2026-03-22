@@ -23,6 +23,7 @@ volumes:
 services:
   technitium:
     container_name: ${TECHNITIUM_CONTAINER_NAME}
+    hostname: ${TECHNITIUM_HOSTNAME}
     image: technitium/dns-server:${TECHNITIUM_VERSION}
     restart: unless-stopped
     env_file:
