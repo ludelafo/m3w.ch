@@ -2,11 +2,31 @@
 	"[markdown]": {
 		"editor.defaultFormatter": "esbenp.prettier-vscode"
 	},
-	"cSpell.language": "fr,en",
+	"ansible.python.interpreterPath": "/bin/python3",
+	"cSpell.language": "en,fr",
 	"editor.defaultFormatter": "esbenp.prettier-vscode",
 	"editor.formatOnPaste": true,
 	"editor.formatOnSave": true,
 	"editor.renderWhitespace": "all",
 	"editor.rulers": [80],
-	"ansible.python.interpreterPath": "/bin/python3"
+	"files.encoding": "utf8",
+	"files.eol": "\n",
+	"files.insertFinalNewline": true,
+	"markdown.extension.toc.levels": "2..3",
+	"markdownlint.config": {
+		"no-duplicate-heading": {
+			"siblings_only": true
+		},
+		"no-emphasis-as-heading": false,
+		"no-hard-tabs": false,
+		"no-inline-html": false,
+		"no-trailing-punctuation": false
+	},
+	"plantuml.render": "PlantUMLServer",
+	"plantuml.server": "http://plantuml:8080",
+	"prettier.endOfLine": "lf",
+	"prettier.printWidth": 80,
+	"prettier.proseWrap": "always",
+	"prettier.tabWidth": 2,
+	"prettier.useTabs": true
 }

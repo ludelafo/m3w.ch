@@ -8,6 +8,10 @@ secrets:
   infomaniak_access_token:
     file: ./infomaniak_access_token.txt
 
+volumes:
+  traefik_data:
+    name: traefik_data
+
 services:
   traefik:
     container_name: ${TRAEFIK_CONTAINER_NAME}
@@ -27,9 +31,9 @@ services:
       - infomaniak_access_token
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
-      - ./config:/etc/letsencrypt
       - ./traefik_static.yaml:/etc/traefik/traefik_static.yaml:ro
       - ./traefik_dynamic.yaml:/etc/traefik/traefik_dynamic.yaml:ro
+      - traefik_data:/var/lib/traefik
     labels:
       ## Traefik
       - traefik.enable=true

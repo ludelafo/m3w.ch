@@ -37,14 +37,14 @@ entryPoints:
             sans:
               - "*.m3w.ch" # CHANGE_ME
 
-  mc:
+  minecraft:
     address: ":25565"
 
 certificatesResolvers:
   letsencrypt:
     acme:
       email: admin@m3w.ch # CHANGE_ME
-      storage: /etc/letsencrypt/acme.json
+      storage: /var/lib/traefik/acme.json
       dnsChallenge:
         ## The DNS challenge provider configuration.
         # Please visit the docs:
