@@ -5,6 +5,17 @@ http:
         customResponseHeaders:
           Strict-Transport-Security: max-age=63072000; includeSubDomains
 
+  # routers:
+  #   adguard-home:
+  #     rule: "Host(`example.com`)"
+  #     service: adguard-home
+
+  # services:
+  #   adguard-home:
+  #     loadBalancer:
+  #       servers:
+  #         - url: "http://192.168.1.254:8053"
+
 tls:
   options:
     default:

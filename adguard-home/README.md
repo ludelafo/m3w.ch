@@ -11,7 +11,7 @@
 - [Table of contents](#table-of-contents)
 - [Pre-configuration](#pre-configuration)
   - [Set the environment variables](#set-the-environment-variables)
-  - [Add MACVLAN bridge](#add-macvlan-bridge)
+  - [Configure the network settings](#configure-the-network-settings)
 - [Run the application with Docker](#run-the-application-with-docker)
 - [Post-configuration](#post-configuration)
 - [Additional resources](#additional-resources)
@@ -22,7 +22,14 @@
 
 Edit the `.env` file to your needs.
 
-### Add MACVLAN bridge
+### Configure the network settings
+
+Two solutions:
+
+- [Use MACVLAN bridge](#use-macvlan-bridge) (Recommended when possible)
+- [Use `host` network mode](#use-host-network-mode)
+
+#### Use MACVLAN bridge
 
 > [!NOTE]
 >
@@ -31,9 +38,9 @@ Edit the `.env` file to your needs.
 >
 > From my experience, it is not possible to use a wireless network interface
 > with MACVLAN. If you want to use a wireless network interface, you can use the
-> `host` network mode instead of `macvlan`. However, this will make the
-> container share the same network namespace as the host, which can cause some
-> issues with port conflicts and security.
+> [`host` network mode](#use-host-network-mode) instead of `macvlan`. However,
+> this will make the container share the same network namespace as the host,
+> which can cause some issues with port conflicts and security.
 
 By default, Docker containers using MACVLAN networks and the host cannot
 communicate together. We need to add a bridge between the host and the container
@@ -72,6 +79,16 @@ Restart all the network interfaces with the following command:
 ```sh
 # Restart all the network interfaces
 sudo ifreload --all
+```
+
+Then you can start the AdGuard Home container.
+
+#### Use `host` network mode
+
+Copy the `compose.override.host.yaml` file to the current directory:
+
+```bash
+cp compose.override.host.yaml compose.override.yaml
 ```
 
 Then you can start the AdGuard Home container.
