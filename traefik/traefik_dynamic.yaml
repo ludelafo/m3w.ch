@@ -7,7 +7,7 @@ http:
 
   # routers:
   #   adguard-home:
-  #     rule: "Host(`example.com`)"
+  #     rule: "Host(`adguard.m3w.ch`)"
   #     service: adguard-home
 
   # services:

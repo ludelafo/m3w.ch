@@ -11,29 +11,27 @@ nwdiag {
       raspberry_pi [address = "192.168.1.254"];
   }
 
-  raspberry_pi [description = "<$cluster_server>\n Raspberry Pi 3\n *.raspberry.m3w.ch"]
+  raspberry_pi [description = "<$cluster_server>\n Raspberry Pi 3\n raspberry.m3w.ch"]
 
   network host {
     raspberry_pi
 
-    adguard_home
     traefik
   }
 
-  adguard_home [description = "<$virtual_application_server>\n AdGuard Home\n (DNS and DHCP server)\n https://adguard.raspberry.m3w.ch"]
-  traefik [description = "<$virtual_application_server>\n Traefik\n (Reverse proxy)\n https://traefik.raspberry.m3w.ch"];
+  adguard_home [description = "<$virtual_application_server>\n AdGuard Home\n (DNS and DHCP server)\n https://adguard.m3w.ch"]
+  traefik [description = "<$virtual_application_server>\n Traefik\n (Reverse proxy)"];
 
   network traefik_network {
     address = "<Docker internal network>"
-  
-    glance
+
+    adguard_home  
     tang
     traefik
     wg_easy
   }
 
-  glance [description = "<$virtual_application_server>\n Glance\n (Dashboard)\n https://raspberry.m3w.ch"]
-  tang [description = "<$virtual_application_server>\n Tang\n (LUKS unlocker)\n https://tang.raspberry.m3w.ch"]
-  wg_easy [description = "<$virtual_application_server>\n Wireguard Easy\n (VPN)\n https://wg.raspberry.m3w.ch"]
+  tang [description = "<$virtual_application_server>\n Tang\n (LUKS unlocker)\n https://tang.m3w.ch"]
+  wg_easy [description = "<$virtual_application_server>\n Wireguard Easy\n (VPN)\n https://gw.m3w.ch"]
 }
 @endnwdiag
