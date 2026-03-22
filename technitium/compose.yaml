@@ -1,0 +1,24 @@
+name: Technitium
+
+secrets:
+  technitium_password:
+    file: ./technitium_password.txt
+
+volumes:
+  technitium_data:
+    name: technitium_data
+
+services:
+  technitium:
+    container_name: ${TECHNITIUM_CONTAINER_NAME}
+    image: technitium/dns-server:${TECHNITIUM_VERSION}
+    restart: unless-stopped
+    env_file:
+      - technitium.env
+    network_mode: host
+    secrets:
+      - technitium_password
+    volumes:
+      - technitium_data:/etc/dns
+    sysctls:
+      - net.ipv4.ip_local_port_range=1024 65535
