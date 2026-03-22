@@ -23,7 +23,7 @@ volumes:
 services:
   technitium:
     container_name: ${TECHNITIUM_CONTAINER_NAME}
-    hostname: ${TECHNITIUM_FQDN}
+    hostname: ${TECHNITIUM_CONTAINER_NAME}
     image: technitium/dns-server:${TECHNITIUM_VERSION}
     restart: unless-stopped
     env_file:
@@ -33,7 +33,7 @@ services:
       technitium_network:
         interface_name: wlan0
         gw_priority: 1
-        # ipv4_address: ${MACVLAN_NETWORK_IP}
+        ipv4_address: ${MACVLAN_NETWORK_IP}
     secrets:
       - technitium_password
     volumes:
