@@ -8,14 +8,13 @@
 
 ## Table of contents
 
-- [AdGuard Home](#adguard-home)
-  - [Table of contents](#table-of-contents)
-  - [Pre-configuration](#pre-configuration)
-    - [Set the environment variables](#set-the-environment-variables)
-    - [Add MACVLAN bridge](#add-macvlan-bridge)
-  - [Run the application with Docker](#run-the-application-with-docker)
-  - [Post-configuration](#post-configuration)
-  - [Additional resources](#additional-resources)
+- [Table of contents](#table-of-contents)
+- [Pre-configuration](#pre-configuration)
+  - [Set the environment variables](#set-the-environment-variables)
+  - [Add MACVLAN bridge](#add-macvlan-bridge)
+- [Run the application with Docker](#run-the-application-with-docker)
+- [Post-configuration](#post-configuration)
+- [Additional resources](#additional-resources)
 
 ## Pre-configuration
 
@@ -24,6 +23,17 @@
 Edit the `.env` file to your needs.
 
 ### Add MACVLAN bridge
+
+> [!NOTE]
+>
+> This configuration can only work with wired network interfaces. If you want to
+> use a wireless network interface.
+>
+> From my experience, it is not possible to use a wireless network interface
+> with MACVLAN. If you want to use a wireless network interface, you can use the
+> `host` network mode instead of `macvlan`. However, this will make the
+> container share the same network namespace as the host, which can cause some
+> issues with port conflicts and security.
 
 By default, Docker containers using MACVLAN networks and the host cannot
 communicate together. We need to add a bridge between the host and the container
