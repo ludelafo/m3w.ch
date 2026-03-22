@@ -3,8 +3,6 @@ name: WireGuard Easy
 networks:
   wg_easy_network:
     name: wg_easy_network
-    driver_opts:
-      com.docker.network.bridge.name: wg_easy_network
 
 services:
   wg-easy:

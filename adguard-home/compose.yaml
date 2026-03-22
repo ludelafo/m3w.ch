@@ -5,7 +5,6 @@ networks:
     name: adguard_home_network
     driver: macvlan
     driver_opts:
-      com.docker.network.bridge.name: adguard_home_network
       parent: ${MACVLAN_NETWORK_INTERFACE}
     ipam:
       driver: default
