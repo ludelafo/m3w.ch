@@ -6,7 +6,9 @@ networks:
 
 secrets:
   infomaniak_access_token:
-    file: ./infomaniak_access_token.txt
+    file: ./secrets/infomaniak_access_token.txt
+  traefik_acme_file:
+    file: ./secrets/acme.json
 
 volumes:
   traefik_data:
@@ -15,7 +17,8 @@ volumes:
 services:
   traefik:
     container_name: ${TRAEFIK_CONTAINER_NAME}
-    image: traefik:${TRAEFIK_VERSION}
+    hostname: ${TRAEFIK_CONTAINER_NAME}
+    image: traefik:${TRAEFIK_IMAGE_VERSION}
     command:
       - --configFile=/etc/traefik/traefik_static.yaml
     restart: unless-stopped
@@ -33,7 +36,6 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - ./traefik_static.yaml:/etc/traefik/traefik_static.yaml:ro
       - ./traefik_dynamic.yaml:/etc/traefik/traefik_dynamic.yaml:ro
-      - traefik_data:/var/lib/traefik
     labels:
       ## Traefik
       - traefik.enable=true

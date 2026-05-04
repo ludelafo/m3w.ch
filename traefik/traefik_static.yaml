@@ -5,7 +5,7 @@ log:
   level: INFO
 
 api:
-  dashboard: true
+  dashboard: false
 
 providers:
   docker:
@@ -43,8 +43,8 @@ entryPoints:
 certificatesResolvers:
   letsencrypt:
     acme:
-      email: admin@m3w.ch # CHANGE_ME
-      storage: /var/lib/traefik/acme.json
+      email: notifications@m3w.ch # CHANGE_ME
+      storage: /run/secrets/acme.json
       dnsChallenge:
         ## The DNS challenge provider configuration.
         # Please visit the docs:
