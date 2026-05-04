@@ -32,6 +32,7 @@ services:
       - 25565:25565
     secrets:
       - infomaniak_access_token
+      - traefik_acme_file
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - ./traefik_static.yaml:/etc/traefik/traefik_static.yaml:ro
