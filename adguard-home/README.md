@@ -83,6 +83,21 @@ sudo ifreload --all
 
 Then you can start the AdGuard Home container.
 
+```bash
+sudo nmcli connection add \
+  type macvlan \
+  con-name host_macvlan  \
+  ifname host_macvlan \
+  dev nic0 \
+  mode bridge \
+  ipv4.method manual \
+  ipv4.addresses 192.168.1.254/32 \
+  ipv4.gateway 192.168.1.1 \
+  ipv6.method disabled
+
+sudo nmcli connection delete host_macvlan
+```
+
 #### Use `host` network mode
 
 Copy the `compose.override.host.yaml` file to the current directory:
