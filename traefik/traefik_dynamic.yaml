@@ -8,6 +8,8 @@ http:
   routers:
     adguard-home:
       rule: "Host(`adguard.m3w.ch`)"
+      entryPoints:
+        - "websecure"
       service: adguard-home
 
   services:
