@@ -69,7 +69,7 @@ dhcp:
     lease_duration: 86400
     icmp_timeout_msec: 1000
     options:
-      - 6 ips 192.168.1.254,192.168.1.254
+      - 6 ips 192.168.1.2,192.168.1.2
   dhcpv6:
     range_start: ""
     lease_duration: 86400

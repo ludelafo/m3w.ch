@@ -38,7 +38,7 @@ Make sure it has the right permissions (0700).
 
 #### Create the Infomaniak access token secret
 
-Create a new file called `secrets/infomaniak_access_token.txt` with the
+Create a new file called `.docker/infomaniak_access_token.txt` with the
 Infomaniak access token. This file is used to authenticate with the Infomaniak
 API to manage your DNS records.
 
@@ -47,10 +47,11 @@ Make sure it has the right permissions (`0600`) and the right owner
 
 #### Create the Traefik ACME secret
 
-Create a new file called `secrets/acme.json` (empty). This file is used by
+Create a new file called `.docker/acme.json` (empty). This file is used by
 Traefik to store the ACME certificates obtained from Let's Encrypt.
 
-Make sure it has the right permissions (`0600`) and the right own (`root:root`).
+Make sure it has the right permissions (`0600`) and the right owner
+(`root:root`).
 
 ## Run the application with Docker
 

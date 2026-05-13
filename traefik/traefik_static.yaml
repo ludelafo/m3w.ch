@@ -48,7 +48,7 @@ certificatesResolvers:
       dnsChallenge:
         ## The DNS challenge provider configuration.
         # Please visit the docs:
-        # https://doc.traefik.io/traefik/https/acme/#providers
+        # https://doc.traefik.io/traefik/reference/install-configuration/tls/certificate-resolvers/acme/#providers
         provider: infomaniak # CHANGE_ME
         propagation:
           delayBeforeChecks: 30s

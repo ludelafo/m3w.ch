@@ -2,4 +2,4 @@
 compose.override.yaml
 
 ## Docker volumes
-.volumes/
+.docker/

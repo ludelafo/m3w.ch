@@ -1,8 +1,5 @@
 ## Compose override files
 compose.override.yaml
 
-## Docker volumes
-.volumes/
-
-## Docker secrets
-.secrets/
+## Docker secrets and volumes
+.docker/

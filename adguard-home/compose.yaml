@@ -8,5 +8,5 @@ services:
     restart: unless-stopped
     network_mode: host
     volumes:
-      - .volumes/config:/opt/adguardhome/conf
-      - .volumes/data:/opt/adguardhome/work/data
+      - .docker/config:/opt/adguardhome/conf
+      - .docker/data:/opt/adguardhome/work/data
