@@ -3,6 +3,7 @@ name: Syncthing
 services:
   syncthing:
     container_name: ${SYNCTHING_CONTAINER_NAME}
+    hostname: ${SYNCTHING_CONTAINER_NAME}
     image: syncthing/syncthing:${SYNCTHING_VERSION}
     restart: unless-stopped
     env_file:
@@ -13,8 +14,8 @@ services:
       - 22000:22000/udp
       - 21027:21027/udp
     volumes:
-      - ./config:/var/syncthing
-      - ./data:/data
+      - .docker/config:/var/syncthing
+      - .docker/data:/data
     healthcheck:
       test: curl -fkLsS -m 2 127.0.0.1:8384/rest/noauth/health | grep -o
         --color=never OK || exit 1

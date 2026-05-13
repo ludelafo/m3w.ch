@@ -5,7 +5,7 @@ log:
   level: INFO
 
 api:
-  dashboard: false
+  dashboard: true
 
 providers:
   docker:
@@ -36,6 +36,8 @@ entryPoints:
           - main: "m3w.ch" # CHANGE_ME
             sans:
               - "*.m3w.ch" # CHANGE_ME
+              - "*.ludelafo.m3w.ch" # CHANGE_ME
+              - "*.heaspery.m3w.ch" # CHANGE_ME
 
   minecraft:
     address: ":25565"

@@ -10,13 +10,12 @@
 
 ## Table of contents
 
-- [Syncthing](#syncthing)
-  - [Table of contents](#table-of-contents)
-  - [Pre-configuration](#pre-configuration)
-    - [Set the environment variables](#set-the-environment-variables)
-  - [Create the required directories](#create-the-required-directories)
-  - [Run the application with Docker](#run-the-application-with-docker)
-  - [Additional resources](#additional-resources)
+- [Table of contents](#table-of-contents)
+- [Pre-configuration](#pre-configuration)
+  - [Set the environment variables](#set-the-environment-variables)
+- [Create the required directories](#create-the-required-directories)
+- [Run the application with Docker](#run-the-application-with-docker)
+- [Additional resources](#additional-resources)
 
 ## Pre-configuration
 
@@ -29,7 +28,11 @@ Edit the `*.env` files to your needs.
 Create the following directories with the right permissions:
 
 ```bash
-mkdir config data
+mkdir .docker/{config,data}
+
+chown -R user:group .docker/data
+
+chmod -R 0700 .docker/data
 ```
 
 ## Run the application with Docker
