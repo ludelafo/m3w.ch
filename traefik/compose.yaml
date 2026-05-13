@@ -5,11 +5,11 @@ networks:
     name: traefik_network
 
 secrets:
-  infomaniak_access_token.txt:
-    file: .secrets/infomaniak_access_token.txt
-
   acme.json:
     file: .secrets/acme.json
+
+  infomaniak_access_token.txt:
+    file: .secrets/infomaniak_access_token.txt
 
 services:
   traefik:
@@ -28,8 +28,8 @@ services:
       - 443:443
       - 25565:25565
     secrets:
-      - infomaniak_access_token
-      - traefik_acme_file
+      - acme.json
+      - infomaniak_access_token.txt
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - ./traefik_static.yaml:/etc/traefik/traefik_static.yaml:ro
