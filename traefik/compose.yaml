@@ -5,10 +5,10 @@ networks:
     name: traefik_network
 
 secrets:
-  infomaniak_access_token:
+  infomaniak_access_token.txt:
     file: .secrets/infomaniak_access_token.txt
 
-  traefik_acme_file:
+  acme.json:
     file: .secrets/acme.json
 
 services:

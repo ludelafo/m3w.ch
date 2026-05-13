@@ -11,7 +11,6 @@
 - [Table of contents](#table-of-contents)
 - [Pre-configuration](#pre-configuration)
   - [Set the environment variables](#set-the-environment-variables)
-  - [Configure the network settings](#configure-the-network-settings)
 - [Run the application with Docker](#run-the-application-with-docker)
 - [Post-configuration](#post-configuration)
 - [Additional resources](#additional-resources)
@@ -21,92 +20,6 @@
 ### Set the environment variables
 
 Edit the `.env` file to your needs.
-
-### Configure the network settings
-
-Two solutions:
-
-- [Use MACVLAN bridge](#use-macvlan-bridge) (Recommended when possible)
-- [Use `host` network mode](#use-host-network-mode)
-
-#### Use MACVLAN bridge
-
-> [!NOTE]
->
-> This configuration can only work with wired network interfaces. If you want to
-> use a wireless network interface.
->
-> From my experience, it is not possible to use a wireless network interface
-> with MACVLAN. If you want to use a wireless network interface, you can use the
-> [`host` network mode](#use-host-network-mode) instead of `macvlan`. However,
-> this will make the container share the same network namespace as the host,
-> which can cause some issues with port conflicts and security.
-
-By default, Docker containers using MACVLAN networks and the host cannot
-communicate together. We need to add a bridge between the host and the container
-to make it work.
-
-Install ifupdown2 on the host with the following command:
-
-```sh
-# Install ifupdown2 (Debian)
-sudo apt install --yes ifupdown2
-
-# Install ifupdown2 (Alpine Linux)
-doas apk add iproute2
-```
-
-Update `/etc/network/interfaces` add following lines at the end of the file as
-shown below:
-
-```text
-auto lo
-iface lo inet loopback
-
-auto eth0
-iface eth0 inet static
-        address 192.168.1.2
-        netmask 255.255.255.0
-        gateway 192.168.1.1
-        post-up ip link add host_macvlan link eth0 type macvlan mode bridge
-        post-up ip link set host_macvlan up
-        post-up ip route add 192.168.1.254/32 dev host_macvlan
-        post-down ip link del host_macvlan
-```
-
-Restart all the network interfaces with the following command:
-
-```sh
-# Restart all the network interfaces
-sudo ifreload --all
-```
-
-Then you can start the AdGuard Home container.
-
-```bash
-sudo nmcli connection add \
-  type macvlan \
-  con-name host_macvlan  \
-  ifname host_macvlan \
-  dev nic0 \
-  mode bridge \
-  ipv4.method manual \
-  ipv4.addresses 192.168.1.254/32 \
-  ipv4.gateway 192.168.1.1 \
-  ipv6.method disabled
-
-sudo nmcli connection delete host_macvlan
-```
-
-#### Use `host` network mode
-
-Copy the `compose.override.host.yaml` file to the current directory:
-
-```bash
-cp compose.override.host.yaml compose.override.yaml
-```
-
-Then you can start the AdGuard Home container.
 
 ## Run the application with Docker
 
@@ -126,10 +39,10 @@ docker compose up --detach
 ## Post-configuration
 
 On first run, you must access the web interface to configure AdGuard Home at
-`192.168.1.254:3000`.
+`<ip of the host>:3000`.
 
 Once the configuration is done, you can access the web interface on the port you
-set during the configuration (`192.168.1.254:80` by default).
+set during the configuration (`<ip of the host>:8053` by default).
 
 Add/update the following configuration to the `config/AdGuardHome.yaml` file:
 
@@ -146,7 +59,7 @@ user_rules:
 
 dhcp:
   enabled: true
-  interface_name: eth0
+  interface_name: nic0
   local_domain_name: m3w.ch
   dhcpv4:
     gateway_ip: 192.168.1.1
