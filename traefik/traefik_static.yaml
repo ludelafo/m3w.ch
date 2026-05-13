@@ -44,7 +44,7 @@ certificatesResolvers:
   letsencrypt:
     acme:
       email: notifications@m3w.ch # CHANGE_ME
-      storage: /run/secrets/acme.json
+      storage: /var/lib/traefik/acme.json
       dnsChallenge:
         ## The DNS challenge provider configuration.
         # Please visit the docs:

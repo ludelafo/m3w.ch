@@ -5,9 +5,6 @@ networks:
     name: traefik_network
 
 secrets:
-  acme.json:
-    file: .secrets/acme.json
-
   infomaniak_access_token.txt:
     file: .secrets/infomaniak_access_token.txt
 
@@ -20,7 +17,7 @@ services:
       - --configFile=/etc/traefik/traefik_static.yaml
     restart: unless-stopped
     environment:
-      - INFOMANIAK_ACCESS_TOKEN_FILE=/run/secrets/infomaniak_access_token
+      - INFOMANIAK_ACCESS_TOKEN_FILE=/run/secrets/infomaniak_access_token.txt
     networks:
       - traefik_network
     ports:
@@ -28,10 +25,10 @@ services:
       - 443:443
       - 25565:25565
     secrets:
-      - acme.json
       - infomaniak_access_token.txt
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
+      - .volumes/acme.json:/var/lib/traefik/acme.json
       - ./traefik_static.yaml:/etc/traefik/traefik_static.yaml:ro
       - ./traefik_dynamic.yaml:/etc/traefik/traefik_dynamic.yaml:ro
     labels:
