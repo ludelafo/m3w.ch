@@ -13,7 +13,7 @@
 - [Table of contents](#table-of-contents)
 - [Pre-configuration](#pre-configuration)
   - [Set the environment variables](#set-the-environment-variables)
-- [Create the required directories](#create-the-required-directories)
+  - [Create the required directories](#create-the-required-directories)
 - [Run the application with Docker](#run-the-application-with-docker)
 - [Additional resources](#additional-resources)
 
@@ -23,16 +23,15 @@
 
 Edit the `*.env` files to your needs.
 
-## Create the required directories
+### Create the required directories
 
 Create the following directories with the right permissions:
 
 ```bash
-mkdir .docker/{config,data}
+mkdir config data
 
-chown -R user:group .docker/data
-
-chmod -R 0700 .docker/data
+chown -R user:group config
+chown -R user:group data
 ```
 
 ## Run the application with Docker
