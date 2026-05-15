@@ -1,6 +1,0 @@
-networks: !reset []
-
-services:
-  adguard-home:
-    networks: !reset []
-    network_mode: host

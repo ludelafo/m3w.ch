@@ -7,30 +7,45 @@
 
 ## Table of contents
 
-- [Traefik](#traefik)
-  - [Table of contents](#table-of-contents)
-  - [Pre-configuration](#pre-configuration)
-    - [Set the environment variables](#set-the-environment-variables)
-    - [Create the Infomaniak access token file](#create-the-infomaniak-access-token-file)
-  - [Run the application with Docker](#run-the-application-with-docker)
-  - [Additional resources](#additional-resources)
+- [Table of contents](#table-of-contents)
+- [Pre-configuration](#pre-configuration)
+  - [Create an Infomaniak API token](#create-an-infomaniak-api-token)
+  - [Set the environment variables](#set-the-environment-variables)
+  - [Create the Infomaniak access token secret](#create-the-infomaniak-access-token-secret)
+  - [Create the Traefik ACME file](#create-the-traefik-acme-file)
+- [Run the application with Docker](#run-the-application-with-docker)
+- [Additional resources](#additional-resources)
 
 ## Pre-configuration
+
+### Create an Infomaniak API token
+
+Generate an API token on Infomaniak as per:
+
+- <https://doc.traefik.io/traefik/https/acme/#providers>.
+- <https://go-acme.github.io/lego/dns/infomaniak/>.
 
 ### Set the environment variables
 
 Edit the `.env`, the [`traefik_static.yaml`](./traefik_static.yaml) and the
 [`traefik_dynamic.yaml`](./traefik_dynamic.yaml) files to your needs.
 
-### Create the Infomaniak access token file
+### Create the Infomaniak access token secret
 
-Create a new file called `infomaniak_access_token.txt` in this directory and add
-your Infomaniak access token in it. This file is used to authenticate with the
-Infomaniak API to manage your DNS records.
+Create a new file called `config/infomaniak_access_token.txt` with the
+Infomaniak access token. This file is used to authenticate with the Infomaniak
+API to manage your DNS records.
 
-Related to the previous paragraph, you might need to edit the `compose.yaml`
-file if you want to change the Traefik provider environment variables to use
-your own DNS provider.
+Make sure it has the right permissions (`0600`) and the right owner
+(`root:root`).
+
+### Create the Traefik ACME file
+
+Create a new file called `config/acme.json` (empty). This file is used by
+Traefik to store the ACME certificates obtained from Let's Encrypt.
+
+Make sure it has the right permissions (`0600`) and the right owner
+(`root:root`).
 
 ## Run the application with Docker
 

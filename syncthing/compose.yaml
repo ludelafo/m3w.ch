@@ -3,7 +3,8 @@ name: Syncthing
 services:
   syncthing:
     container_name: ${SYNCTHING_CONTAINER_NAME}
-    image: syncthing/syncthing:${SYNCTHING_VERSION}
+    hostname: ${SYNCTHING_CONTAINER_NAME}
+    image: syncthing/syncthing:${SYNCTHING_IMAGE_VERSION}
     restart: unless-stopped
     env_file:
       - syncthing.env
