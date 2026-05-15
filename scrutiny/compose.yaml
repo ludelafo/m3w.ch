@@ -1,0 +1,33 @@
+services:
+  scrutiny:
+    container_name: ${SCRUTINY_CONTAINER_NAME}
+    hostname: ${SCRUTINY_CONTAINER_NAME}
+    image: ghcr.io/starosdev/scrutiny:${SCRUTINY_IMAGE_VERSION}
+    restart: unless-stopped
+    cap_add:
+      - SYS_RAWIO
+      # Required for NVMe devices
+      - SYS_ADMIN
+    env_file:
+      - scrutiny.env
+    ports:
+      ## Web application
+      - 8080:8080
+    volumes:
+      - /run/udev:/run/udev:ro
+      # Mounted points for performance benchmarks (see `)
+      - ./devices/nvme0:/mnt/nvme0
+      - ./devices/sda:/mnt/sda1
+      - ./devices/sdb:/mnt/sdb1
+      # Main config and data volumes
+      - ./config:/opt/scrutiny/config
+      - ./data:/opt/scrutiny/influxdb
+      - ./scrutiny.yaml:/opt/scrutiny/config/scrutiny.yaml
+      - ./collector.yaml:/opt/scrutiny/config/collector.yaml
+      - ./collector-performance.yaml:/opt/scrutiny/config/collector-performance.yaml
+    devices:
+      ## NVMe: pass both controller (for SMART) and namespace (for performance benchmarks)
+      - /dev/nvme0
+      - /dev/nvme0n1
+      - /dev/sda
+      - /dev/sdb

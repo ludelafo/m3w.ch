@@ -1,0 +1,68 @@
+# Commented Scrutiny Performance Collector Configuration File
+#
+# The default location for this file is /opt/scrutiny/config/collector-performance.yaml
+# If this file is not found, the collector will fall back to /opt/scrutiny/config/collector.yaml
+#
+# In some cases to improve clarity default values are specified,
+# uncommented. Other example values are commented out.
+#
+# When this file is parsed by Scrutiny, all configuration file keys are
+# lowercased automatically. As such, Configuration keys are case-insensitive,
+# and should be lowercase in this file to be consistent with usage.
+#
+######################################################################
+# Environment Variable Overrides
+#
+# Any configuration key can be overridden via environment variables.
+# The performance collector checks COLLECTOR_PERF_ prefixed vars first,
+# then falls back to COLLECTOR_ prefixed vars.
+#
+# Examples:
+#   api.endpoint                  -> COLLECTOR_PERF_API_ENDPOINT or COLLECTOR_API_ENDPOINT
+#   api.token                     -> COLLECTOR_PERF_API_TOKEN or COLLECTOR_API_TOKEN
+#   host.id                       -> COLLECTOR_PERF_HOST_ID or COLLECTOR_HOST_ID
+#   performance.profile           -> COLLECTOR_PERF_PROFILE or COLLECTOR_PERFORMANCE_PROFILE
+#   performance.enabled           -> COLLECTOR_PERFORMANCE_ENABLED
+#   performance.temp_file_size    -> COLLECTOR_PERFORMANCE_TEMP_FILE_SIZE
+#   commands.performance_fio_bin  -> COLLECTOR_COMMANDS_PERFORMANCE_FIO_BIN
+#   log.level                     -> COLLECTOR_LOG_LEVEL (or use --debug / COLLECTOR_PERF_DEBUG)
+#   log.file                      -> COLLECTOR_PERF_LOG_FILE or COLLECTOR_LOG_FILE
+#
+# Environment variables take precedence over config file values.
+######################################################################
+
+version: 1
+
+######################################################################
+# Performance Benchmarking
+#
+# These settings configure the fio-based performance benchmarks.
+# The performance collector requires fio to be installed on the system.
+######################################################################
+
+performance:
+  enabled: false
+  # Benchmark Profiles:
+  #
+  #   quick (default):
+  #     - ~60 seconds per device
+  #     - 256MB test file (configurable via temp_file_size)
+  #     - 1 parallel job
+  #     - Tests: sequential read, sequential write, random read, random write
+  #
+  #   comprehensive:
+  #     - ~300 seconds per device
+  #     - 1GB test file (fixed)
+  #     - 4 parallel jobs
+  #     - Tests: sequential read, sequential write, random read, random write, mixed R/W (70/30)
+  profile: "quick"
+  # In containers, volume-mount the host filesystem path into the container and map it here.
+  # Example: docker run -v /mnt/data:/mnt/data --device=/dev/sda ...
+  # The collector checks device name first, then WWN. If neither is configured,
+  # it auto-detects via 'df' and falls back to direct device I/O if no mount is found.
+  # Explicit mount point overrides per device (useful in containers).
+  mount_points:
+    # Key: device name (e.g., sda, nvme0)
+    nvme0: /mnt/nvme0
+    sda: /mnt/sda
+    sdb: /mnt/sdb
