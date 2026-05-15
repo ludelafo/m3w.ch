@@ -65,4 +65,4 @@ performance:
     # Key: device name (e.g., sda, nvme0)
     nvme0: /mnt/nvme0
     sda: /mnt/sda
-    sdb: /mnt/sdb
+    # sdb: /mnt/sdb

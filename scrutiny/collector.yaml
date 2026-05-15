@@ -44,4 +44,4 @@ devices:
     label: "NVMe SSD 128 GB"
 
   - device: /dev/sda
-    label: "NVMe SSD 128 GB"
+    label: "SATA HDD 18 TB"

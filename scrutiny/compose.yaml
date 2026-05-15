@@ -18,7 +18,7 @@ services:
       # Mounted points for performance benchmarks (see `)
       - ./devices/nvme0:/mnt/nvme0
       - ./devices/sda:/mnt/sda1
-      - ./devices/sdb:/mnt/sdb1
+      # - ./devices/sdb:/mnt/sdb1
       # Main config and data volumes
       - ./config:/opt/scrutiny/config
       - ./data:/opt/scrutiny/influxdb
@@ -30,4 +30,4 @@ services:
       - /dev/nvme0
       - /dev/nvme0n1
       - /dev/sda
-      - /dev/sdb
+      # - /dev/sdb
