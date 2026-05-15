@@ -2,5 +2,5 @@
 compose.override.yaml
 
 ## Docker volumes
-config/
-data/
+config
+data
