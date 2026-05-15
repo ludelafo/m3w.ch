@@ -17,7 +17,7 @@ services:
       - /run/udev:/run/udev:ro
       # Mounted points for performance benchmarks (see `)
       - ./devices/nvme0:/mnt/nvme0
-      - ./devices/sda:/mnt/sda1
+      - ./devices/sda:/mnt/sda
       # - ./devices/sdb:/mnt/sdb1
       # Main config and data volumes
       - ./config:/opt/scrutiny/config
