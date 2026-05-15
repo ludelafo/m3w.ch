@@ -40,8 +40,10 @@ version: 1
 # See the "--device=TYPE" section of https://linux.die.net/man/8/smartctl
 # type can be a 'string' or a 'list'
 devices:
-  - device: /dev/nvme0n1
-    label: "NVMe SSD 128 GB"
+  - device: /dev/nvme0
+    type: nvme
+    label: NVMe SSD 128 GB
 
   - device: /dev/sda
-    label: "SATA HDD 18 TB"
+    type: sat
+    label: SATA HDD 18 TB
