@@ -1,0 +1,49 @@
+# Commented Scrutiny Configuration File
+#
+# The default location for this file is /opt/scrutiny/config/collector.yaml.
+# In some cases to improve clarity default values are specified,
+# uncommented. Other example values are commented out.
+#
+# When this file is parsed by Scrutiny, all configuration file keys are
+# lowercased automatically. As such, Configuration keys are case-insensitive,
+# and should be lowercase in this file to be consistent with usage.
+#
+######################################################################
+# Environment Variable Overrides
+#
+# Any configuration key can be overridden via environment variables using
+# the COLLECTOR_ prefix. Dots and dashes in key names become underscores.
+#
+# Pattern: COLLECTOR_<KEY_WITH_DOTS_AS_UNDERSCORES>
+#
+# Examples:
+#   commands.metrics_smartctl_bin -> COLLECTOR_COMMANDS_METRICS_SMARTCTL_BIN
+#   commands.metrics_scan_args    -> COLLECTOR_COMMANDS_METRICS_SCAN_ARGS
+#   commands.metrics_info_args    -> COLLECTOR_COMMANDS_METRICS_INFO_ARGS
+#   commands.metrics_smart_args   -> COLLECTOR_COMMANDS_METRICS_SMART_ARGS
+#   commands.metrics_smartctl_wait -> COLLECTOR_COMMANDS_METRICS_SMARTCTL_WAIT
+#   api.endpoint                  -> COLLECTOR_API_ENDPOINT
+#   api.timeout                   -> COLLECTOR_API_TIMEOUT
+#   api.token                     -> COLLECTOR_API_TOKEN
+#   host.id                       -> COLLECTOR_HOST_ID
+#   allow_listed_devices          -> COLLECTOR_ALLOW_LISTED_DEVICES
+#   log.level                     -> COLLECTOR_LOG_LEVEL
+#   log.file                      -> COLLECTOR_LOG_FILE
+#
+# Environment variables take precedence over config file values.
+######################################################################
+
+version: 1
+
+# This block allows you to override/customize the settings for devices detected by
+# Scrutiny via `smartctl --scan`
+# See the "--device=TYPE" section of https://linux.die.net/man/8/smartctl
+# type can be a 'string' or a 'list'
+devices:
+  - device: /dev/nvme0
+    type: nvme
+    label: NVMe SSD 128 GB
+
+  - device: /dev/sda
+    type: sat
+    label: SATA HDD 18 TB
