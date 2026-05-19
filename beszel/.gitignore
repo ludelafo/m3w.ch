@@ -2,6 +2,6 @@
 compose.override.yaml
 
 ## Docker volumes
-config
-data
-devices
+beszel_data
+beszel_agent_data
+extra_filesystems
