@@ -29,7 +29,7 @@ services:
     env_file:
       - beszel_agent.env
     environment:
-      - BESZEL_AGENT_LISTEN=/beszel_socket/beszel.sock
+      - DISABLE_SSH=true
       - BESZEL_AGENT_HUB_URL=http://localhost:8090
     network_mode: host
     volumes:

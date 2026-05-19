@@ -4,6 +4,8 @@ networks:
 
 services:
   beszel:
+    environment:
+      - BESZEL_AGENT_HUB_URL=https://${BESZEL_FQDN}
     networks:
       - traefik_network
     expose:
