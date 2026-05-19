@@ -12,6 +12,7 @@ services:
       - 8090:8090
     volumes:
       - ./beszel_data:/beszel_data
+      - ./beszel_socket:/beszel_socket
     healthcheck:
       test: ["CMD", "/beszel", "health", "--url", "http://localhost:8090"]
       start_period: 5s # Check 5 seconds after the container starts
@@ -28,6 +29,7 @@ services:
     env_file:
       - beszel_agent.env
     environment:
+      - BESZEL_AGENT_LISTEN=/beszel_socket/beszel.sock
       - BESZEL_AGENT_HUB_URL=http://localhost:8090
     network_mode: host
     volumes:
