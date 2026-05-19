@@ -41,8 +41,5 @@ services:
       # Router
       - traefik.http.routers.${TRAEFIK_CONTAINER_NAME}.entryPoints=websecure
       - traefik.http.routers.${TRAEFIK_CONTAINER_NAME}.rule=Host(`${TRAEFIK_FQDN}`)
-      - traefik.http.routers.${TRAEFIK_CONTAINER_NAME}-ping.entryPoints=websecure
-      - traefik.http.routers.${TRAEFIK_CONTAINER_NAME}-ping.rule=(Host(`localhost`) || Host(`${TRAEFIK_FQDN}`)) && PathPrefix(`/ping`)
       # Service
       - traefik.http.routers.${TRAEFIK_CONTAINER_NAME}.service=api@internal
-      - traefik.http.routers.${TRAEFIK_CONTAINER_NAME}-ping.service=ping@internal
