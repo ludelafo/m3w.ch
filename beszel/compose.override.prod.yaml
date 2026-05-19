@@ -4,8 +4,6 @@ networks:
 
 services:
   beszel:
-    environment:
-      - BESZEL_AGENT_HUB_URL=https://${BESZEL_FQDN}
     networks:
       - traefik_network
     expose:
@@ -32,3 +30,7 @@ services:
       - glance.url=https://${BESZEL_FQDN}
       - glance.description=Simple, lightweight server monitoring.
       - glance.category=infrastructure
+
+  beszel-agent:
+    environment:
+      - BESZEL_AGENT_HUB_URL=https://${BESZEL_FQDN}
