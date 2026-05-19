@@ -10,8 +10,8 @@ services:
       - 8090
     ports: !reset []
     volumes:
-      - ./extra_filesystems/nvme0/.beszel:/extra-filesystems/nvme0:ro
-      - ./extra_filesystems/sda/.beszel:/extra-filesystems/sda:ro
+      - ./extra_filesystems/nvme0:/extra-filesystems/nvme0:ro
+      - ./extra_filesystems/sda:/extra-filesystems/sda:ro
     devices:
       - /dev/nvme0
       - /dev/sda
