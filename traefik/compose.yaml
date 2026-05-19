@@ -31,6 +31,10 @@ services:
       - ./config/acme.json:/var/lib/traefik/acme.json
       - ./traefik_static.yaml:/etc/traefik/traefik_static.yaml:ro
       - ./traefik_dynamic.yaml:/etc/traefik/traefik_dynamic.yaml:ro
+    healthcheck:
+      test: ["CMD", "traefik", "healthcheck"]
+      start_period: 5s
+      interval: 120s
     labels:
       ## Traefik
       - traefik.enable=true

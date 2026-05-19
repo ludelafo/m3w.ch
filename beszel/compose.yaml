@@ -1,0 +1,41 @@
+name: Beszel
+
+services:
+  beszel:
+    container_name: ${BESZEL_CONTAINER_NAME}
+    hostname: ${BESZEL_CONTAINER_NAME}
+    image: henrygd/beszel:${BESZEL_IMAGE_VERSION}
+    restart: unless-stopped
+    env_file:
+      - beszel.env
+    ports:
+      - 8090:8090
+    volumes:
+      - ./beszel_data:/beszel_data
+      - ./beszel_socket:/beszel_socket
+    healthcheck:
+      test: ["CMD", "/beszel", "health", "--url", "http://localhost:8090"]
+      start_period: 5s
+      interval: 120s # Then check every 120 seconds after that
+
+  beszel-agent:
+    image: henrygd/beszel-agent:${BESZEL_AGENT_IMAGE_VERSION}
+    hostname: ${BESZEL_AGENT_CONTAINER_NAME}
+    container_name: ${BESZEL_AGENT_CONTAINER_NAME}
+    restart: unless-stopped
+    cap_add:
+      - SYS_RAWIO
+      - SYS_ADMIN
+    env_file:
+      - beszel_agent.env
+    environment:
+      - DISABLE_SSH=true
+      - BESZEL_AGENT_HUB_URL=http://localhost:8090
+    network_mode: host
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ./beszel_agent_data:/var/lib/beszel-agent
+    healthcheck:
+      test: ["CMD", "/agent", "health"]
+      start_period: 5s
+      interval: 120s
