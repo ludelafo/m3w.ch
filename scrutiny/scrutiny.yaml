@@ -1,0 +1,138 @@
+# Commented Scrutiny Configuration File
+#
+# The default location for this file is /opt/scrutiny/config/scrutiny.yaml.
+# In some cases to improve clarity default values are specified,
+# uncommented. Other example values are commented out.
+#
+# When this file is parsed by Scrutiny, all configuration file keys are
+# lowercased automatically. As such, Configuration keys are case-insensitive,
+# and should be lowercase in this file to be consistent with usage.
+#
+######################################################################
+# Environment Variable Overrides
+#
+# Any configuration key can be overridden via environment variables using
+# the SCRUTINY_ prefix. Dots and dashes in key names become underscores.
+#
+# Pattern: SCRUTINY_<KEY_WITH_DOTS_AS_UNDERSCORES>
+#
+# Examples:
+#   web.listen.port                       -> SCRUTINY_WEB_LISTEN_PORT
+#   web.listen.host                       -> SCRUTINY_WEB_LISTEN_HOST
+#   web.listen.basepath                   -> SCRUTINY_WEB_LISTEN_BASEPATH
+#   web.database.location                 -> SCRUTINY_WEB_DATABASE_LOCATION
+#   web.database.journal_mode             -> SCRUTINY_WEB_DATABASE_JOURNAL_MODE
+#   web.src.frontend.path                 -> SCRUTINY_WEB_SRC_FRONTEND_PATH
+#   web.influxdb.scheme                   -> SCRUTINY_WEB_INFLUXDB_SCHEME
+#   web.influxdb.host                     -> SCRUTINY_WEB_INFLUXDB_HOST
+#   web.influxdb.port                     -> SCRUTINY_WEB_INFLUXDB_PORT
+#   web.influxdb.org                      -> SCRUTINY_WEB_INFLUXDB_ORG
+#   web.influxdb.bucket                   -> SCRUTINY_WEB_INFLUXDB_BUCKET
+#   web.influxdb.token                    -> SCRUTINY_WEB_INFLUXDB_TOKEN
+#   web.influxdb.init_username            -> SCRUTINY_WEB_INFLUXDB_INIT_USERNAME
+#   web.influxdb.init_password            -> SCRUTINY_WEB_INFLUXDB_INIT_PASSWORD
+#   web.influxdb.tls.insecure_skip_verify -> SCRUTINY_WEB_INFLUXDB_TLS_INSECURE_SKIP_VERIFY
+#   web.influxdb.retention_policy         -> SCRUTINY_WEB_INFLUXDB_RETENTION_POLICY
+#   web.influxdb.retention.daily          -> SCRUTINY_WEB_INFLUXDB_RETENTION_DAILY
+#   web.influxdb.retention.weekly         -> SCRUTINY_WEB_INFLUXDB_RETENTION_WEEKLY
+#   web.influxdb.retention.monthly        -> SCRUTINY_WEB_INFLUXDB_RETENTION_MONTHLY
+#   web.uptime_kuma.insecure_skip_verify  -> SCRUTINY_WEB_UPTIME_KUMA_INSECURE_SKIP_VERIFY
+#   web.metrics.enabled                   -> SCRUTINY_WEB_METRICS_ENABLED
+#   web.metrics.token                     -> SCRUTINY_WEB_METRICS_TOKEN
+#   log.level                             -> SCRUTINY_LOG_LEVEL
+#   log.file                              -> SCRUTINY_LOG_FILE
+#   notify.urls                           -> SCRUTINY_NOTIFY_URLS (comma-separated)
+#   failures.transient.ata                -> SCRUTINY_FAILURES_TRANSIENT_ATA
+#   failures.ignored.ata                  -> SCRUTINY_FAILURES_IGNORED_ATA
+#   failures.ignored.devstat              -> SCRUTINY_FAILURES_IGNORED_DEVSTAT
+#   failures.ignored.nvme                 -> SCRUTINY_FAILURES_IGNORED_NVME
+#   failures.ignored.scsi                 -> SCRUTINY_FAILURES_IGNORED_SCSI
+#
+# Environment variables take precedence over config file values.
+######################################################################
+
+version: 1
+
+web:
+  # Authentication settings
+  # When enabled, all API endpoints (except /api/health and /api/auth/*) require
+  # a valid Bearer token in the Authorization header. Disabled by default so
+  # existing deployments are unaffected.
+  #
+  # Environment variable overrides:
+  #   web.auth.enabled          -> SCRUTINY_WEB_AUTH_ENABLED
+  #   web.auth.token            -> SCRUTINY_WEB_AUTH_TOKEN
+  #   web.auth.jwt_secret       -> SCRUTINY_WEB_AUTH_JWT_SECRET
+  #   web.auth.jwt_expiry_hours -> SCRUTINY_WEB_AUTH_JWT_EXPIRY_HOURS
+  #   web.auth.admin_username   -> SCRUTINY_WEB_AUTH_ADMIN_USERNAME
+  #   web.auth.admin_password   -> SCRUTINY_WEB_AUTH_ADMIN_PASSWORD
+  auth:
+    enabled: true
+
+  # Uptime Kuma push monitor (optional)
+  # When configured here, this URL takes precedence over the Settings UI value.
+  # The monitor itself is enabled/disabled via the Settings API or UI.
+  # Env: SCRUTINY_WEB_UPTIME_KUMA_PUSH_URL
+  #
+  # uptime_kuma:
+  #   push_url: "https://kuma.example.com/api/push/YOUR_TOKEN"
+  #   # Skip TLS certificate verification (for self-signed certificates)
+  #   # Env: SCRUTINY_WEB_UPTIME_KUMA_INSECURE_SKIP_VERIFY
+  #   insecure_skip_verify: false
+
+# Valid log levels (case-insensitive, highest to lowest severity):
+#   PANIC, FATAL, ERROR, WARN, INFO (default), DEBUG, TRACE
+# Setting a level includes all messages at that level and above.
+# Example: WARN shows WARN, ERROR, FATAL, and PANIC messages.
+log:
+  file: ""
+  level: INFO
+
+failures:
+  # Transient attributes are ones that may temporarily show failures but recover
+  # These are still evaluated but don't immediately trigger device failure status
+  transient:
+    ata:
+      - 195 # Hardware_ECC_Recovered, see https://superuser.com/a/1511916/169872
+
+  # Ignored attributes are completely excluded from failure evaluation
+  # Use this for attributes that report invalid/corrupted data on your drives
+  # See issue #84: some drives report impossibly high values for certain devstat attributes
+  ignored:
+    ata: [] # numeric SMART attribute IDs, e.g., [1, 9, 199]
+    devstat: [] # string-based device statistics, e.g., ["devstat_1_40", "devstat_1_48"]
+    nvme: [] # NVME attribute IDs, e.g., ["media_errors"]
+    scsi: [] # SCSI attribute IDs, e.g., ["scsi_grown_defect_list"]
+
+
+# Notification "urls" look like the following. For more information about service specific configuration see
+# Shoutrrr's documentation: https://nicholas-fedor.github.io/shoutrrr/
+#
+# note, usernames and passwords containing special characters will need to be urlencoded.
+# if your username is: "myname@example.com" and your password is "124@34$1"
+# your shoutrrr url will look like: "smtp://myname%40example%2Ecom:124%4034%241@ms.my.domain.com:587"
+# notify:
+#   urls:
+#     - "smtp://username:password@host:port/?fromAddress=fromAddress&toAddresses=recipient1[,recipient2,...]"
+
+######################################################################
+# Heartbeat Notifications (Periodic Health Check)
+#
+# Scrutiny can send periodic "all clear" heartbeat notifications to
+# confirm the monitoring system is running and all drives are healthy.
+# Useful for integration with uptime monitoring tools like Uptime Kuma.
+#
+# Heartbeat notifications are only sent when ALL monitored drives are
+# healthy. If any drive has failures, the heartbeat is suppressed
+# (failure notifications take priority).
+#
+# These settings are configured via the Settings API, not this config file.
+# Use the /api/settings endpoint to configure:
+#
+#   metrics.heartbeat_enabled: false          # Enable/disable feature
+#   metrics.heartbeat_interval_hours: 24      # Hours between heartbeats
+#
+# Example API call to enable daily heartbeat notifications:
+#   curl -X POST http://localhost:8080/api/settings \
+#     -H "Content-Type: application/json" \
+#     -d '{"metrics": {"heartbeat_enabled": true, "heartbeat_interval_hours": 24}}'
