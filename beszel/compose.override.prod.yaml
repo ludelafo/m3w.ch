@@ -9,12 +9,6 @@ services:
     expose:
       - 8090
     ports: !reset []
-    volumes:
-      - ./extra_filesystems/nvme0:/extra-filesystems/nvme0:ro
-      - ./extra_filesystems/sda:/extra-filesystems/sda:ro
-    devices:
-      - /dev/nvme0
-      - /dev/sda
     labels:
       ## Traefik
       - traefik.enable=true
@@ -34,3 +28,9 @@ services:
   beszel-agent:
     environment:
       - BESZEL_AGENT_HUB_URL=https://${BESZEL_FQDN}
+    volumes:
+      - ./extra_filesystems/nvme0:/extra-filesystems/nvme0:ro
+      - ./extra_filesystems/sda:/extra-filesystems/sda:ro
+    devices:
+      - /dev/nvme0
+      - /dev/sda
