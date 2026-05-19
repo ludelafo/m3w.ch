@@ -33,6 +33,8 @@ services:
       - ./traefik_dynamic.yaml:/etc/traefik/traefik_dynamic.yaml:ro
     healthcheck:
       test: ["CMD", "traefik", "healthcheck"]
+      start_period: 5s
+      interval: 120s
     labels:
       ## Traefik
       - traefik.enable=true
