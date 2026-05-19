@@ -1,12 +1,5 @@
 name: Beszel
 
-secrets:
-  beszel_token.txt:
-    file: ./beszel_agent_data/beszel_token.txt
-
-  beszel_key.txt:
-    file: ./beszel_agent_data/beszel_key.txt
-
 services:
   beszel:
     container_name: ${BESZEL_CONTAINER_NAME}
@@ -35,13 +28,8 @@ services:
     env_file:
       - beszel_agent.env
     environment:
-      - BESZEL_AGENT_KEY_FILE=/run/secrets/beszel_key.txt
-      - BESZEL_AGENT_TOKEN_FILE=/run/secrets/beszel_token.txt
       - BESZEL_AGENT_HUB_URL=http://localhost:8090
     network_mode: host
-    secrets:
-      - beszel_key.txt
-      - beszel_token.txt
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - ./beszel_agent_data:/var/lib/beszel-agent
