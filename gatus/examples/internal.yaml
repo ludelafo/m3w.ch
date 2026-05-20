@@ -1,0 +1,44 @@
+default-internal-endpoint: &internal-defaults
+  interval: 60m
+  alerts:
+    - type: telegram
+  client:
+    timeout: 10s
+  group: Internal
+
+endpoints:
+  - name: AdGuard Home
+    url: https://adguard.m3w.ch
+    <<: *internal-defaults
+    conditions:
+      - "[STATUS] == 200"
+
+  - name: Beszel
+    url: https://beszel.m3w.ch
+    <<: *internal-defaults
+    conditions:
+      - "[STATUS] == 200"
+
+  - name: Syncthing (ludelafo)
+    url: https://syncthing.ludelafo.m3w.ch
+    <<: *internal-defaults
+    conditions:
+      - "[STATUS] == 200"
+
+  - name: Tang
+    url: http://192.168.1.254:80/adv
+    <<: *internal-defaults
+    conditions:
+      - "[STATUS] == 200"
+
+  - name: Traefik
+    url: https://traefik.m3w.ch
+    <<: *internal-defaults
+    conditions:
+      - "[STATUS] == 200"
+
+  - name: Raspberry Pi
+    url: icmp://192.168.1.254
+    <<: *internal-defaults
+    conditions:
+      - "[CONNECTED] == true"

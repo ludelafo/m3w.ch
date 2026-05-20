@@ -1,0 +1,18 @@
+storage:
+  type: sqlite
+  path: /data/data.db
+  maximum-number-of-results: 200
+  maximum-number-of-events: 5
+
+ui:
+  dark-mode: true
+  default-sort-by: group
+
+alerting:
+  telegram:
+    token: ${TELEGRAM_TOKEN}
+    id: ${TELEGRAM_CHAT_ID}
+    default-alert:
+      send-on-resolved: true
+      failure-threshold: 1
+      success-threshold: 2

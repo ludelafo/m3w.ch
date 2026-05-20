@@ -35,11 +35,11 @@ docker compose up beszel
 
 # Add a new system to Beszel:
 #
-# - Name: `Host`.
-# - Host / IP: `/beszel_socket/beszel.sock`.
+# - Name: (Name of the host).
+# - Host / IP: (IP of the host).
 # - Port: (leave as default).
-# - Public Key: (copy and store it in the host's `beszel_agent_data/beszel_key.txt` file).
-# - Token: (copy and store it in the host's `beszel_agent_data/beszel_token.txt` file).
+# - Public Key: (copy and store it in the host's `beszel_agent.env` file).
+# - Token: (copy and store it in the host's `beszel_agent.env` file).
 
 # Access the superuser PocketBase admin panel at `/_/` (https://beszel.dev/guide/user-accounts).
 #

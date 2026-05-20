@@ -1,0 +1,14 @@
+default-external-endpoint: &external-defaults
+  interval: 15m
+  alerts:
+    - type: telegram
+  client:
+    timeout: 10s
+  group: External
+
+endpoints:
+  - name: Artios
+    url: https://artios.ch
+    <<: *external-defaults
+    conditions:
+      - "[STATUS] == 200"

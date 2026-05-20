@@ -32,7 +32,7 @@ services:
       - ./traefik_static.yaml:/etc/traefik/traefik_static.yaml:ro
       - ./traefik_dynamic.yaml:/etc/traefik/traefik_dynamic.yaml:ro
     healthcheck:
-      test: ["CMD", "traefik", "healthcheck"]
+      test: ["CMD", "traefik", "healthcheck", "--ping"]
       start_period: 5s
       interval: 120s
     labels:
