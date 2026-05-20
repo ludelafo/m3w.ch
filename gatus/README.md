@@ -1,16 +1,16 @@
 # Gatus
 
-> Gatus is a lightweight server monitoring platform that includes Docker
-> statistics, historical data, and alert functions.
+> Create automated status pages with real-time uptime monitoring. Detect website
+> and API downtime before your customers do.
 >
-> <https://gatus.dev>
+> <https://gatus.io/>
 
 ## Table of contents
 
 - [Table of contents](#table-of-contents)
 - [Pre-configuration](#pre-configuration)
   - [Set the environment variables](#set-the-environment-variables)
-  - [Create the Gatus configuration file(s)](#create-the-gatus-configuration-files)
+  - [Create the configuration file(s)](#create-the-configuration-files)
 - [Run the application with Docker](#run-the-application-with-docker)
 - [Additional resources](#additional-resources)
 
@@ -20,10 +20,12 @@
 
 Edit the `*.env` files to your needs.
 
-### Create the Gatus configuration file(s)
+### Create the configuration file(s)
 
-Create a `config` directory with the configuration file(s) needed for Gatus. You
-can find an example configuration file in the `examples` directory.
+Create a `config` directory with the configuration file(s) needed for the
+service.
+
+You can find example configuration files in the `examples` directory.
 
 ## Run the application with Docker
 

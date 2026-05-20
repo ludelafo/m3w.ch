@@ -19,6 +19,14 @@ endpoints:
     conditions:
       - "[STATUS] == 200"
 
+  - name: Raspberry Pi (ICMP)
+    url: icmp://192.168.1.254
+    <<: *internal-defaults
+    conditions:
+      - "[CONNECTED] == true"
+    ui:
+      hide-hostname: true
+
   - name: Syncthing (ludelafo)
     url: https://syncthing.ludelafo.m3w.ch
     <<: *internal-defaults
@@ -36,9 +44,3 @@ endpoints:
     <<: *internal-defaults
     conditions:
       - "[STATUS] == 200"
-
-  - name: Raspberry Pi
-    url: icmp://192.168.1.254
-    <<: *internal-defaults
-    conditions:
-      - "[CONNECTED] == true"
