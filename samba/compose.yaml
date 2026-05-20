@@ -3,6 +3,7 @@ name: Samba
 services:
   samba:
     container_name: ${SAMBA_CONTAINER_NAME}
+    hostname: ${SAMBA_CONTAINER_NAME}
     image: crazymax/samba:${SAMBA_IMAGE_VERSION}
     restart: unless-stopped
     cap_add:
