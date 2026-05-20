@@ -14,5 +14,5 @@ alerting:
     id: ${TELEGRAM_CHAT_ID}
     default-alert:
       send-on-resolved: true
-      failure-threshold: 5
-      success-threshold: 5
+      failure-threshold: 1
+      success-threshold: 2

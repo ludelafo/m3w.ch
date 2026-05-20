@@ -1,14 +1,14 @@
-default-misc-endpoint: &misc-defaults
+default-external-endpoint: &external-defaults
   interval: 15m
   alerts:
     - type: telegram
   client:
     timeout: 10s
-  group: Misc.
+  group: External
 
 endpoints:
   - name: Artios
     url: https://artios.ch
-    <<: *misc-defaults
+    <<: *external-defaults
     conditions:
       - "[STATUS] == 200"
