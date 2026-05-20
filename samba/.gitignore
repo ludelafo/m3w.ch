@@ -1,9 +1,6 @@
 ## Compose overrides
 compose.override.yaml
 
-## Docker secrets
-user_password.txt
-
 ## Docker volumes
 cache
 config

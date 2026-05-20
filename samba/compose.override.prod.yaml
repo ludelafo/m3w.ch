@@ -7,6 +7,9 @@ secrets:
 
 services:
   samba:
+    secrets:
+      - ludelafo_password.txt
+      - heaspery_password.txt
     volumes:
       - ./shares/private:/shares/private
       - ./shares/public:/shares/public
