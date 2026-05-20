@@ -1,0 +1,14 @@
+default-misc-endpoint: &misc-defaults
+  interval: 15m
+  alerts:
+    - type: telegram
+  client:
+    timeout: 10s
+  group: Misc.
+
+endpoints:
+  - name: Artios
+    url: https://artios.ch
+    <<: *misc-defaults
+    conditions:
+      - "[STATUS] == 200"

@@ -1,0 +1,50 @@
+default-m3w-endpoint: &m3w-defaults
+  interval: 60m
+  alerts:
+    - type: telegram
+  client:
+    timeout: 10s
+  group: m3w.ch
+
+endpoints:
+  - name: AdGuard Home
+    url: https://adguard.m3w.ch
+    <<: *m3w-defaults
+    conditions:
+      - "[STATUS] == 200"
+
+  - name: Beszel
+    url: https://beszel.m3w.ch
+    <<: *m3w-defaults
+    conditions:
+      - "[STATUS] == 200"
+
+  - name: Syncthing (ludelafo)
+    url: https://syncthing.ludelafo.m3w.ch
+    <<: *m3w-defaults
+    conditions:
+      - "[STATUS] == 200"
+
+  - name: Tang
+    url: http://192.168.1.254:80
+    <<: *m3w-defaults
+    conditions:
+      - "[STATUS] == 200"
+
+  - name: Traefik
+    url: https://traefik.m3w.ch
+    <<: *m3w-defaults
+    conditions:
+      - "[STATUS] == 200"
+
+  - name: NAS
+    url: icmp://192.168.1.2
+    <<: *m3w-defaults
+    conditions:
+      - "[CONNECTED] == true"
+
+  - name: Raspberry Pi
+    url: icmp://192.168.1.254
+    <<: *m3w-defaults
+    conditions:
+      - "[CONNECTED] == true"

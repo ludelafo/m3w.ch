@@ -8,6 +8,8 @@ services:
     restart: unless-stopped
     env_file:
       - beszel.env
+    environment:
+      - APP_URL=http://localhost:8090
     ports:
       - 8090:8090
     volumes:

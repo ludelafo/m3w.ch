@@ -1,9 +1,9 @@
-# Beszel
+# Gatus
 
-> Beszel is a lightweight server monitoring platform that includes Docker
+> Gatus is a lightweight server monitoring platform that includes Docker
 > statistics, historical data, and alert functions.
 >
-> <https://beszel.dev>
+> <https://gatus.dev>
 
 ## Table of contents
 
@@ -30,20 +30,20 @@ In a terminal, run the following commands:
 # Pull the latest images
 docker compose pull
 
-# Start the Beszel Hub only on first start
-docker compose up beszel
+# Start the Gatus Hub only on first start
+docker compose up gatus
 
-# Add a new system to Beszel:
+# Add a new system to Gatus:
 #
-# - Name: (Name of the host).
-# - Host / IP: (IP of the host).
-# - Port: (leave as default).
-# - Public Key: (copy and store it in the host's `beszel_agent.env` file).
-# - Token: (copy and store it in the host's `beszel_agent.env` file).
+# - Name: `Host`
+# - Host / IP: `/gatus_socket/gatus.sock`
+# - Port: (leave as default)
+# - Public Key: (copy and store it in the host's `gatus_agent_data/gatus_key.txt` file)
+# - Token: (copy and store it in the host's `gatus_agent_data/gatus_token.txt` file)
 
-# Access the superuser PocketBase admin panel at `/_/` (https://beszel.dev/guide/user-accounts).
+# Access the superuser PocketBase admin panel at `/_/` (https://gatus.dev/guide/user-accounts)
 #
-# Change the Mail settings in PocketBase admin panel if needed.
+# Change the Mail settings in PocketBase admin panel if needed
 
 # Start the application with Docker
 docker compose up --detach
@@ -51,5 +51,4 @@ docker compose up --detach
 
 ## Additional resources
 
-- [Beszel](https://beszel.dev)
-- [Beszel Notifications](https://beszel.dev/guide/notifications/)
+- [Gatus](https://gatus.dev)

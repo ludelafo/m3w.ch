@@ -1,0 +1,17 @@
+name: Gatus
+
+services:
+  gatus:
+    container_name: ${GATUS_CONTAINER_NAME}
+    hostname: ${GATUS_CONTAINER_NAME}
+    image: ghcr.io/twin/gatus:${GATUS_IMAGE_VERSION}
+    restart: unless-stopped
+    env_file:
+      - gatus.env
+    environment:
+      - GATUS_CONFIG_PATH=/config
+    ports:
+      - 8080:8080
+    volumes:
+      - ./config:/config
+      - ./data:/data
