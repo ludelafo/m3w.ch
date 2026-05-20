@@ -1,5 +1,0 @@
-services:
-  samba:
-    volumes:
-      - ./shares/private:/shares/private
-      - ./shares/public:/shares/public

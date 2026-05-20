@@ -8,14 +8,12 @@
 
 ## Table of contents
 
-- [Samba](#samba)
-  - [Table of contents](#table-of-contents)
-  - [Pre-configuration](#pre-configuration)
-    - [Set the environment variables](#set-the-environment-variables)
-    - [Create the `config.yaml` file](#create-the-configyaml-file)
-    - [Create the user password](#create-the-user-password)
-  - [Run the application with Docker](#run-the-application-with-docker)
-  - [Additional resources](#additional-resources)
+- [Table of contents](#table-of-contents)
+- [Pre-configuration](#pre-configuration)
+  - [Set the environment variables](#set-the-environment-variables)
+  - [Create the configuration file(s)](#create-the-configuration-files)
+- [Run the application with Docker](#run-the-application-with-docker)
+- [Additional resources](#additional-resources)
 
 ## Pre-configuration
 
@@ -23,20 +21,12 @@
 
 Edit the `*.env` files to your needs.
 
-### Create the `config.yaml` file
+### Create the configuration file(s)
 
-You must create a `config.yaml` file prior to run the container. You can check
-examples in the [`examples`](./examples) directory and copy an example to
-`config.yaml`.
+Create a `config` directory with the configuration file(s) needed for the
+service.
 
-You might need to update the `volumes` section in the `compose.yaml` file to
-match your configuration or copy one of the override files to
-`compose.override.yaml` in this directory.
-
-### Create the user password
-
-Create a new file called `user_password.txt` in this directory and add the user
-password in it to access the share(s).
+You can find example configuration files in the `examples` directory.
 
 ## Run the application with Docker
 

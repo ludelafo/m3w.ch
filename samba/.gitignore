@@ -6,5 +6,5 @@ user_password.txt
 
 ## Docker volumes
 cache
+config
 shares
-config.yaml

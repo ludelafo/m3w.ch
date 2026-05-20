@@ -1,9 +1,15 @@
 auth:
-  - user: ${USER}
-    group: ${GROUP}
-    uid: ${PUID}
-    gid: ${PGID}
-    password_file: /run/secrets/user_password
+  - user: ludelafo
+    group: users
+    uid: 1001
+    gid: 100
+    password_file: /run/secrets/ludelafo_password.txt
+
+  - user: heaspery
+    group: users
+    uid: 1002
+    gid: 100
+    password_file: /run/secrets/heaspery_password.txt
 
 global:
   - "access based share enum = yes"
@@ -12,7 +18,7 @@ share:
   - name: public
     comment: Public
     path: /shares/public
-    writelist: ${USER}
+    writelist: ludelafo,heaspery
     browsable: yes
     readonly: yes
     guestok: yes
@@ -23,7 +29,7 @@ share:
   - name: private
     comment: Private
     path: /shares/private
-    writelist: ${USER}
+    writelist: ludelafo,heaspery
     browsable: yes
     readonly: no
     guestok: no
