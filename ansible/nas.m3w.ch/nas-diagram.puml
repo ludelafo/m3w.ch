@@ -1,0 +1,74 @@
+@startnwdiag nas-diagram
+!include <office/Servers/application_server>
+!include <office/Servers/virtual_application_server>
+
+nwdiag {
+  network internal {
+      address = "192.168.1.x/24"
+
+      nas [address = "192.168.1.2"];
+  }
+
+  nas[description = "<$application_server>\n NAS\n nas.m3w.ch"]
+  
+  adguard_home [description = "<$virtual_application_server>\n AdGuard Home\n (DNS and DHCP server)\n https://adguard.m3w.ch"]
+  authentik [description = "<$virtual_application_server>\n Authentik ?\n (Authentification)\n https://authentik.m3w.ch"]
+  backrest [description = "<$virtual_application_server>\n Backrest ?\n (Backups)\n https://beszel.m3w.ch"]
+  beszel [description = "<$virtual_application_server>\n Beszel\n (Hardware monitoring)\n https://beszel.m3w.ch"]
+  gatus [description = "<$virtual_application_server>\n Gatus\n (Service monitoring)\n https://gatus.m3w.ch"]
+  glance_ludelafo [description = "<$virtual_application_server>\n Glance (ludelafo)\n (Dashboard)\n https://ludelafo.m3w.ch"]
+  glance_heaspery [description = "<$virtual_application_server>\n Glance (heaspery)\n (Dashboard)\n https://heaspery.m3w.ch"]
+  navidrome [description = "<$virtual_application_server>\n Navidrome\n (Music server)\n https://navidrome.m3w.ch"]
+  qbittorrent [description = "<$virtual_application_server>\n qBittorrent\n (Torrent client)\n https://qbittorrent.m3w.ch"]
+  samba [description = "<$virtual_application_server>\n Samba\n (Network shares)\n smb://192.168.1.2"]
+  syncthing_ludelafo [description = "<$virtual_application_server>\n Syncthing (ludelafo)\n (Files synchronisation)\n https://syncthing.ludelafo.m3w.ch"]
+  syncthing_heaspery [description = "<$virtual_application_server>\n Syncthing (heaspery)\n (Files synchronisation)\n https://syncthing.heaspery.m3w.ch"]
+  traefik [description = "<$virtual_application_server>\n Traefik\n (Reverse proxy)\n https://traefik.m3w.ch"];
+  wg_easy [description = "<$virtual_application_server>\n Wireguard Easy\n (VPN)\n https://vpn.m3w.ch"]
+
+  network host {
+    nas
+
+    adguard_home [address = ":53/tcp+udp, :67/udp, :68/udp, ..."]
+    samba [address = ":445, ..."]
+    traefik [address = ":80, :443"]
+  }
+
+  network traefik_network {
+    address = "<Docker internal network>"
+
+    traefik
+  }
+
+  network traefik_network {
+    address = "<Docker internal network>"
+
+    authentik
+    backrest
+    beszel
+  }
+
+  network traefik_network {
+    address = "<Docker internal network>"
+
+    gatus
+    glance_ludelafo
+    glance_heaspery
+  }
+
+  network traefik_network {
+    address = "<Docker internal network>"
+
+    navidrome
+    qbittorrent
+    wg_easy
+  }
+
+  network traefik_network {
+    address = "<Docker internal network>"
+
+    syncthing_ludelafo
+    syncthing_heaspery
+  }
+}
+@endnwdiag

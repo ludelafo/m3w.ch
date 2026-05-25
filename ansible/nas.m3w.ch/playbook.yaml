@@ -1,0 +1,309 @@
+- name: Configure nas.m3w.ch instance
+  hosts: 192.168.1.2
+  gather_facts: true
+  become: true
+  tasks:
+    ## Network configuration
+    - name: Configure interface name for nic0 network
+      ansible.builtin.template:
+        src: etc/systemd/network/xx-persistent-link.link.j2
+        dest: /etc/systemd/network/10-nic0-persistent-link.link
+        mode: "0644"
+      vars:
+        interface_name: "{{ nic0_interface_name }}"
+        mac_address: "{{ nic0_mac_address }}"
+      register: nic0_link_config
+
+    - name: Configure interface name for nic1 network
+      ansible.builtin.template:
+        src: etc/systemd/network/xx-persistent-link.link.j2
+        dest: /etc/systemd/network/11-nic1-persistent-link.link
+        mode: "0644"
+      vars:
+        interface_name: "{{ nic1_interface_name }}"
+        mac_address: "{{ nic1_mac_address }}"
+      register: nic1_link_config
+
+    - name: Configure /etc/network/interfaces
+      ansible.builtin.template:
+        src: etc/network/interfaces.j2
+        dest: /etc/network/interfaces
+        mode: "0644"
+      vars:
+        interface_name: "{{ nic0_interface_name }}"
+        interface_ip_address: "{{ nic0_ip_address }}"
+        interface_netmask: "{{ nic0_netmask }}"
+        interface_gateway: "{{ nic0_gateway }}"
+      register: network_interfaces_config
+
+    - name: Configure /etc/resolv.conf
+      ansible.builtin.template:
+        src: etc/resolv.conf.j2
+        dest: /etc/resolv.conf
+        mode: "0644"
+
+    - name: Configure /etc/hosts
+      ansible.builtin.template:
+        src: etc/hosts.j2
+        dest: /etc/hosts
+        mode: "0644"
+      vars:
+        ip_address: "{{ nic0_ip_address }}"
+
+    - name: Configure /etc/hostname
+      ansible.builtin.template:
+        src: etc/hostname.j2
+        dest: /etc/hostname
+        mode: "0644"
+
+    ## Updates and packages
+    - name: Upgrade all packages
+      ansible.builtin.apt:
+        autoclean: true
+        autoremove: true
+
+    - name: Install additional packages
+      ansible.builtin.apt:
+        pkg:
+          # - ansible
+          - git
+          - neovim
+          # - powertop
+          # - smartmontools
+          - rsync
+          - tmux
+          - tree
+        update_cache: true
+
+    ## Hard drive disks
+    - name: Configure encrypted disks
+      ansible.builtin.include_tasks: tasks/encrypt_disk.yaml
+      loop:
+        - {
+            device: "{{ storage_device }}",
+            name: "{{ storage_luks_name }}",
+            label: "{{ storage_label }}",
+            keyfile: "{{ storage_luks_key_file }}",
+            mount: "{{ storage_mount_point }}",
+          }
+        - {
+            device: "{{ backups_device }}",
+            name: "{{ backups_luks_name }}",
+            label: "{{ backups_label }}",
+            keyfile: "{{ backups_luks_key_file }}",
+            mount: "{{ backups_mount_point }}",
+          }
+      loop_control:
+        loop_var: disk
+        label: "{{ disk.name }}"
+      register: encrypted_disks_result
+
+    ## Users and groups
+    - name: Ensure group "docker" exists
+      ansible.builtin.group:
+        name: docker
+        gid: 973
+
+    - name: Ensure group "users" exists
+      ansible.builtin.group:
+        name: users
+        gid: 100
+
+    - name: Create user "debian"
+      ansible.builtin.user:
+        name: debian
+        comment: Debian
+        group: debian
+        groups: docker,sudo,users
+        uid: 1000
+
+    - name: Set authorized keys for user "debian"
+      ansible.posix.authorized_key:
+        user: debian
+        key: "{{ item }}"
+      loop:
+        - https://github.com/ludelafo.keys
+        - https://github.com/heaspery.keys
+
+    - name: Create group "ludelafo"
+      ansible.builtin.group:
+        name: ludelafo
+        gid: 1001
+
+    - name: Create user "ludelafo"
+      ansible.builtin.user:
+        name: ludelafo
+        comment: Ludovic Delafontaine
+        group: ludelafo
+        groups: docker,users
+        uid: 1001
+        shell: /bin/bash
+
+    - name: Set authorized keys for user "ludelafo"
+      ansible.posix.authorized_key:
+        user: ludelafo
+        key: https://github.com/ludelafo.keys
+
+    - name: Create group "heaspery"
+      ansible.builtin.group:
+        name: heaspery
+        gid: 1002
+
+    - name: Create user "heaspery"
+      ansible.builtin.user:
+        name: heaspery
+        comment: Mathilde Ançay
+        group: heaspery
+        groups: docker,users
+        uid: 1002
+        shell: /bin/bash
+
+    - name: Set authorized keys for user "heaspery"
+      ansible.posix.authorized_key:
+        user: heaspery
+        key: https://github.com/heaspery.keys
+
+    ## Docker
+    - name: Get DEB architecture
+      ansible.builtin.command: dpkg --print-architecture
+      register: deb_architecture
+      changed_when: false
+
+    - name: Download Docker GPG key
+      ansible.builtin.get_url:
+        url: https://download.docker.com/linux/debian/gpg
+        dest: /etc/apt/keyrings/docker.asc
+        mode: "0644"
+        checksum: sha256:1500c1f56fa9e26b9b8f42452a553675796ade0807cdce11975eb98170b3a570
+        # The checksum can be calculated with `curl -sL https://download.docker.com/linux/debian/gpg | sha256sum`
+
+    - name: Add Docker APT repository
+      ansible.builtin.deb822_repository:
+        name: docker
+        types: deb
+        uris: https://download.docker.com/linux/debian
+        suites: "{{ ansible_distribution_release }}"
+        components: stable
+        architectures: "{{ deb_architecture.stdout }}"
+        signed_by: /etc/apt/keyrings/docker.asc
+
+    - name: Install Docker with its Compose plugin
+      ansible.builtin.apt:
+        pkg:
+          - docker-ce
+          - docker-ce-cli
+          - containerd.io
+          - docker-buildx-plugin
+          - docker-compose-plugin
+        update_cache: true
+
+    - name: Enable journald logging driver
+      ansible.builtin.template:
+        src: etc/docker/daemon.json.j2
+        dest: /etc/docker/daemon.json
+        mode: "0644"
+
+    - name: Enable and start Docker service
+      ansible.builtin.service:
+        name: docker
+        state: started
+        enabled: true
+
+    - name: Update initramfs
+      ansible.builtin.command:
+        cmd: update-initramfs -u -k all
+      when: >
+        (nic0_link_config is changed) or (nic1_link_config is changed) or
+        (network_interfaces_config is changed) or
+        (encrypted_disks_result.results |
+        selectattr('ansible_facts.disk_crypttab_changed', 'defined') |
+        selectattr('ansible_facts.disk_crypttab_changed', 'equalto', true) |
+        list | length > 0)
+      changed_when: false
+
+    # # https://github.com/miskcoo/ugreen_leds_controller
+    # - name: Install UGREEN LEDs driver
+    #   ansible.builtin.apt:
+    #     deb: https://github.com/miskcoo/ugreen_leds_controller/releases/download/v0.3/led-ugreen-dkms_0.3_amd64.deb
+
+    # - name: Create UGREEN LED modules configuration
+    #   ansible.builtin.copy:
+    #     dest: /etc/modules-load.d/ugreen-led.conf
+    #     content: |
+    #       i2c-dev
+    #       led-ugreen
+    #       ledtrig-oneshot
+    #       ledtrig-netdev
+    #     mode: "0644"
+
+    # ## Disks
+    # - name: Create the systemd mount unit file
+    #   when: ct_id is defined
+    #   ansible.builtin.template:
+    #     src: etc/systemd/system/mnt-pve-disk.mount.j2
+    #     dest: /etc/systemd/system/mnt-pve-{{ disk_label }}.mount
+    #     mode: "0644"
+
+    # - name: Enable and start the systemd mount unit
+    #   when: ct_id is defined
+    #   ansible.builtin.systemd:
+    #     name: mnt-pve-{{ disk_label }}.mount
+    #     state: started
+    #     daemon_reload: true
+    #     enabled: true
+
+    # ## Container configuration
+    # - name: Mount the disk to the container
+    #   when: ct_id is defined
+    #   ansible.builtin.lineinfile:
+    #     path: /etc/pve/lxc/{{ ct_id }}.conf
+    #     line:
+    #       "mp0: /mnt/pve/{{ disk_label }},mp=/home/{{ user
+    #       }},mountoptions=noatime,backup=0"
+
+    # - name: Enable nesting feature for using Docker in the container
+    #   when: ct_id is defined
+    #   ansible.builtin.lineinfile:
+    #     path: /etc/pve/lxc/{{ ct_id }}.conf
+    #     line: "features: nesting=1"
+
+    # - name: Enable start on boot
+    #   when: ct_id is defined
+    #   ansible.builtin.lineinfile:
+    #     path: /etc/pve/lxc/{{ ct_id }}.conf
+    #     line: "onboot: 1"
+
+    # # Source: https://github.com/portainer/portainer/issues/8478#issuecomment-1426866713
+    # - name: Clear the cap drops
+    #   when: ct_id is defined
+    #   ansible.builtin.lineinfile:
+    #     path: /etc/pve/lxc/{{ ct_id }}.conf
+    #     line: "lxc.cap.drop:"
+
+    # ## Hard drive disk
+    # #
+    # # Source:
+    # #
+    # # - <https://wiki.archlinux.org/title/Hdparm>
+    # # - <https://wiki.archlinux.org/title/Udev>
+    # - name: Configure hard drive disk power management
+    #   when: proxmox_vm_id is defined
+    #   ansible.builtin.blockinfile:
+    #     path: /etc/udev/rules.d/69-disks.rules
+    #     # noqa yaml[line-length]
+    #     block: |
+    #       # Set power management for Western Digital hard drives
+    #       ACTION=="add|change", SUBSYSTEM=="block", KERNEL=="sd[a-z]", ATTR{queue/rotational}=="1", ATTRS{model}=="WDC *", RUN+="/usr/sbin/hdparm -B 128 -S 244 -J 30 --please-destroy-my-drive $env{DEVNAME}"
+    #     create: true
+    #     mode: "0644"
+
+    # ## Virtual machine configuration
+    # - name: Mount the disk to the virtual machine
+    #   when: proxmox_vm_id is defined
+    #   ansible.builtin.lineinfile:
+    #     path: /etc/pve/qemu-server/{{ proxmox_vm_id }}.conf
+    #     line:
+    #       '{{ proxmox_disk_number }}: /dev/disk/by-id/wwn-{{
+    #       ansible_devices[disk]["wwn"] }},backup=0,size={{
+    #       ansible_devices[disk]["size"] | regex_replace("([0-9.]+) ([KMGTP])B",
+    #       "\1\2") | regex_replace("([0-9.]+) B", "\1B") }}'

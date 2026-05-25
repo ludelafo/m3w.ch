@@ -2,34 +2,22 @@
 !include <office/Clouds/public_cloud>
 !include <office/Devices/router>
 !include <office/Devices/workstation>
+!include <office/Devices/device_laptop>
+!include <office/Devices/device_tv>
 !include <office/Servers/cluster_server>
 !include <office/Servers/application_server>
 !include <office/Servers/virtual_application_server>
 !include <office/Devices/hard_disk>
+!include <office/Devices/cell_phone_generic>
 
 nwdiag {
-  group physical_machines {
-    description = "Physical machines";
+  group legend {
+    description = "Legend";
 
-    workstation [description = "<$workstation>\n Workstation or Console"]
-    cluster_server [description = "<$cluster_server>\n Server"]
-  }
-
-  group virtual_machines {
-    description = "Virtual machines";
-
-    application_server [description = "<$application_server>\n Virtual machine"]
-  }
-
-  group containers {
-    description = "Containers";
-
-    virtual_application_server [description = "<$virtual_application_server>\n Container"]
-  }
-
-  group storage {
-    description = "Storage";
-
+    server [description = "<$cluster_server>\n Server"]
+    laptop [description = "<$device_laptop>\n Laptop"]
+    console [description = "<$device_tv>\n Console"]
+    workstation [description = "<$workstation>\n Workstation"]
     storage [description = "<$hard_disk>\n Storage"]
   }
 
@@ -37,41 +25,36 @@ nwdiag {
 
   internet -- router
 
-  router [address = "<External IP>",  description = "<$router>\n Yallo Fiber Box\n http://router.m3w.ch"]
+  router [address = "<External IP>",  description = "<$router>\n Yallo Fiber Box\n yallo.m3w.ch"]
 
   network internal {
       address = "192.168.1.x/24"
       router [address = "192.168.1.1"]
 
-      wii [address = "192.168.1.7"]
-      ps5 [address = "192.168.1.8"]
+      nas [address = "192.168.1.2"]
+      framework [address = "192.168.1.3"]
+      macbook_pro [address = "192.168.1.4"]
+      nintendo_wii [address = "192.168.1.7"]
+      sony_ps5 [address = "192.168.1.8"]
       libreelec [address = "192.168.1.9"]
-      proxmox [address = "192.168.1.10"]
       raspberry_pi [address = "192.168.1.254"]
   }
 
-  wii [description = "<$workstation>\n Nintendo Wii\n wii.m3w.ch"]
-  ps5 [description = "<$workstation>\n PlayStation 5\n ps5.m3w.ch"]
+  nas [description = "<$cluster_server>\n NAS\n nas.m3w.ch"]
+  framework [description = "<$device_laptop>\n Framework\n framework.m3w.ch"]
+  macbook_pro [description = "<$device_laptop>\n MacBook Pro\n macbook.m3w.ch"]
+  nintendo_wii [description = "<$device_tv>\n Nintendo Wii\n wii.m3w.ch"]
+  sony_ps5 [description = "<$device_tv>\n Sony PlayStation 5\n ps5.m3w.ch"]
   libreelec [description = "<$workstation>\n LibreELEC\n kodi.m3w.ch"]
-  proxmox [description = "<$cluster_server>\n Proxmox\n proxmox.m3w.ch"]
   raspberry_pi [description = "<$cluster_server>\n Raspberry Pi 3\n pi.m3w.ch"]
 
-  network proxmox {
-      proxmox
+  network {
+      nas
       storage_1
       storage_2
-
-      common [address = "192.168.1.2"]
-      ludovic [address = "192.168.1.3"]
-      mathilde [address = "192.168.1.4"]
-      windows [address = "192.168.1.5"]
   }
 
-  storage_1 [description = "<$hard_disk>\n 1x18 TB\n (RAID 0)"]
-  storage_2 [description = "<$hard_disk><$hard_disk>\n 2x2 TB\n (RAID 1)"]
-  common [description = "<$application_server>\n Common\n *.m3w.ch"]
-  ludovic [description = "<$application_server>\n Ludovic\n *.l.m3w.ch"]
-  mathilde [description = "<$application_server>\n Mathilde\n *.m.m3w.ch"]
-  windows [description = "<$application_server>\n Windows"]
+  storage_1 [description = "<$hard_disk>\n Data\n (18 TB)"]
+  storage_2 [description = "<$hard_disk>\n Backups\n (2 TB)"]
 }
 @endnwdiag

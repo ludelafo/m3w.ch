@@ -33,6 +33,8 @@ services:
     volumes:
       - ./extra_filesystems/nvme0:/extra-filesystems/nvme0:ro
       - ./extra_filesystems/sda:/extra-filesystems/sda:ro
+      - ./extra_filesystems/sdb:/extra-filesystems/sdb:ro
     devices:
       - /dev/nvme0
       - /dev/sda
+      - /dev/sdb

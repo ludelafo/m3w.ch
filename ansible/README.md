@@ -3,7 +3,6 @@
 ## Prerequisites
 
 - Debian 13 must be installed on the host.
-- Proxmox must be installed on the host.
 
 ## Configure host with Ansible
 

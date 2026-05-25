@@ -1,37 +1,22 @@
 @startnwdiag raspberry-pi-diagram
-!include <office/Devices/router>
-!include <office/Servers/cluster_server>
-!include <office/Servers/application_server>
-!include <office/Servers/virtual_application_server>
+!include <office/Concepts/application_generic>
+!include <office/Servers/server_generic>
 
 nwdiag {
   network internal {
       address = "192.168.1.x/24"
 
-      raspberry_pi [address = "192.168.1.254"];
+      raspberry_pi [address = "192.168.1.254"]
   }
 
-  raspberry_pi [description = "<$cluster_server>\n Raspberry Pi 3\n raspberry.m3w.ch"]
+  raspberry_pi [description = "<$server_generic>\n Raspberry Pi 3\n raspberry.m3w.ch"]
 
-  network host {
+  network {
     raspberry_pi
 
-    traefik
-  }
-
-  adguard_home [description = "<$virtual_application_server>\n AdGuard Home\n (DNS and DHCP server)\n https://adguard.m3w.ch"]
-  traefik [description = "<$virtual_application_server>\n Traefik\n (Reverse proxy)"];
-
-  network traefik_network {
-    address = "<Docker internal network>"
-
-    adguard_home  
     tang
-    traefik
-    wg_easy
   }
 
-  tang [description = "<$virtual_application_server>\n Tang\n (LUKS unlocker)\n https://tang.m3w.ch"]
-  wg_easy [description = "<$virtual_application_server>\n Wireguard Easy\n (VPN)\n https://gw.m3w.ch"]
+  tang [description = "<$application_generic>\n Tang\n (LUKS unlocker)\n http://192.168.1.254"]
 }
 @endnwdiag
