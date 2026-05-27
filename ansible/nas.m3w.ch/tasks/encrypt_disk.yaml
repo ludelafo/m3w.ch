@@ -1,4 +1,3 @@
----
 - name: Check if "{{ disk.name }}" is already LUKS encrypted
   ansible.builtin.command:
     cmd: cryptsetup isLuks "{{ disk.device }}"

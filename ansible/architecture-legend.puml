@@ -1,0 +1,25 @@
+@startnwdiag architecture-legend
+!include <office/Clouds/public_cloud>
+!include <office/Devices/cell_phone_generic>
+!include <office/Devices/device_laptop>
+!include <office/Devices/device_tv>
+!include <office/Devices/hard_disk>
+!include <office/Devices/router>
+!include <office/Devices/workstation>
+!include <office/Servers/server_generic>
+!include <office/Servers/virtual_application_server>
+
+title Architecture legend
+
+nwdiag {
+  internet [description = "<$public_cloud>\nInternet"]
+  router [description = "<$router>\nRouter"]
+  server [description = "<$server_generic>\nServer"]
+  laptop [description = "<$device_laptop>\nLaptop"]
+  console [description = "<$device_tv>\nConsole"]
+  workstation [description = "<$workstation>\nWorkstation"]
+  container [description = "<$virtual_application_server>\nContainer"]
+  storage [description = "<$hard_disk>\nStorage"]
+  smartphone [description = "<$cell_phone_generic>\nSmartphone"]
+}
+@endnwdiag

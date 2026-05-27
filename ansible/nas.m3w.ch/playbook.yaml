@@ -3,6 +3,12 @@
   gather_facts: true
   become: true
   tasks:
+    ## Timezone configuration
+    - name: Set timezone and hardware clock to UTC
+      community.general.timezone:
+        name: UTC
+        hwclock: UTC
+
     ## Network configuration
     - name: Configure interface name for nic0 network
       ansible.builtin.template:

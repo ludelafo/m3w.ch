@@ -1,6 +1,8 @@
-@startnwdiag raspberry-pi-diagram
+@startnwdiag raspberry-architecture
 !include <office/Concepts/application_generic>
 !include <office/Servers/server_generic>
+
+title Raspberry architecture
 
 nwdiag {
   network internal {
@@ -9,7 +11,7 @@ nwdiag {
       raspberry_pi [address = "192.168.1.254"]
   }
 
-  raspberry_pi [description = "<$server_generic>\n Raspberry Pi 3\n raspberry.m3w.ch"]
+  raspberry_pi [description = "<$server_generic>\nRaspberry Pi 3\nraspberry.m3w.ch"]
 
   network {
     raspberry_pi
@@ -17,6 +19,6 @@ nwdiag {
     tang
   }
 
-  tang [description = "<$application_generic>\n Tang\n (LUKS unlocker)\n http://192.168.1.254"]
+  tang [description = "<$application_generic>\nTang\n(LUKS unlocker)\nhttp://192.168.1.254"]
 }
 @endnwdiag
