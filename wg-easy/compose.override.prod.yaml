@@ -28,5 +28,5 @@ services:
       # https://github.com/glanceapp/glance/blob/main/docs/configuration.md#icons
       - glance.icon=sh:wireguard
       - glance.url=https://${WG_EASY_FQDN}
-      - glance.description=Simple WireGuard VPN web interface to manage your WireGuard server and clients.
+      - glance.description=WireGuard VPN web interface.
       - glance.category=infrastructure
