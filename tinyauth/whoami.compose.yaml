@@ -1,0 +1,14 @@
+networks:
+  traefik_network:
+    external: true
+
+services:
+  whoami:
+    image: traefik/whoami:latest
+    restart: unless-stopped
+    networks:
+      - traefik_network
+    labels:
+      traefik.enable: true
+      traefik.http.routers.whoami.rule: Host(`whoami.m3w.ch`)
+      traefik.http.routers.whoami.middlewares: tinyauth
