@@ -1,0 +1,29 @@
+hostname: "nas"
+domain: "m3w.ch"
+dns: 192.168.1.2
+
+# 10Gbit/s network configuration
+nic0_interface_name: "nic0"
+nic0_mac_address: "6c:1f:f7:56:2f:71"
+nic0_ip_address: "192.168.1.2"
+nic0_netmask: "255.255.255.0"
+nic0_gateway: "192.168.1.1"
+
+# 2.5Gbit/s network configuration
+nic1_interface_name: "nic1"
+nic1_mac_address: "6c:1f:f7:56:2f:72"
+# nic1_ip_address: "192.168.1.250"
+# nic1_netmask: "255.255.255.0"
+# nic1_gateway: "192.168.1.1"
+
+# Storage configuration
+storage_device: "/dev/sda"
+storage_luks_key_file: "/etc/luks/storage.key"
+storage_luks_name: "storage_crypt"
+storage_label: "storage"
+storage_mount_point: "/srv/storage"
+backups_device: "/dev/sdb"
+backups_luks_key_file: "/etc/luks/backups.key"
+backups_luks_name: "backups_crypt"
+backups_label: "backups"
+backups_mount_point: "/srv/backups"

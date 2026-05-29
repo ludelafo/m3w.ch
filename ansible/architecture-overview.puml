@@ -1,0 +1,50 @@
+@startnwdiag architecture-overview
+!include <office/Clouds/public_cloud>
+!include <office/Devices/router>
+!include <office/Devices/workstation>
+!include <office/Devices/device_laptop>
+!include <office/Devices/device_tv>
+!include <office/Servers/server_generic>
+!include <office/Servers/virtual_application_server>
+!include <office/Devices/hard_disk>
+
+title Architecture overview
+
+nwdiag {
+  internet [shape = cloud,  description = "<$public_cloud>\nInternet"]
+
+  internet -- router
+
+  router [address = "<External IP>, :25565, :51820/udp, :52570/tcp+udp",  description = "<$router>\nYallo Fiber Box 2\nyallo.m3w.ch"]
+
+  network internal {
+      address = "192.168.1.x/24"
+      router [address = "192.168.1.1"]
+
+      nas [address = "192.168.1.2"]
+      framework [address = "192.168.1.3"]
+      macbook_pro [address = "192.168.1.4"]
+      nintendo_wii [address = "192.168.1.7"]
+      sony_ps5 [address = "192.168.1.8"]
+      libreelec [address = "192.168.1.9"]
+      raspberry_pi [address = "192.168.1.254"]
+  }
+
+  nas [description = "<$server_generic>\nNAS\nnas.m3w.ch"]
+  framework [description = "<$device_laptop>\nFramework\nframework.m3w.ch"]
+  macbook_pro [description = "<$device_laptop>\nMacBook Pro\nmacbook.m3w.ch"]
+  nintendo_wii [description = "<$device_tv>\nNintendo Wii\nwii.m3w.ch"]
+  sony_ps5 [description = "<$device_tv>\nSony PlayStation 5\nps5.m3w.ch"]
+  libreelec [description = "<$workstation>\nLibreELEC\nkodi.m3w.ch"]
+  raspberry_pi [description = "<$server_generic>\nRaspberry Pi 3\nraspberry.m3w.ch"]
+
+  network {
+      nas
+      storage_1
+      storage_2
+  }
+
+  storage_1 [description = "<$hard_disk>\nStorage\n(18 TB)"]
+  storage_2 [description = "<$hard_disk>\nBackups\n(2 TB)"]
+}
+@endnwdiag

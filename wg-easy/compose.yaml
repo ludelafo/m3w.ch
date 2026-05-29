@@ -7,7 +7,7 @@ networks:
 services:
   wg-easy:
     container_name: ${WG_EASY_CONTAINER_NAME}
-    image: ghcr.io/wg-easy/wg-easy:${WG_EASY_VERSION}
+    image: ghcr.io/wg-easy/wg-easy:${WG_EASY_IMAGE_VERSION}
     restart: unless-stopped
     environment:
       - INSECURE=true

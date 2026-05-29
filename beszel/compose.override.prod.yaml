@@ -24,7 +24,7 @@ services:
       # https://github.com/glanceapp/glance/blob/main/docs/configuration.md#icons
       - glance.icon=sh:beszel
       - glance.url=https://${BESZEL_FQDN}
-      - glance.description=A server monitoring tool.
+      - glance.description=Server monitoring tool.
       - glance.category=infrastructure
 
   beszel-agent:
@@ -33,6 +33,8 @@ services:
     volumes:
       - ./extra_filesystems/nvme0:/extra-filesystems/nvme0:ro
       - ./extra_filesystems/sda:/extra-filesystems/sda:ro
+      - ./extra_filesystems/sdb:/extra-filesystems/sdb:ro
     devices:
       - /dev/nvme0
       - /dev/sda
+      - /dev/sdb

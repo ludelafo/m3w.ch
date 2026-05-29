@@ -23,5 +23,8 @@ sudo apt install --yes neovim
 # Install packages to optimize images (jpegoptim, optipng)
 sudo apt install --yes jpegoptim optipng
 
+# Install packages to lint Ansible playbooks (ansible-lint)
+sudo apt install --yes ansible-lint
+
 # Install network utilities (dig, nslookup, ping, ncat)
 sudo apt install --yes dnsutils iputils-ping ncat

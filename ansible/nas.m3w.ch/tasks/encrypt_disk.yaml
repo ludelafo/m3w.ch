@@ -1,0 +1,63 @@
+- name: Check if "{{ disk.name }}" is already LUKS encrypted
+  ansible.builtin.command:
+    cmd: cryptsetup isLuks "{{ disk.device }}"
+  register: disk_is_luks
+  failed_when: false
+  changed_when: false
+
+- name: Encrypt "{{ disk.name }}" with LUKS
+  ansible.builtin.command:
+    cmd:
+      cryptsetup luksFormat --batch-mode "{{ disk.device }}" "{{ disk.keyfile
+      }}"
+  when: disk_is_luks.rc != 0
+  changed_when: false
+
+- name: Open "{{ disk.name }}" encrypted device
+  ansible.builtin.command:
+    cmd:
+      cryptsetup luksOpen "{{ disk.device }}" "{{ disk.name }}" --key-file="{{
+      disk.keyfile }}"
+    creates: "/dev/mapper/{{ disk.name }}"
+
+- name: Check if "{{ disk.name }}" filesystem exists
+  ansible.builtin.command:
+    cmd: blkid /dev/mapper/{{ disk.name }}
+  register: disk_has_fs
+  failed_when: false
+  changed_when: false
+
+- name: Create ext4 filesystem on "{{ disk.name }}"
+  community.general.filesystem:
+    fstype: ext4
+    dev: /dev/mapper/{{ disk.name }}
+    opts: -L {{ disk.label }}
+  when: disk_has_fs.rc != 0
+
+- name: Get UUID of "{{ disk.name }}" LUKS partition
+  ansible.builtin.command:
+    cmd: blkid -s UUID -o value {{ disk.device }}
+  register: disk_uuid_result
+  changed_when: false
+
+- name: Add "{{ disk.name }}" to crypttab
+  ansible.builtin.lineinfile:
+    path: /etc/crypttab
+    regexp: '^{{ disk.name }}\s+'
+    line:
+      "{{ disk.name }} UUID={{ disk_uuid_result.stdout }} {{ disk.keyfile }}
+      luks,discard,x-initrd.attach"
+    mode: "0644"
+  register: crypttab_update
+
+- name: Mount "{{ disk.name }}" in fstab
+  ansible.posix.mount:
+    path: "{{ disk.mount }}"
+    src: /dev/mapper/{{ disk.name }}
+    fstype: ext4
+    opts: defaults,noatime
+    state: mounted
+
+- name: Set fact if crypttab changed
+  ansible.builtin.set_fact:
+    disk_crypttab_changed: "{{ crypttab_update is changed }}"
