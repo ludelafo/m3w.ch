@@ -15,6 +15,8 @@ secrets:
 
 services:
   lldap:
+    container_name: ${LLDAP_CONTAINER_NAME}
+    hostname: ${LLDAP_CONTAINER_NAME}
     image: lldap/lldap:${LLDAP_IMAGE_VERSION}
     restart: unless-stopped
     env_file:
