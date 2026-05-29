@@ -7,8 +7,7 @@ log:
 api:
   dashboard: true
 
-ping:
-  entryPoint: websecure
+ping: {}
 
 providers:
   docker:
@@ -30,6 +29,10 @@ entryPoints:
 
   websecure:
     address: ":443"
+    forwardedHeaders:
+      trustedIPs:
+        - 127.0.0.1/32
+        - 172.16.0.0/12
     http:
       middlewares:
         - http-strict-transport-security-header@file
