@@ -10,8 +10,8 @@ secrets:
   key_seed.txt:
     file: ./data/key_seed.txt
 
-  user_pass.txt:
-    file: ./data/user_pass.txt
+  ldap_user_pass.txt:
+    file: ./data/ldap_user_pass.txt
 
 services:
   lldap:
@@ -23,7 +23,7 @@ services:
       - LLDAP_HTTP_URL=https://${LLDAP_FQDN}
       - LLDAP_JWT_SECRET_FILE=/run/secrets/jwt_secret.txt
       - LLDAP_KEY_SEED_FILE=/run/secrets/key_seed.txt
-      - LLDAP_USER_PASS_FILE=/run/secrets/user_pass.txt
+      - LLDAP_LDAP_USER_PASS_FILE=/run/secrets/ldap_user_pass.txt
     networks:
       - lldap_network
     ports:
@@ -31,6 +31,6 @@ services:
     secrets:
       - jwt_secret.txt
       - key_seed.txt
-      - user_pass.txt
+      - ldap_user_pass.txt
     volumes:
       - ./data:/data
