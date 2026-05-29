@@ -1,0 +1,30 @@
+name: Tinyauth
+
+networks:
+  traefik_network:
+    external: true
+
+services:
+  tinyauth:
+    container_name: ${TINYAUTH_CONTAINER_NAME}
+    hostname: ${TINYAUTH_CONTAINER_NAME}
+    image: ghcr.io/steveiliop56/tinyauth:${TINYAUTH_IMAGE_VERSION}
+    restart: unless-stopped
+    env_file:
+      - tinyauth.env
+    environment:
+      - TINYAUTH_APPURL=${TINYAUTH_FQDN}
+    expose:
+      - 3000
+    networks:
+      - traefik_network
+    labels:
+      ## Traefik
+      - traefik.enable=true
+      # Router
+      - traefik.http.routers.${TINYAUTH_CONTAINER_NAME}.entryPoints=websecure
+      - traefik.http.routers.${TINYAUTH_CONTAINER_NAME}.rule=Host(`${TINYAUTH_FQDN}`)
+      # Service
+      - traefik.http.services.${TINYAUTH_CONTAINER_NAME}.loadbalancer.server.port=3000
+      # Middleware
+      - traefik.http.middlewares.tinyauth.forwardauth.address=http://tinyauth:3000/api/auth/traefik

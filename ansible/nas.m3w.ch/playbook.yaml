@@ -68,6 +68,35 @@
         autoclean: true
         autoremove: true
 
+    - name: Install unattended-upgrades
+      ansible.builtin.apt:
+        pkg:
+          - unattended-upgrades
+
+    - name: Enable unattended-upgrades
+      ansible.builtin.debconf:
+        name: unattended-upgrades
+        question: unattended-upgrades/enable_auto_updates
+        value: "true"
+        vtype: "boolean"
+
+    - name: Configure unattended-upgrades (1/2)
+      ansible.builtin.template:
+        src: etc/apt/apt.conf.d/22auto-upgrades-local.j2
+        dest: /etc/apt/apt.conf.d/22auto-upgrades-local
+        mode: "0644"
+
+    - name: Configure unattended-upgrades (2/2)
+      ansible.builtin.template:
+        src: etc/apt/apt.conf.d/52unattended-upgrades-local.j2
+        dest: /etc/apt/apt.conf.d/52unattended-upgrades-local
+        mode: "0644"
+
+    - name: Restart unattended-upgrades
+      ansible.builtin.systemd:
+        name: unattended-upgrades
+        state: restarted
+
     - name: Install additional packages
       ansible.builtin.apt:
         pkg:
@@ -81,28 +110,39 @@
           - tree
         update_cache: true
 
+    - name: Update GRUB configuration to set network configuration for nic0
+      ansible.builtin.lineinfile:
+        path: /etc/default/grub
+        regexp: "^GRUB_CMDLINE_LINUX"
+        line:
+          GRUB_CMDLINE_LINUX="ifname={{ nic0_interface_name }}:{{
+          nic0_mac_address }} ip={{ nic0_ip_address }}::{{ nic0_gateway }}:{{
+          nic0_netmask }}:{{ hostname }}:{{ nic0_interface_name }}:none:{{ dns
+          }}"
+      register: grub_configuration
+
     ## Hard drive disks
-    - name: Configure encrypted disks
-      ansible.builtin.include_tasks: tasks/encrypt_disk.yaml
-      loop:
-        - {
-            device: "{{ storage_device }}",
-            name: "{{ storage_luks_name }}",
-            label: "{{ storage_label }}",
-            keyfile: "{{ storage_luks_key_file }}",
-            mount: "{{ storage_mount_point }}",
-          }
-        - {
-            device: "{{ backups_device }}",
-            name: "{{ backups_luks_name }}",
-            label: "{{ backups_label }}",
-            keyfile: "{{ backups_luks_key_file }}",
-            mount: "{{ backups_mount_point }}",
-          }
-      loop_control:
-        loop_var: disk
-        label: "{{ disk.name }}"
-      register: encrypted_disks_result
+    # - name: Configure encrypted disks
+    #   ansible.builtin.include_tasks: tasks/encrypt_disk.yaml
+    #   loop:
+    #     - {
+    #         device: "{{ storage_device }}",
+    #         name: "{{ storage_luks_name }}",
+    #         label: "{{ storage_label }}",
+    #         keyfile: "{{ storage_luks_key_file }}",
+    #         mount: "{{ storage_mount_point }}",
+    #       }
+    #     - {
+    #         device: "{{ backups_device }}",
+    #         name: "{{ backups_luks_name }}",
+    #         label: "{{ backups_label }}",
+    #         keyfile: "{{ backups_luks_key_file }}",
+    #         mount: "{{ backups_mount_point }}",
+    #       }
+    #   loop_control:
+    #     loop_var: disk
+    #     label: "{{ disk.name }}"
+    #   register: encrypted_disks_result
 
     ## Users and groups
     - name: Ensure group "docker" exists
@@ -215,6 +255,12 @@
         state: started
         enabled: true
 
+    - name: Update GRUB
+      ansible.builtin.command:
+        cmd: update-grub
+      when: (grub_configuration is changed)
+      changed_when: false
+
     - name: Update initramfs
       ansible.builtin.command:
         cmd: update-initramfs -u -k all
@@ -224,92 +270,5 @@
         (encrypted_disks_result.results |
         selectattr('ansible_facts.disk_crypttab_changed', 'defined') |
         selectattr('ansible_facts.disk_crypttab_changed', 'equalto', true) |
-        list | length > 0)
+        list | length > 0) or (grub_configuration is changed)
       changed_when: false
-
-    # # https://github.com/miskcoo/ugreen_leds_controller
-    # - name: Install UGREEN LEDs driver
-    #   ansible.builtin.apt:
-    #     deb: https://github.com/miskcoo/ugreen_leds_controller/releases/download/v0.3/led-ugreen-dkms_0.3_amd64.deb
-
-    # - name: Create UGREEN LED modules configuration
-    #   ansible.builtin.copy:
-    #     dest: /etc/modules-load.d/ugreen-led.conf
-    #     content: |
-    #       i2c-dev
-    #       led-ugreen
-    #       ledtrig-oneshot
-    #       ledtrig-netdev
-    #     mode: "0644"
-
-    # ## Disks
-    # - name: Create the systemd mount unit file
-    #   when: ct_id is defined
-    #   ansible.builtin.template:
-    #     src: etc/systemd/system/mnt-pve-disk.mount.j2
-    #     dest: /etc/systemd/system/mnt-pve-{{ disk_label }}.mount
-    #     mode: "0644"
-
-    # - name: Enable and start the systemd mount unit
-    #   when: ct_id is defined
-    #   ansible.builtin.systemd:
-    #     name: mnt-pve-{{ disk_label }}.mount
-    #     state: started
-    #     daemon_reload: true
-    #     enabled: true
-
-    # ## Container configuration
-    # - name: Mount the disk to the container
-    #   when: ct_id is defined
-    #   ansible.builtin.lineinfile:
-    #     path: /etc/pve/lxc/{{ ct_id }}.conf
-    #     line:
-    #       "mp0: /mnt/pve/{{ disk_label }},mp=/home/{{ user
-    #       }},mountoptions=noatime,backup=0"
-
-    # - name: Enable nesting feature for using Docker in the container
-    #   when: ct_id is defined
-    #   ansible.builtin.lineinfile:
-    #     path: /etc/pve/lxc/{{ ct_id }}.conf
-    #     line: "features: nesting=1"
-
-    # - name: Enable start on boot
-    #   when: ct_id is defined
-    #   ansible.builtin.lineinfile:
-    #     path: /etc/pve/lxc/{{ ct_id }}.conf
-    #     line: "onboot: 1"
-
-    # # Source: https://github.com/portainer/portainer/issues/8478#issuecomment-1426866713
-    # - name: Clear the cap drops
-    #   when: ct_id is defined
-    #   ansible.builtin.lineinfile:
-    #     path: /etc/pve/lxc/{{ ct_id }}.conf
-    #     line: "lxc.cap.drop:"
-
-    # ## Hard drive disk
-    # #
-    # # Source:
-    # #
-    # # - <https://wiki.archlinux.org/title/Hdparm>
-    # # - <https://wiki.archlinux.org/title/Udev>
-    # - name: Configure hard drive disk power management
-    #   when: proxmox_vm_id is defined
-    #   ansible.builtin.blockinfile:
-    #     path: /etc/udev/rules.d/69-disks.rules
-    #     # noqa yaml[line-length]
-    #     block: |
-    #       # Set power management for Western Digital hard drives
-    #       ACTION=="add|change", SUBSYSTEM=="block", KERNEL=="sd[a-z]", ATTR{queue/rotational}=="1", ATTRS{model}=="WDC *", RUN+="/usr/sbin/hdparm -B 128 -S 244 -J 30 --please-destroy-my-drive $env{DEVNAME}"
-    #     create: true
-    #     mode: "0644"
-
-    # ## Virtual machine configuration
-    # - name: Mount the disk to the virtual machine
-    #   when: proxmox_vm_id is defined
-    #   ansible.builtin.lineinfile:
-    #     path: /etc/pve/qemu-server/{{ proxmox_vm_id }}.conf
-    #     line:
-    #       '{{ proxmox_disk_number }}: /dev/disk/by-id/wwn-{{
-    #       ansible_devices[disk]["wwn"] }},backup=0,size={{
-    #       ansible_devices[disk]["size"] | regex_replace("([0-9.]+) ([KMGTP])B",
-    #       "\1\2") | regex_replace("([0-9.]+) B", "\1B") }}'

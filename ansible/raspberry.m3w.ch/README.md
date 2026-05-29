@@ -46,64 +46,13 @@ p
 2048 (default)
 
 # Set the last sector (size of 1024 MiB)
-+1024M
-
-# Add a new partition (var)
-n
-
-# Set the new partition as a primary partition
-p
-
-# Set the partition number
-2 (default)
-
-# Set the first sector
-2099200 (default)
-
-# Set the last sector (size of 2048 MiB)
-+2048M
-
-# Add a new partition (swap)
-n
-
-# Set the new partition as a primary partition
-p
-
-# Set the partition number
-3 (default)
-
-# Set the first sector
-6293504 (default)
-
-# Set the last sector (size of 2048 MiB)
-+2048M
++4096M
 
 # Change a partition type
 t
-
-# Select root partition
-1
 
 # Select partition type (W95 FAT32 (LBA))
 0c
-
-# Change a partition type
-t
-
-# Select var partition
-2
-
-# Select partition type (Linux)
-83
-
-# Change a partition type
-t
-
-# Select swap partition
-3
-
-# Select partition type (Linux swap / Solaris)
-82
 
 # Print the partition table
 p
@@ -113,66 +62,34 @@ w
 ```
 
 ```text
-sudo fdisk /dev/sdb
-
-Welcome to fdisk (util-linux 2.40.4).
+Welcome to fdisk (util-linux 2.41.4).
 Changes will remain in memory only, until you decide to write them.
 Be careful before using the write command.
 
 
 Command (m for help): o
-Created a new DOS (MBR) disklabel with disk identifier 0x87397cca.
+Created a new DOS (MBR) disklabel with disk identifier 0x3fefab78.
 
 Command (m for help): n
 Partition type
    p   primary (0 primary, 0 extended, 4 free)
    e   extended (container for logical partitions)
 Select (default p): p
-Partition number (1-4, default 1): 1
-First sector (2048-15136767, default 2048): 2048
-Last sector, +/-sectors or +/-size{K,M,G,T,P} (2048-15136767, default 15136767): +1024M
+Partition number (1-4, default 1):
+First sector (2048-15136767, default 2048):
+Last sector, +/-sectors or +/-size{K,M,G,T,P} (2048-15136767, default 15136767): +4096M
 
-Created a new partition 1 of type 'Linux' and of size 1 GiB.
+Created a new partition 1 of type 'Linux' and of size 4 GiB.
+Partition #1 contains a vfat signature.
 
-Command (m for help): n
-Partition type
-   p   primary (1 primary, 0 extended, 3 free)
-   e   extended (container for logical partitions)
-Select (default p): p
-Partition number (2-4, default 2): 2
-First sector (2099200-15136767, default 2099200): 2099200
-Last sector, +/-sectors or +/-size{K,M,G,T,P} (2099200-15136767, default 15136767): +2048M
+Do you want to remove the signature? [Y]es/[N]o: Y
 
-Created a new partition 2 of type 'Linux' and of size 2 GiB.
-
-Command (m for help): n
-Partition type
-   p   primary (2 primary, 0 extended, 2 free)
-   e   extended (container for logical partitions)
-Select (default p): p
-Partition number (3,4, default 3): 3
-First sector (6293504-15136767, default 6293504): 6293504
-Last sector, +/-sectors or +/-size{K,M,G,T,P} (6293504-15136767, default 15136767): +2048M
-
-Created a new partition 3 of type 'Linux' and of size 2 GiB.
+The signature will be removed by a write command.
 
 Command (m for help): t
-Partition number (1-3, default 3): 1
+Selected partition 1
 Hex code or alias (type L to list all): 0c
-
 Changed type of partition 'Linux' to 'W95 FAT32 (LBA)'.
-
-Command (m for help): t
-Partition number (1-3, default 3): 2
-Hex code or alias (type L to list all): 83
-
-Changed type of partition 'Linux' to 'Linux'.
-
-Command (m for help): t
-Partition number (1-3, default 3): 3
-Hex code or alias (type L to list all): 82
-
-Changed type of partition 'Linux' to 'Linux swap / Solaris'.
 
 Command (m for help): p
 Disk /dev/sdb: 7.22 GiB, 7750025216 bytes, 15136768 sectors
@@ -181,12 +98,12 @@ Units: sectors of 1 * 512 = 512 bytes
 Sector size (logical/physical): 512 bytes / 512 bytes
 I/O size (minimum/optimal): 512 bytes / 512 bytes
 Disklabel type: dos
-Disk identifier: 0x87397cca
+Disk identifier: 0x3fefab78
 
-Device     Boot   Start      End Sectors Size Id Type
-/dev/sdb1          2048  2099199 2097152   1G  c W95 FAT32 (LBA)
-/dev/sdb2       2099200  6293503 4194304   2G 83 Linux
-/dev/sdb3       6293504 10487807 4194304   2G 82 Linux swap / Solaris
+Device     Boot Start     End Sectors Size Id Type
+/dev/sdb1        2048 8390655 8388608   4G  c W95 FAT32 (LBA)
+
+Filesystem/RAID signature on partition 1 will be wiped.
 
 Command (m for help): w
 The partition table has been altered.
@@ -206,12 +123,10 @@ Units: sectors of 1 * 512 = 512 bytes
 Sector size (logical/physical): 512 bytes / 512 bytes
 I/O size (minimum/optimal): 512 bytes / 512 bytes
 Disklabel type: dos
-Disk identifier: 0x87397cca
+Disk identifier: 0x3fefab78
 
-Device     Boot   Start      End Sectors Size Id Type
-/dev/sdb1          2048  2099199 2097152   1G  c W95 FAT32 (LBA)
-/dev/sdb2       2099200  6293503 4194304   2G 83 Linux
-/dev/sdb3       6293504 10487807 4194304   2G 82 Linux swap / Solaris
+Device     Boot Start     End Sectors Size Id Type
+/dev/sdb1        2048 8390655 8388608   4G  c W95 FAT32 (LBA)
 ```
 
 ## Format the partitions
@@ -219,17 +134,14 @@ Device     Boot   Start      End Sectors Size Id Type
 ```sh
 # Format the root partition
 sudo mkfs.msdos -F32 -n root /dev/sdb1
-
-# Format the var partition
-sudo mkfs.ext4 -L var /dev/sdb2
-
-# Format the swap partition
-sudo mkswap -L swap /dev/sdb3
 ```
 
 ## Extract Alpine Linux to the root partition
 
 ```sh
+# Log in as root
+sudo su
+
 # Move to temporary directory
 cd /tmp
 
@@ -237,10 +149,33 @@ cd /tmp
 wget https://dl-cdn.alpinelinux.org/alpine/v3.23/releases/aarch64/alpine-rpi-3.23.3-aarch64.tar.gz --output-document alpine-rpi.tar.gz
 
 # Mount root partition
-sudo mount /dev/sdb1 /media
+mount /dev/sdb1 /media
 
 # Extract .tar.gz to /media
-sudo tar --extract --file alpine-rpi.tar.gz --directory /media
+tar --extract --file alpine-rpi.tar.gz --directory /media
+
+# Download headless overlay for Alpine Linux
+#
+# Source: https://wiki.alpinelinux.org/wiki/Installation_on_a_headless_host#Headless_bootstrap_overlay_file
+wget https://github.com/macmpi/alpine-linux-headless-bootstrap/raw/a1320e476585e86a5ddfc3a81311f839d0cd3f93/headless.apkovl.tar.gz --output-document /media/headless.apkovl.tar.gz
+
+# Create the wpa_supplicant configuration file for Wi-Fi connection
+wpa_passphrase "mySSID" "myPassPhrase" > /media/wpa_supplicant.conf
+
+# Remove clear passphrase from the wpa_supplicant configuration file
+sed -i '/#psk="/d' /media/wpa_supplicant.conf
+
+# Set network interface
+tee /media/interfaces >/dev/null <<'EOF'
+auto lo
+iface lo inet loopback
+
+auto wlan0
+iface wlan0 inet static
+   address 192.168.1.254
+   netmask 255.255.255.0
+   gateway 192.168.1.1
+EOF
 
 # Unmount root partition
 sudo umount /dev/sdb1
@@ -248,14 +183,66 @@ sudo umount /dev/sdb1
 
 ## Start and configure Alpine Linux
 
+```text
+# Set up keyboard
+KEYMAPOPTS="us us"
+
+# Set up LBU
+LBUOPTS="mmcblk0p1"
+
+# Set up hostname
+HOSTNAMEOPTS=raspberry.m3w.ch
+
+# Set up network
+INTERFACESOPTS="auto lo
+iface lo inet loopback
+
+auto wlan0
+iface wlan0 inet static
+   address 192.168.1.254
+   netmask 255.255.255.0
+   gateway 192.168.1.1
+"
+
+# Set up DNS
+DNSOPTS="-d m3w.ch 192.168.1.2"
+
+# Set up HTTP/FTP proxy
+PROXYOPTS=none
+
+# Set up disk
+DISKOPTS=none
+
+# Set up timezone
+TIMEZONEOPTS="-i UTC"
+
+# Set up NTP
+NTPOPTS="busybox"
+
+# Set up repositories
+APKREPOSOPTS="-c -1"
+
+# Set up user
+USEROPTS="-a -k https://github.com/ludelafo.keys alpine"
+
+# Set up SSH
+SSHDOPTS="openssh"
+
+# Set up APK cache
+APKCACHEOPTS="/media/LABEL=root/cache"
+```
+
 ```sh
-# Setup keyboard
+# Use the answer file below or run the following commands manually
+setup-alpine -f PATH_TO_FILENAME
+
+# Set up keyboard
 setup-keymap us us
 
-# Setup hostname
+# Set up hostname
 setup-hostname raspberry.m3w.ch
 
-# Setup LBU
+# Set up LBU
 setup-lbu mmcblk0p1
 
 # Visualize changes
@@ -264,41 +251,35 @@ lbu commit -n
 # Commit changes
 lbu commit
 
-# Setup interfaces
+# Set up interfaces
 setup-interfaces -r
 
-# Setup Wi-Fi using wlan0 - IP 192.168.1.250 / Netmask 255.255.255.0 / Gateway 192.168.1.1
+# Set up Wi-Fi using wlan0 - IP 192.168.1.250 / Netmask 255.255.255.0 / Gateway 192.168.1.1
 
-# Setup DNS (Quad9)
-setup-dns -d m3w.ch 9.9.9.9 149.112.112.112
+# Set up DNS
+setup-dns -d m3w.ch 192.168.1.2
 
-# Setup timezone
+# Set up timezone
 setup-timezone -i UTC
 
-# Setup NTP
+# Set up NTP
 setup-ntp busybox
 
-# Setup APK repositories
+# Set up APK repositories
 setup-apkrepos -c -1
 
-# Setup APK cache
+# Set up APK cache
 setup-apkcache /media/mmcblk0p1/cache
 
 # Update packages
 apk update
 apk upgrade
 
-# Setup SSH
+# Set up SSH
 setup-sshd openssh
 
-# Create new user's home
-mkdir /home/alpine
-
-# Setup new user
+# Set up new user
 setup-user -a -k https://github.com/ludelafo.keys alpine
-
-# Change user's home permissions
-chown -R alpine:alpine /home/alpine
 
 # Add user's home to LBU
 lbu include /home/alpine
@@ -309,48 +290,111 @@ passwd alpine
 # Disable root login
 passwd -l root
 
-# Logout as root
-exit
+# Remount root partition as read-write
+mount -o remount,rw /media/mmcblk0p1
 
-# Login as alpine again
-
-# Install utils
-doas apk add git ncdu vim
-
-# Update fstab to mount the var and swap partitions
-doas vim /etc/fstab
-
-# Enable swap on boot
-doas rc-update add swap
-
-# Install Docker and Docker Compose
-doas apk add docker docker-cli-compose
-
-# Enable Docker on boot
-doas rc-update add docker
-
-# Add `alpine` user to Docker group
-doas addgroup alpine docker
+# Remove headless overlay
+rm /media/mmcblk0p1/alpine-headless.apkovl.tar.gz
+rm /media/mmcblk0p1/interfaces
+rm /media/mmcblk0p1/wpa_supplicant.conf
 
 # Commit changes
-doas lbu commit -d
+lbu commit -d
 
 # Reboot the system
-doas reboot
+reboot
 
-# Re-create the `/var/empty` directory after reboot
-doas mkdir -p /var/empty
+# Add testing repository
+echo "@testing http://dl-cdn.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories
 
-# Reboot the system again to apply the changes
-doas reboot
+doas apk add tang@testing
+
+doas tee /etc/conf.d/tang >/dev/null <<'EOF'
+# Tang server configuration
+
+# Listen on all network interfaces
+tang_address="0.0.0.0"
+
+# Use default port
+tang_port="8080"
+EOF
+
+doas rc-update add tang
+
+doas service tang start
+
+doas lbu include /var/lib/tang
+
+doas lbu commit
+
+tang-show-keys 8080
+
+doas apk add beszel-agent
+
+doas mkdir /var/lib/beszel-agent
+
+doas chown beszel-agent:beszel-agent /var/lib/beszel-agent
+
+
+doas tee /etc/init.d/beszel-agent >/dev/null <<'EOF'
+#!/sbin/openrc-run
+
+name="beszel-agent"
+description="Beszel Agent Service"
+command="/usr/bin/beszel-agent"
+command_user="beszel-agent"
+command_background="yes"
+pidfile="/run/\${RC_SVCNAME}.pid"
+output_log="/var/log/beszel-agent/beszel-agent.log"
+error_log="/var/log/beszel-agent/beszel-agent.err"
+
+start_pre() {
+    checkpath -f -p -m 0644 -o beszel-agent:beszel-agent "\$output_log" "\$error_log"
+    checkpath --directory -o beszel-agent:beszel-agent ${pidfile%/*}
+
+    export PORT="$PORT"
+    export KEY="$KEY"
+    export HUB_URL="$HUB_URL"
+    export TOKEN="$TOKEN"
+    export EXCLUDE_SMART="$EXCLUDE_SMART"
+}
+
+depend() {
+    need net
+    after firewall
+}
+EOF
+
+doas tee /etc/conf.d/beszel-agent >/dev/null <<'EOF'
+# Disable the SSH server completely (WebSocket connection only).
+DISABLE_SSH=true
+
+# URL of the Hub.
+HUB_URL="https://beszel.m3w.ch"
+
+# Public SSH key(s) to use for authentication. Provided in Hub.
+KEY="ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILi8MTmsrveQdtQ9hDfcEmr4tnP4rAsLiB42WA+Fjde5"
+
+# WebSocket registration token. Provided in Hub.
+TOKEN="a388a0e1-4063-4e11-a27f-e2c1e7076cb9"
+
+# Exclude S.M.A.R.T. devices from being monitored.
+EXCLUDE_SMART=true
+EOF
+
+doas lbu include /etc/init.d/beszel-agent
+doas lbu include /etc/conf.d/beszel-agent
+doas lbu include /var/lib/beszel-agent
+
+
+doas rc-update add beszel-agent
+
+doas service beszel-agent start
+
+doas lbu ci
 ```
 
-```text
-UUID=8DD4-F41C                                  /media/mmcblk0p1        vfat    noauto,ro       0       0
-UUID=9703c838-3917-4a22-9b7e-75455df4e859       /var                    ext4    defaults        0       0
-UUID=091eaa6e-ab8e-4abd-9d87-f8513c451217       none                    swap    defaults        0       0
-```
-
-- <https://wiki.alpinelinux.org/wiki/Docker>
-- <https://wiki.alpinelinux.org/wiki/Swap>
 - <https://wiki.alpinelinux.org/wiki/OpenRC>
+- <https://wiki.alpinelinux.org/wiki/Repositories#Edge>
+- <https://wiki.alpinelinux.org/wiki/Repositories#Upgrading_to_edge>
+- <https://gitlab.alpinelinux.org/alpine/aports/-/tree/master/community/beszel>
