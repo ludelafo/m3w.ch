@@ -2,6 +2,7 @@ name: LLDAP
 
 networks:
   lldap_network:
+    name: lldap_network
 
 secrets:
   jwt_secret.txt:
