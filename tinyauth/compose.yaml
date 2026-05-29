@@ -8,12 +8,12 @@ services:
   tinyauth:
     container_name: ${TINYAUTH_CONTAINER_NAME}
     hostname: ${TINYAUTH_CONTAINER_NAME}
-    image: ghcr.io/steveiliop56/tinyauth:${TINYAUTH_IMAGE_VERSION}
+    image: tinyauthapp/tinyauth:${TINYAUTH_IMAGE_VERSION}
     restart: unless-stopped
     env_file:
       - tinyauth.env
     environment:
-      - TINYAUTH_APPURL=${TINYAUTH_FQDN}
+      - TINYAUTH_APPURL=https://${TINYAUTH_FQDN}
     expose:
       - 3000
     networks:
