@@ -1,0 +1,36 @@
+name: LLDAP
+
+networks:
+  lldap_network:
+
+secrets:
+  jwt_secret.txt:
+    file: ./data/jwt_secret.txt
+
+  key_seed.txt:
+    file: ./data/key_seed.txt
+
+  user_pass.txt:
+    file: ./data/user_pass.txt
+
+services:
+  lldap:
+    image: lldap/lldap:${LLDAP_IMAGE_VERSION}
+    restart: unless-stopped
+    env_file:
+      - lldap.env
+    environment:
+      - LLDAP_HTTP_URL=${LLDAP_FQDN}
+      - LLDAP_JWT_SECRET_FILE=/run/secrets/jwt_secret.txt
+      - LLDAP_KEY_SEED_FILE=/run/secrets/key_seed.txt
+      - LLDAP_USER_PASS_FILE=/run/secrets/user_pass.txt
+    networks:
+      - lldap_network
+    ports:
+      - 17170:17170
+    secrets:
+      - jwt_secret.txt
+      - key_seed.txt
+      - user_pass.txt
+    volumes:
+      - ./data:/data
