@@ -20,7 +20,7 @@ services:
     env_file:
       - lldap.env
     environment:
-      - LLDAP_HTTP_URL=${LLDAP_FQDN}
+      - LLDAP_HTTP_URL=https://${LLDAP_FQDN}
       - LLDAP_JWT_SECRET_FILE=/run/secrets/jwt_secret.txt
       - LLDAP_KEY_SEED_FILE=/run/secrets/key_seed.txt
       - LLDAP_USER_PASS_FILE=/run/secrets/user_pass.txt
