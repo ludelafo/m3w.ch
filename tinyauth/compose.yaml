@@ -1,6 +1,8 @@
 name: Tinyauth
 
 networks:
+  lldap_network:
+    external: true
   traefik_network:
     external: true
 
@@ -14,10 +16,13 @@ services:
       - tinyauth.env
     environment:
       - TINYAUTH_APPURL=https://${TINYAUTH_FQDN}
-    expose:
-      - 3000
+      - TINYAUTH_LDAP_ADDRESS=ldap://lldap:3890
+      - TINYAUTH_LDAP_SEARCHFILTER=(uid=%s)
+      - TINYAUTH_LDAP_INSECURE=true
     networks:
       - traefik_network
+    expose:
+      - 3000
     labels:
       ## Traefik
       - traefik.enable=true
