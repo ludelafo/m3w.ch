@@ -17,7 +17,7 @@ services:
     environment:
       - TINYAUTH_APPURL=https://${TINYAUTH_FQDN}
       - TINYAUTH_LDAP_ADDRESS=ldap://lldap:3890
-      - TINYAUTH_LDAP_SEARCHFILTER=(uid=%s)
+      - TINYAUTH_LDAP_SEARCHFILTER=(&(objectClass=Person)(uid=%s))
       - TINYAUTH_LDAP_INSECURE=true
     networks:
       - traefik_network
