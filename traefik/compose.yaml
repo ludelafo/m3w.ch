@@ -6,7 +6,7 @@ networks:
 
 secrets:
   infomaniak_access_token.txt:
-    file: ./config/infomaniak_access_token.txt
+    file: ./data/infomaniak_access_token.txt
 
 services:
   traefik:
@@ -28,9 +28,9 @@ services:
       - infomaniak_access_token.txt
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
-      - ./config/acme.json:/var/lib/traefik/acme.json
-      - ./traefik_static.yaml:/etc/traefik/traefik_static.yaml:ro
-      - ./traefik_dynamic.yaml:/etc/traefik/traefik_dynamic.yaml:ro
+      - ./data/acme.json:/var/lib/traefik/acme.json
+      - ./config/traefik_static.yaml:/etc/traefik/traefik_static.yaml:ro
+      - ./config/traefik_dynamic.yaml:/etc/traefik/traefik_dynamic.yaml:ro
     healthcheck:
       test: ["CMD", "traefik", "healthcheck", "--ping"]
       start_period: 5s

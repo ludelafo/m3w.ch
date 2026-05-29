@@ -7,7 +7,8 @@ log:
 api:
   dashboard: true
 
-ping: {}
+ping:
+  entryPoint: websecure
 
 providers:
   docker:
@@ -35,11 +36,11 @@ entryPoints:
       tls:
         certResolver: letsencrypt
         domains:
-          - main: "m3w.ch" # CHANGE_ME
+          - main: "m3w.ch"
             sans:
-              - "*.m3w.ch" # CHANGE_ME
-              - "*.ludelafo.m3w.ch" # CHANGE_ME
-              - "*.heaspery.m3w.ch" # CHANGE_ME
+              - "*.m3w.ch"
+              - "*.ludelafo.m3w.ch"
+              - "*.heaspery.m3w.ch"
 
   minecraft:
     address: ":25565"
@@ -47,12 +48,12 @@ entryPoints:
 certificatesResolvers:
   letsencrypt:
     acme:
-      email: notifications@m3w.ch # CHANGE_ME
+      email: notifications@m3w.ch
       storage: /var/lib/traefik/acme.json
       dnsChallenge:
         ## The DNS challenge provider configuration.
         # Please visit the docs:
         # https://doc.traefik.io/traefik/reference/install-configuration/tls/certificate-resolvers/acme/#providers
-        provider: infomaniak # CHANGE_ME
+        provider: infomaniak
         propagation:
           delayBeforeChecks: 30s
