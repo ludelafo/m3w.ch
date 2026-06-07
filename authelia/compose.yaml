@@ -6,6 +6,16 @@ networks:
   traefik_network:
     external: true
 
+secrets:
+  JWT_SECRET:
+    file: ./secrets/JWT_SECRET
+  SESSION_SECRET:
+    file: ./secrets/SESSION_SECRET
+  STORAGE_PASSWORD:
+    file: ./secrets/STORAGE_PASSWORD
+  STORAGE_ENCRYPTION_KEY:
+    file: ./secrets/STORAGE_ENCRYPTION_KEY
+
 services:
   authelia:
     container_name: ${AUTHELIA_CONTAINER_NAME}
@@ -17,13 +27,18 @@ services:
     restart: unless-stopped
     env_file:
       - authelia.env
+    environment:
+      - AUTHELIA_IDENTITY_VALIDATION_RESET_PASSWORD_JWT_SECRET_FILE=/run/secrets/JWT_SECRET
+      - AUTHELIA_SESSION_SECRET_FILE=/run/secrets/SESSION_SECRET
+      - AUTHELIA_STORAGE_POSTGRES_PASSWORD_FILE=/run/secrets/STORAGE_PASSWORD
+      - AUTHELIA_STORAGE_ENCRYPTION_KEY_FILE=/run/secrets/STORAGE_ENCRYPTION_KEY
     networks:
       - lldap_network
       - traefik_network
     expose:
       - 9091
     volumes:
-      - ./config:/config:ro
+      - ./config:/config
     labels:
       ## Traefik
       - traefik.enable=true
