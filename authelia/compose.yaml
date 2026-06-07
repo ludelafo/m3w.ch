@@ -8,13 +8,13 @@ networks:
 
 secrets:
   ldap_user_pass.txt:
-    file: ./secrets/ldap_user_pass.txt
+    file: ./config/ldap_user_pass.txt
   jwt_secret.txt:
-    file: ./secrets/jwt_secret.txt
+    file: ./config/jwt_secret.txt
   session_secret.txt:
-    file: ./secrets/session_secret.txt
+    file: ./config/session_secret.txt
   storage_encryption_key.txt:
-    file: ./secrets/storage_encryption_key.txt
+    file: ./config/storage_encryption_key.txt
 
 services:
   authelia:

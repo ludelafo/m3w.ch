@@ -10,9 +10,7 @@ authentication_backend:
     address: "ldap://lldap:3890"
     implementation: "lldap"
     base_dn: "dc=m3w,dc=ch"
-    additional_users_dn: "OU=users"
     users_filter: "(&(|({username_attribute}={input})({mail_attribute}={input}))(objectClass=person))"
-    additional_groups_dn: "OU=groups"
     groups_filter: "(&(member={dn})(objectClass=groupOfNames))"
     user: "UID=authelia,OU=people,DC=m3w,DC=ch"
 
@@ -20,8 +18,7 @@ authentication_backend:
 # https://www.authelia.com/configuration/second-factor/time-based-one-time-password/
 # https://www.authelia.com/reference/integrations/time-based-one-time-password-apps/
 totp:
-  disable: false
-  issuer: "authelia.m3w.ch"
+  issuer: "auth.m3w.ch"
 
 ## Access Control
 # https://www.authelia.com/configuration/security/access-control/
@@ -29,7 +26,7 @@ access_control:
   default_policy: "deny"
   rules:
     - domain: "*.m3w.ch"
-      policy: "two_factor"
+      policy: "one_factor"
 
 ## Regulation
 # https://www.authelia.com/configuration/security/regulation/
@@ -67,8 +64,8 @@ session:
   remember_me: "1 month"
   cookies:
     - domain: "m3w.ch"
-      authelia_url: "https://authelia.m3w.ch"
-      default_redirection_url: "https://www.m3w.ch"
+      authelia_url: "https://auth.m3w.ch"
+      default_redirection_url: "https://m3w.ch"
 
 ## Storage
 # https://www.authelia.com/configuration/storage/introduction/
