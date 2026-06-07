@@ -28,6 +28,7 @@ services:
     env_file:
       - authelia.env
     environment:
+      - AUTHELIA_AUTHENTICATION_BACKEND_LDAP_PASSWORD_FILE=/run/secrets/ldap_user_pass.txt
       - AUTHELIA_IDENTITY_VALIDATION_RESET_PASSWORD_JWT_SECRET_FILE=/run/secrets/jwt_secret.txt
       - AUTHELIA_SESSION_SECRET_FILE=/run/secrets/session_secret.txt
       - AUTHELIA_STORAGE_ENCRYPTION_KEY_FILE=/run/secrets/storage_encryption_key.txt
