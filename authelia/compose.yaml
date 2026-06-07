@@ -13,8 +13,6 @@ secrets:
     file: ./secrets/jwt_secret.txt
   session_secret.txt:
     file: ./secrets/session_secret.txt
-  # storage_password.txt:
-  #   file: ./secrets/storage_password.txt
   storage_encryption_key.txt:
     file: ./secrets/storage_encryption_key.txt
 
@@ -29,11 +27,10 @@ services:
     restart: unless-stopped
     env_file:
       - authelia.env
-    # environment:
-    #   - AUTHELIA_IDENTITY_VALIDATION_RESET_PASSWORD_JWT_SECRET_FILE=/run/secrets/jwt_secret.txt
-    #   - AUTHELIA_SESSION_SECRET_FILE=/run/secrets/session_secret.txt
-    #   - AUTHELIA_STORAGE_POSTGRES_PASSWORD_FILE=/run/secrets/storage_password.txt
-    #   - AUTHELIA_STORAGE_ENCRYPTION_KEY_FILE=/run/secrets/storage_encryption_key.txt
+    environment:
+      - AUTHELIA_IDENTITY_VALIDATION_RESET_PASSWORD_JWT_SECRET_FILE=/run/secrets/jwt_secret.txt
+      - AUTHELIA_SESSION_SECRET_FILE=/run/secrets/session_secret.txt
+      - AUTHELIA_STORAGE_ENCRYPTION_KEY_FILE=/run/secrets/storage_encryption_key.txt
     networks:
       - lldap_network
       - traefik_network
@@ -43,7 +40,6 @@ services:
       - ldap_user_pass.txt
       - jwt_secret.txt
       - session_secret.txt
-      # - storage_password.txt
       - storage_encryption_key.txt
     volumes:
       - ./config:/config
