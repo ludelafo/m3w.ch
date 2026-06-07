@@ -11,6 +11,8 @@ services:
     container_name: ${AUTHELIA_CONTAINER_NAME}
     hostname: ${AUTHELIA_CONTAINER_NAME}
     image: authelia/authelia:${AUTHELIA_IMAGE_VERSION}
+    command:
+      - --config=/config/configuration.yaml
     restart: unless-stopped
     env_file:
       - authelia.env
