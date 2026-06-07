@@ -21,7 +21,7 @@ authentication_backend:
 # https://www.authelia.com/reference/integrations/time-based-one-time-password-apps/
 totp:
   disable: false
-  issuer: '{{ env "AUTHELIA_FQDN" }}'
+  issuer: "authelia.m3w.ch"
 
 ## Access Control
 # https://www.authelia.com/configuration/security/access-control/
@@ -69,9 +69,9 @@ session:
   expiration: "1 hour"
   remember_me: "1 month"
   cookies:
-    domain: '{{ env "AUTHELIA_DOMAIN" }}'
-    authelia_url: '{{ env "AUTHELIA_URL" }}'
-    default_redirection_url: "https://m3w.ch"
+    domain: "m3w.ch"
+    authelia_url: "https://authelia.m3w.ch"
+    default_redirection_url: "https://www.m3w.ch"
 
 ## Storage
 # https://www.authelia.com/configuration/storage/introduction/
