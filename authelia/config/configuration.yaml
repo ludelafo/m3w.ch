@@ -14,7 +14,7 @@ authentication_backend:
     additional_groups_dn: "OU=groups"
     groups_filter: "(&(member={dn})(objectClass=groupOfNames))"
     user: "CN=admin,DC=m3w,DC=ch"
-    password: "password"
+    password: '{{ secret "/run/secrets/ldap_user_pass.txt" }}'
 
 ## TOTP
 # https://www.authelia.com/configuration/second-factor/time-based-one-time-password/
@@ -58,12 +58,12 @@ identity_validation:
     characters: 12
   # https://www.authelia.com/configuration/identity-validation/reset-password/
   reset_password:
-    jwt_secret: '{{ env "AUTHELIA_JWT_SECRET" }}'
+    jwt_secret: '{{ secret "/run/secrets/jwt_secret.txt" }}'
 
 ## https://www.authelia.com/configuration/session/introduction/
 session:
   name: "authelia_session"
-  secret: '{{ env "AUTHELIA_SESSION_SECRET" }}'
+  secret: '{{ secret "/run/secrets/session_secret.txt" }}'
   same_site: "lax"
   inactivity: "5 minutes"
   expiration: "1 hour"
@@ -76,7 +76,7 @@ session:
 ## Storage
 # https://www.authelia.com/configuration/storage/introduction/
 storage:
-  encryption_key: '{{ env "AUTHELIA_STORAGE_ENCRYPTION_KEY" }}'
+  encryption_key: '{{ secret "/run/secrets/storage_encryption_key.txt" }}'
   # https://www.authelia.com/configuration/storage/sqlite/
   local:
     path: "/config/db.sqlite3"
