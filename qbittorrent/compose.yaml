@@ -16,4 +16,4 @@ services:
       - 52570:52570/udp
     volumes:
       - ./config:/config
-      - ./data:/data
+      - ./downloads:/downloads
