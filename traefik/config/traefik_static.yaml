@@ -29,10 +29,6 @@ entryPoints:
 
   websecure:
     address: ":443"
-    forwardedHeaders:
-      trustedIPs:
-        - 127.0.0.1/32
-        - 172.16.0.0/12
     http:
       middlewares:
         - http-strict-transport-security-header@file
@@ -54,9 +50,7 @@ certificatesResolvers:
       email: notifications@m3w.ch
       storage: /var/lib/traefik/acme.json
       dnsChallenge:
-        ## The DNS challenge provider configuration.
-        # Please visit the docs:
-        # https://doc.traefik.io/traefik/reference/install-configuration/tls/certificate-resolvers/acme/#providers
+        # https://doc.traefik.io/traefik/reference/install-configuration/tls/certificate-resolvers/acme/#dnschallenge
         provider: infomaniak
         propagation:
           delayBeforeChecks: 30s

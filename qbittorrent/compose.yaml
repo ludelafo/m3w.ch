@@ -1,8 +1,9 @@
-name: qbittorrent
+name: qBittorrent
 
 services:
   qbittorrent:
     container_name: ${QBITTORRENT_CONTAINER_NAME}
+    hostname: ${QBITTORRENT_CONTAINER_NAME}
     image: qbittorrentofficial/qbittorrent-nox:${QBITTORRENT_VERSION}
     restart: unless-stopped
     env_file:
@@ -15,4 +16,4 @@ services:
       - 52570:52570/udp
     volumes:
       - ./config:/config
-      - ./downloads:/downloads
+      - ./data:/data
