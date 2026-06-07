@@ -37,6 +37,11 @@ services:
       - traefik_network
     expose:
       - 9091
+    secrets:
+      - JWT_SECRET
+      - SESSION_SECRET
+      - STORAGE_PASSWORD
+      - STORAGE_ENCRYPTION_KEY
     volumes:
       - ./config:/config
     labels:
