@@ -1,20 +1,20 @@
 ## Authentication Backend
 # https://www.authelia.com/configuration/first-factor/introduction/
+# https://www.authelia.com/configuration/first-factor/ldap/
+# https://www.authelia.com/integration/ldap/lldap/
 authentication_backend:
   refresh_interval: "5m"
   password_reset:
     disable: false
-  # https://www.authelia.com/configuration/first-factor/ldap/
   ldap:
     address: "ldap://lldap:3890"
     implementation: "lldap"
     base_dn: "dc=m3w,dc=ch"
     additional_users_dn: "OU=users"
-    users_filter: "(&({username_attribute}={input})(objectClass=person))"
+    users_filter: "(&(|({username_attribute}={input})({mail_attribute}={input}))(objectClass=person))"
     additional_groups_dn: "OU=groups"
     groups_filter: "(&(member={dn})(objectClass=groupOfNames))"
     user: "UID=authelia,OU=people,DC=m3w,DC=ch"
-    # password: '{{ secret "/run/secrets/ldap_user_pass.txt" }}'
 
 ## TOTP
 # https://www.authelia.com/configuration/second-factor/time-based-one-time-password/
@@ -50,20 +50,17 @@ password_policy:
 
 ## Identity Validation
 # https://www.authelia.com/configuration/identity-validation/introduction/
+# https://www.authelia.com/configuration/identity-validation/reset-password/
+# https://www.authelia.com/configuration/identity-validation/elevated-session/
 identity_validation:
-  # https://www.authelia.com/configuration/identity-validation/elevated-session/
   elevated_session:
     code_lifespan: "5 minutes"
     elevation_lifespan: "10 minutes"
     characters: 12
-  # https://www.authelia.com/configuration/identity-validation/reset-password/
-  reset_password:
-    # jwt_secret: '{{ secret "/run/secrets/jwt_secret.txt" }}'
 
 ## https://www.authelia.com/configuration/session/introduction/
 session:
   name: "authelia_session"
-  # secret: '{{ secret "/run/secrets/session_secret.txt" }}'
   same_site: "lax"
   inactivity: "5 minutes"
   expiration: "1 hour"
@@ -75,16 +72,15 @@ session:
 
 ## Storage
 # https://www.authelia.com/configuration/storage/introduction/
+# https://www.authelia.com/configuration/storage/sqlite/
 storage:
-  # encryption_key: '{{ secret "/run/secrets/storage_encryption_key.txt" }}'
-  # https://www.authelia.com/configuration/storage/sqlite/
   local:
     path: "/config/db.sqlite3"
 
 ## Notifications
 # https://www.authelia.com/configuration/notifications/introduction/
+# https://www.authelia.com/configuration/notifications/file/
 notifier:
-  # https://www.authelia.com/configuration/notifications/file/
   filesystem:
     filename: "/config/notification.txt"
 
@@ -96,4 +92,4 @@ server:
 ## Log
 # https://www.authelia.com/configuration/miscellaneous/logging/
 log:
-  level: "debug"
+  level: "info"
