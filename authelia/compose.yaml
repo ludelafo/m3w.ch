@@ -1,0 +1,36 @@
+name: Authelia
+
+networks:
+  lldap_network:
+    external: true
+  traefik_network:
+    external: true
+
+services:
+  authelia:
+    container_name: ${AUTHELIA_CONTAINER_NAME}
+    hostname: ${AUTHELIA_CONTAINER_NAME}
+    image: authelia/authelia:${AUTHELIA_IMAGE_VERSION}
+    restart: unless-stopped
+    env_file:
+      - authelia.env
+    networks:
+      - lldap_network
+      - traefik_network
+    expose:
+      - 9091
+    volumes:
+      - ./config:/config:ro
+    labels:
+      ## Traefik
+      - traefik.enable=true
+      # Router
+      - traefik.http.routers.${AUTHELIA_CONTAINER_NAME}.entryPoints=websecure
+      - traefik.http.routers.${AUTHELIA_CONTAINER_NAME}.rule=Host(`${AUTHELIA_FQDN}`)
+      # Service
+      - traefik.http.services.${AUTHELIA_CONTAINER_NAME}.loadbalancer.server.port=9091
+      # Middleware
+      - traefik.http.middlewares.authelia.forwardAuth.address=http://authelia:9091/api/authz/forward-auth
+      - traefik.http.middlewares.authelia.forwardAuth.trustForwardHeader=true
+      - traefik.http.middlewares.authelia.forwardAuth.maxResponseBodySize=8192
+      - traefik.http.middlewares.authelia.forwardAuth.authResponseHeaders=Remote-User,Remote-Groups,Remote-Email,Remote-Name
