@@ -106,8 +106,9 @@ log:
 identity_providers:
   oidc:
     jwks:
-      # `docker run --rm --user "$(id -u):$(id -g)" --volume "$(pwd)/config:/config" authelia/authelia:4 authelia crypto pair ed25519 generate --directory /config`
-      - key: '{{ secret "/config/private.pem" | mindent 10 "|" | msquote }}'
+      # `docker run --rm --user "$(id -u):$(id -g)" --volume "$(pwd)/config:/config" authelia/authelia:4 authelia crypto pair rsa generate --directory /config`
+      # prettier-ignore
+      - key: {{ secret "/config/private.pem" | mindent 10 "|" | msquote }}
     clients:
       - client_name: "Beszel"
         # `docker run --rm authelia/authelia:4 authelia crypto rand --length 72 --charset rfc3986`
