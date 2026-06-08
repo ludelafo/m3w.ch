@@ -15,6 +15,7 @@ secrets:
     file: ./config/session_secret.txt
   storage_encryption_key.txt:
     file: ./config/storage_encryption_key.txt
+  # `openssl rand -hex 64 > ./config/hmac_secret.txt`
   hmac_secret.txt:
     file: ./config/hmac_secret.txt
 
@@ -30,6 +31,8 @@ services:
     env_file:
       - authelia.env
     environment:
+      # https://www.authelia.com/configuration/methods/files/#file-filters
+      - X_AUTHELIA_CONFIG_FILTERS=template
       - AUTHELIA_AUTHENTICATION_BACKEND_LDAP_PASSWORD_FILE=/run/secrets/ldap_user_pass.txt
       - AUTHELIA_IDENTITY_VALIDATION_RESET_PASSWORD_JWT_SECRET_FILE=/run/secrets/jwt_secret.txt
       - AUTHELIA_SESSION_SECRET_FILE=/run/secrets/session_secret.txt
