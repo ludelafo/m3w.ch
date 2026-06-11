@@ -1,9 +1,5 @@
 name: whoami
 
-networks:
-  traefik_network:
-    external: true
-
 services:
   whoami:
     container_name: ${WHOAMI_CONTAINER_NAME}
