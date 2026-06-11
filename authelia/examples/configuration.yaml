@@ -30,13 +30,13 @@ totp:
 access_control:
   default_policy: "deny"
   rules:
-    - domain: "*.m3w.ch"
-      policy: "one_factor"
-
     - domain: "whoami.m3w.ch"
       policy: "one_factor"
       subject:
         - "group:ludelafo"
+
+    - domain: "*.m3w.ch"
+      policy: "one_factor"
 
 ## Regulation
 # https://www.authelia.com/configuration/security/regulation/
