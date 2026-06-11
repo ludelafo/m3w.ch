@@ -1,8 +1,6 @@
 name: whoami
 
 networks:
-  lldap_network:
-    external: true
   traefik_network:
     external: true
 
@@ -10,28 +8,7 @@ services:
   whoami:
     container_name: ${WHOAMI_CONTAINER_NAME}
     hostname: ${WHOAMI_CONTAINER_NAME}
-    image: ghcr.io/whoamiapp/whoami:${WHOAMI_IMAGE_VERSION}
+    image: traefik/whoami:${WHOAMI_IMAGE_VERSION}
     restart: unless-stopped
-    env_file:
-      - whoami.env
-    environment:
-      - WHOAMI_APPURL=https://${WHOAMI_FQDN}
-      - WHOAMI_LDAP_ADDRESS=ldap://lldap:3890
-      - WHOAMI_LDAP_SEARCHFILTER=(&(objectClass=Person)(uid=%s))
-      - WHOAMI_LDAP_INSECURE=true
-    networks:
-      - traefik_network
-    expose:
-      - 3000
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock:ro
-    labels:
-      ## Traefik
-      - traefik.enable=true
-      # Router
-      - traefik.http.routers.${WHOAMI_CONTAINER_NAME}.entryPoints=websecure
-      - traefik.http.routers.${WHOAMI_CONTAINER_NAME}.rule=Host(`${WHOAMI_FQDN}`)
-      # Service
-      - traefik.http.services.${WHOAMI_CONTAINER_NAME}.loadbalancer.server.port=3000
-      # Middleware
-      - traefik.http.middlewares.whoami.forwardauth.address=http://whoami:3000/api/auth/traefik
+    ports:
+      - 8080:80
