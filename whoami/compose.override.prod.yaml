@@ -4,6 +4,8 @@ networks:
 
 services:
   whoami:
+    networks:
+      - traefik_network
     expose:
       - 80
     ports: !reset []
