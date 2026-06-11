@@ -33,10 +33,7 @@ access_control:
     - domain: "whoami.m3w.ch"
       policy: "one_factor"
       subject:
-        - "group:ludelafo"
-
-    - domain: "*.m3w.ch"
-      policy: "one_factor"
+        - ["group:ludelafo"]
 
 ## Regulation
 # https://www.authelia.com/configuration/security/regulation/
