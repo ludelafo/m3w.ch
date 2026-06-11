@@ -1,10 +1,6 @@
 services:
   traefik:
-    depends_on:
-      - authelia
     labels:
-      ## Authelia
-      - traefik.http.routers.${TRAEFIK_CONTAINER_NAME}.middlewares=authelia@docker
       ## Glance
       - glance.name=Traefik
       # https://github.com/glanceapp/glance/blob/main/docs/configuration.md#icons
