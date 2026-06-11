@@ -143,7 +143,7 @@ identity_providers:
         require_pkce: true
         pkce_challenge_method: "S256"
         redirect_uris:
-          - "https://whoami.m3w.ch/oidc/callback"
+          - "https://auth.m3w.ch/oidc/callback"
         scopes:
           - "openid"
           - "email"
