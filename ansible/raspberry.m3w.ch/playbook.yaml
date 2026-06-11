@@ -1,0 +1,160 @@
+- name: Configure raspberry.m3w.ch instance
+  hosts: 192.168.1.254
+  gather_facts: true
+  become: true
+  vars_files:
+    - variables.yaml
+  tasks:
+    # System Configuration
+    - name: Set hostname
+      ansible.builtin.hostname:
+        name: "{{ hostname }}"
+      
+    - name: Update /etc/hosts with hostname
+      ansible.builtin.lineinfile:
+        path: /etc/hosts
+        regexp: '^127\.0\.1\.1'
+        line: "127.0.1.1 {{ hostname }}.{{ domain }} {{ hostname }}"
+        
+    - name: Configure DNS resolvers
+      ansible.builtin.copy:
+        dest: /etc/resolv.conf
+        content: |
+          domain {{ domain }}
+          nameserver 9.9.9.9
+          nameserver 149.112.112.112
+        mode: '0644'
+        
+    - name: Set timezone to UTC
+      community.general.timezone:
+        name: UTC
+        
+    - name: Configure NTP with busybox
+      ansible.builtin.command:
+        cmd: setup-ntp busybox
+      changed_when: false
+      
+    # APK Configuration
+    - name: Setup APK cache directory
+      ansible.builtin.file:
+        path: /media/mmcblk0p1/cache
+        state: directory
+        mode: '0755'
+        
+    - name: Configure APK cache
+      ansible.builtin.lineinfile:
+        path: /etc/apk/repositories
+        line: "/media/mmcblk0p1/cache"
+        create: yes
+        
+    - name: Update APK repositories
+      community.general.apk:
+        update_cache: yes
+        upgrade: yes
+        
+    # User Configuration
+    - name: Create alpine user home directory
+      ansible.builtin.file:
+        path: /home/alpine
+        state: directory
+        mode: '0755'
+        
+    - name: Ensure alpine user exists
+      ansible.builtin.user:
+        name: alpine
+        home: /home/alpine
+        shell: /bin/sh
+        groups: wheel
+        append: yes
+        
+    - name: Set ownership of alpine home directory
+      ansible.builtin.file:
+        path: /home/alpine
+        owner: alpine
+        group: alpine
+        recurse: yes
+        
+    - name: Add alpine home to LBU
+      community.general.lbu:
+        include:
+          - /home/alpine
+      
+    - name: Disable root password login
+      ansible.builtin.user:
+        name: root
+        password_lock: yes
+        
+    # SSH Configuration
+    - name: Ensure OpenSSH is installed
+      community.general.apk:
+        name: openssh
+        state: present
+        
+    - name: Enable and start SSH service
+      ansible.builtin.service:
+        name: sshd
+        enabled: yes
+        state: started
+        
+    # Install utilities
+    - name: Install utility packages
+      community.general.apk:
+        name:
+          - git
+          - ncdu
+          - vim
+        state: present
+        
+    # Filesystem Configuration
+    - name: Configure fstab for var partition
+      ansible.posix.mount:
+        path: /var
+        src: UUID=9703c838-3917-4a22-9b7e-75455df4e859
+        fstype: ext4
+        opts: defaults
+        state: present
+        
+    - name: Configure fstab for swap partition
+      ansible.posix.mount:
+        path: none
+        src: UUID=091eaa6e-ab8e-4abd-9d87-f8513c451217
+        fstype: swap
+        opts: defaults
+        state: present
+        
+    - name: Enable swap service on boot
+      ansible.builtin.service:
+        name: swap
+        enabled: yes
+        
+    # Docker Installation and Configuration
+    - name: Install Docker packages
+      community.general.apk:
+        name:
+          - docker
+          - docker-cli-compose
+        state: present
+        
+    - name: Enable Docker service on boot
+      ansible.builtin.service:
+        name: docker
+        enabled: yes
+        state: started
+        
+    - name: Add alpine user to docker group
+      ansible.builtin.user:
+        name: alpine
+        groups: docker
+        append: yes
+        
+    # Post-configuration
+    - name: Create /var/empty directory
+      ansible.builtin.file:
+        path: /var/empty
+        state: directory
+        mode: '0755'
+        
+    - name: Commit LBU changes
+      community.general.lbu:
+        commit: yes
+        destination: mmcblk0p1

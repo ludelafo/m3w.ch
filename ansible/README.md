@@ -1,8 +1,22 @@
 # Ansible
 
+> Ansible is an automation language that can describe any IT environment,
+> whether homelab or large scale infrastructure.
+>
+> <https://docs.ansible.com/>
+
 ## Prerequisites
 
-- Debian 13 must be installed on the host.
+- Ansible must be installed on the machine that will configure the other hosts.
+
+```bash
+ansible-playbook ansible/nas.m3w.ch/playbook.yaml \
+    --inventory 192.168.1.2, \
+    --user debian \
+    --ask-pass \
+    --ask-become-pass \
+    --extra-vars "@ansible/nas.m3w.ch/variables.yaml"
+```
 
 ## Configure host with Ansible
 

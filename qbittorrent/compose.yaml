@@ -1,8 +1,9 @@
-name: qbittorrent
+name: qBittorrent
 
 services:
   qbittorrent:
     container_name: ${QBITTORRENT_CONTAINER_NAME}
+    hostname: ${QBITTORRENT_CONTAINER_NAME}
     image: qbittorrentofficial/qbittorrent-nox:${QBITTORRENT_VERSION}
     restart: unless-stopped
     env_file:
@@ -13,6 +14,14 @@ services:
       - 8080:8080
       - 52570:52570
       - 52570:52570/udp
+    # https://github.com/qbittorrent/docker-qbittorrent-nox/discussions/90
+    healthcheck:
+      test: curl --fail --location --show-error --max-time 2 --output /dev/null --write-out "%{http_code}\n" --silent 127.0.0.1:8080/api/v2/app/version | grep -q 200 || exit 1
+      start_period: 30s
+      start_interval: 5s
+      interval: 5m
+      timeout: 10s
+      retries: 3
     volumes:
       - ./config:/config
       - ./downloads:/downloads
