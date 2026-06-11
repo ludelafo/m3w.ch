@@ -1,9 +1,22 @@
+## Traefik Go templating
+# https://doc.traefik.io/traefik/reference/routing-configuration/other-providers/file/#go-templating
+
 http:
   middlewares:
     http-strict-transport-security-header:
       headers:
         customResponseHeaders:
           Strict-Transport-Security: max-age=63072000; includeSubDomains
+    oidc-auth:
+      plugin:
+        traefik-oidc-auth:
+          Secret: '{{ env "OIDC_SECRET" }}'
+          Provider:
+            Url: "https://auth.m3w.ch"
+            ClientId: '{{ env "OIDC_CLIENT_ID" }}'
+            ClientSecret: '{{ env "OIDC_CLIENT_SECRET" }}'
+            UsePkce: true
+          Scopes: ["openid", "profile", "email"]
 
   routers:
     adguard-home:
