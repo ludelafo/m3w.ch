@@ -34,6 +34,9 @@ docker compose pull
 docker compose up --detach
 ```
 
+Access Pocket ID at `https://auth.m3w.ch/setup` and follow the instructions to
+set up your account and create a passkey.
+
 ## Additional resources
 
 - [Pocket ID](https://pocket-id.org/)
