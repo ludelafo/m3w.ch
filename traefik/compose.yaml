@@ -16,6 +16,8 @@ services:
     command:
       - --configFile=/etc/traefik/traefik_static.yaml
     restart: unless-stopped
+    env_file:
+      - traefik.env
     environment:
       - INFOMANIAK_ACCESS_TOKEN_FILE=/run/secrets/infomaniak_access_token.txt
     networks:
@@ -43,10 +45,3 @@ services:
       - traefik.http.routers.${TRAEFIK_CONTAINER_NAME}.rule=Host(`${TRAEFIK_FQDN}`)
       # Service
       - traefik.http.routers.${TRAEFIK_CONTAINER_NAME}.service=api@internal
-      # Middleware
-      - traefik.http.middlewares.oidc-auth.plugin.traefik-oidc-auth.Secret=${TRAEFIK_OIDC_SECRET}
-      - traefik.http.middlewares.oidc-auth.plugin.traefik-oidc-auth.Provider.Url=https://auth.m3w.ch
-      - traefik.http.middlewares.oidc-auth.plugin.traefik-oidc-auth.Provider.ClientId=${TRAEFIK_OIDC_CLIENT_ID}
-      - traefik.http.middlewares.oidc-auth.plugin.traefik-oidc-auth.Provider.ClientSecret=${TRAEFIK_OIDC_CLIENT_SECRET}
-      - traefik.http.middlewares.oidc-auth.plugin.traefik-oidc-auth.Provider.UsePkce=true
-      - traefik.http.middlewares.oidc-auth.plugin.traefik-oidc-auth.Scopes=openid,profile,email
