@@ -54,12 +54,3 @@ certificatesResolvers:
         provider: infomaniak
         propagation:
           delayBeforeChecks: 30s
-
-## Plugins
-# https://doc.traefik.io/traefik/reference/install-configuration/experimental/plugins/
-experimental:
-  plugins:
-    # https://traefik-oidc-auth.sevensolutions.cc/
-    traefik-oidc-auth:
-      moduleName: "github.com/sevensolutions/traefik-oidc-auth"
-      version: "v0.20.1"
