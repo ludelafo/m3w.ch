@@ -25,4 +25,4 @@ services:
       - glance.description=Print OS information and HTTP request to output.
       - glance.category=infrastructure
       ## Pocket ID
-      - traefik.http.routers.${WHOAMI_2_CONTAINER_NAME}.middlewares=oidc-auth
+      - traefik.http.routers.${WHOAMI_2_CONTAINER_NAME}.middlewares=oidc-auth@file
