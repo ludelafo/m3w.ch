@@ -24,5 +24,7 @@ services:
       - glance.url=https://${WHOAMI_2_FQDN}
       - glance.description=Print OS information and HTTP request to output.
       - glance.category=infrastructure
-      ## Authelia
-      - traefik.http.routers.${WHOAMI_2_CONTAINER_NAME}.middlewares=oidc-auth-ludelafo@file
+      ## Pocket ID
+      - traefik.http.routers.${WHOAMI_2_CONTAINER_NAME}.middlewares=oidc-auth@file
+      - traefik.http.middlewares.oidc-auth.traefik-oidc-auth.authorization.assertClaims[0].name=preferred_username
+      - traefik.http.middlewares.oidc-auth.traefik-oidc-auth.authorization.assertClaims[0].anyOf=ludelafo
