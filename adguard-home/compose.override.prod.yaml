@@ -8,5 +8,3 @@ services:
       - glance.url=https://${ADGUARD_HOME_FQDN}
       - glance.description=Network-wide software for blocking ads & tracking.
       - glance.category=infrastructure
-      ## Pocket ID
-      - traefik.http.routers.${ADGUARD_HOME_CONTAINER_NAME}.middlewares=oidc-auth@file
