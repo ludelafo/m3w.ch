@@ -14,7 +14,7 @@ services:
     hostname: ${TRAEFIK_CONTAINER_NAME}
     image: traefik:${TRAEFIK_IMAGE_VERSION}
     command:
-      - --configFile=/etc/traefik/config/traefik_static.yaml
+      - --configFile=/etc/traefik/traefik_static.yaml
     restart: unless-stopped
     env_file:
       - traefik.env
