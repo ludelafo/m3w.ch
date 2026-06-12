@@ -26,5 +26,5 @@ services:
       - glance.category=infrastructure
       ## Pocket ID
       - traefik.http.routers.${WHOAMI_2_CONTAINER_NAME}.middlewares=oidc-auth
-      - traefik.http.middlewares.oidc-auth.traefik-oidc-auth.authorization.assertClaims[0].name=preferred_username
-      - traefik.http.middlewares.oidc-auth.traefik-oidc-auth.authorization.assertClaims[0].anyOf=ludelafo
+      # - traefik.http.middlewares.oidc-auth.plugin.traefik-oidc-auth.authorization.assertClaims[0].name=preferred_username
+      # - traefik.http.middlewares.oidc-auth.plugin.traefik-oidc-auth.authorization.assertClaims[0].anyOf=ludelafo

@@ -43,7 +43,7 @@ services:
       - traefik.http.routers.${TRAEFIK_CONTAINER_NAME}.rule=Host(`${TRAEFIK_FQDN}`)
       # Service
       - traefik.http.routers.${TRAEFIK_CONTAINER_NAME}.service=api@internal
-      ## Pocket ID
+      # Middleware
       - traefik.http.middlewares.oidc-auth.plugin.traefik-oidc-auth.Secret=${TRAEFIK_OIDC_SECRET}
       - traefik.http.middlewares.oidc-auth.plugin.traefik-oidc-auth.Provider.Url=https://auth.m3w.ch
       - traefik.http.middlewares.oidc-auth.plugin.traefik-oidc-auth.Provider.ClientId=${TRAEFIK_OIDC_CLIENT_ID}
