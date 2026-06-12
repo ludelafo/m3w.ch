@@ -14,7 +14,7 @@ services:
     hostname: ${TRAEFIK_CONTAINER_NAME}
     image: traefik:${TRAEFIK_IMAGE_VERSION}
     command:
-      - --configFile=/etc/traefik/traefik_static.yaml
+      - --configFile=/etc/traefik/config/traefik_static.yaml
     restart: unless-stopped
     env_file:
       - traefik.env
@@ -31,8 +31,7 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - ./data/acme.json:/var/lib/traefik/acme.json
-      - ./config/traefik_static.yaml:/etc/traefik/traefik_static.yaml:ro
-      - ./config/traefik_dynamic.yaml:/etc/traefik/traefik_dynamic.yaml:ro
+      - ./config:/etc/traefik:ro
     healthcheck:
       test: ["CMD", "traefik", "healthcheck", "--ping"]
       start_period: 5s
