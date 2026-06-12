@@ -17,3 +17,12 @@ services:
     volumes:
       - ./cache:/data
       - ./config:/config
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "smbclient -L //127.0.0.1 -U % -m SMB3 2>&1 | grep -qE 'IPC\\$$|NT_STATUS_ACCESS_DENIED'",
+        ]
+      interval: 30s
+      timeout: 10s
+      retries: 1
