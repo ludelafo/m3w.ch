@@ -1,9 +1,11 @@
-# Tinyauth
+# Authelia
 
-> Tinyauth is a tiny OpenID Connect (OIDC) authentication and authorization
-> server for your self-hosted applications.
+> Authelia is an open-source authentication and authorization server and portal
+> fulfilling the identity and access management (IAM) role of information
+> security in providing multi-factor authentication and single sign-on (SSO) for
+> your applications via a web portal.
 >
-> <https://tinyauth.app/>
+> <https://www.authelia.com/>
 
 ## Table of contents
 
@@ -40,16 +42,10 @@ docker compose up --detach
 
 ### Create a read-only user in LDAP
 
-As per the Tinyauth documentation (<https://tinyauth.app/docs/guides/ldap/>):
-
-> Tinyauth requires at least two users: an observer user with read-only access
-> to the database (used by Tinyauth to search for user DNs) and a normal user
-> for logging in to Tinyauth and applications.
->
-> After creating the user [in LDAP], select it from the list and scroll to the
-> group memberships section. Add the user to the `lldap_strict_readonly` group
-> by clicking **Add to Group**.
+Create a new user in LDAP with `lldap_password_manager` permissions. This user
+will be used by Authelia to query the LDAP directory for authentication and
+authorization purposes and allow users to update their passwords.
 
 ## Additional resources
 
-- [Tinyauth](https://tinyauth.app/)
+- [Authelia](https://www.authelia.com/)
