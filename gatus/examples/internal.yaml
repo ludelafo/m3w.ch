@@ -1,5 +1,5 @@
 default-internal-endpoint: &internal-defaults
-  interval: 60m
+  interval: 10m
   alerts:
     - type: telegram
   client:
@@ -17,6 +17,12 @@ endpoints:
     url: https://beszel.m3w.ch
     <<: *internal-defaults
     conditions:
+      - "[STATUS] == 401"
+
+  - name: Pocket ID
+    url: https://auth.m3w.ch
+    <<: *internal-defaults
+    conditions:
       - "[STATUS] == 200"
 
   - name: Syncthing (ludelafo)
@@ -26,7 +32,7 @@ endpoints:
       - "[STATUS] == 200"
 
   - name: Tang
-    url: http://192.168.1.254:80/adv
+    url: http://192.168.1.254:8080/adv
     <<: *internal-defaults
     conditions:
       - "[STATUS] == 200"
@@ -35,7 +41,7 @@ endpoints:
     url: https://traefik.m3w.ch
     <<: *internal-defaults
     conditions:
-      - "[STATUS] == 200"
+      - "[STATUS] == 401"
 
   - name: Raspberry Pi
     url: icmp://192.168.1.254

@@ -1,13 +1,19 @@
+## Storage
+# https://github.com/TwiN/gatus#storage
 storage:
   type: sqlite
-  path: /data/data.db
+  path: /data/gatus.db
   maximum-number-of-results: 200
   maximum-number-of-events: 5
 
+## UI
+# https://github.com/TwiN/gatus#ui
 ui:
   dark-mode: true
   default-sort-by: group
 
+## Alerting
+# https://github.com/TwiN/gatus#alerting
 alerting:
   telegram:
     token: ${TELEGRAM_TOKEN}
@@ -16,3 +22,13 @@ alerting:
       send-on-resolved: true
       failure-threshold: 1
       success-threshold: 2
+
+## Security
+# https://github.com/TwiN/gatus#security
+security:
+  oidc:
+    issuer-url: "https://auth.m3w.ch"
+    redirect-url: "https://gatus.m3w.ch/authorization-code/callback"
+    client-id: "${OIDC_CLIENT_ID}"
+    client-secret: "${OIDC_CLIENT_SECRET}"
+    scopes: ["openid"]
