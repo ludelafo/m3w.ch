@@ -47,13 +47,11 @@ set during the configuration (`<ip of the host>:8053` by default).
 Add/update the following configuration to the `config/AdGuardHome.yaml` file:
 
 ```yaml
+# ...
+
 user_rules:
   - "## m3w.ch"
   - "||m3w.ch^$dnsrewrite=192.168.1.2,dnstype=~CNAME|~NS|~SOA|~TXT"
-  - "## l.m3w.ch"
-  - "||l.m3w.ch^$dnsrewrite=192.168.1.3,dnstype=~CNAME|~NS|~SOA|~TXT"
-  - "## m.m3w.ch"
-  - "||m.m3w.ch^$dnsrewrite=192.168.1.4,dnstype=~CNAME|~NS|~SOA|~TXT"
 
 # ...
 

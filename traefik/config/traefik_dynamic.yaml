@@ -52,8 +52,6 @@ http:
       entryPoints:
         - "websecure"
       service: adguard-home
-      middlewares:
-        - oidc-auth@file
 
   services:
     adguard-home:
