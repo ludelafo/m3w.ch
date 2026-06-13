@@ -17,7 +17,7 @@ endpoints:
     url: https://beszel.m3w.ch
     <<: *internal-defaults
     conditions:
-      - "[STATUS] == 401"
+      - "[STATUS] == 200"
 
   - name: Pocket ID
     url: https://auth.m3w.ch
@@ -25,11 +25,23 @@ endpoints:
     conditions:
       - "[STATUS] == 200"
 
+  - name: qBittorrent
+    url: https://qbittorrent.m3w.ch
+    <<: *internal-defaults
+    conditions:
+      - "[STATUS] == 401"
+
+  - name: Raspberry Pi
+    url: icmp://192.168.1.254
+    <<: *internal-defaults
+    conditions:
+      - "[CONNECTED] == true"
+
   - name: Syncthing (ludelafo)
     url: https://syncthing.ludelafo.m3w.ch
     <<: *internal-defaults
     conditions:
-      - "[STATUS] == 200"
+      - "[STATUS] == 401"
 
   - name: Tang
     url: http://192.168.1.254:8080/adv
@@ -43,8 +55,8 @@ endpoints:
     conditions:
       - "[STATUS] == 401"
 
-  - name: Raspberry Pi
-    url: icmp://192.168.1.254
+  - name: WireGuard Easy
+    url: https://wireguard.m3w.ch
     <<: *internal-defaults
     conditions:
-      - "[CONNECTED] == true"
+      - "[STATUS] == 200"
