@@ -18,6 +18,6 @@ services:
       - glance.name=Samba
       # https://github.com/glanceapp/glance/blob/main/docs/configuration.md#icons
       - glance.icon=mdi:folder-network
-      - glance.url=smb://${SAMBA_FQDN}
+      - glance.url=smb://${SAMBA_IP}
       - glance.description=Re-implementation of the SMB networking protocol.
       - glance.category=infrastructure

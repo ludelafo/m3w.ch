@@ -1,0 +1,33 @@
+name: Pocket ID
+
+networks:
+  traefik_network:
+    external: true
+
+secrets:
+  encryption_key.txt:
+    file: ./data/encryption_key.txt
+
+services:
+  pocket-id:
+    container_name: ${POCKET_ID_CONTAINER_NAME}
+    hostname: ${POCKET_ID_CONTAINER_NAME}
+    image: ghcr.io/pocket-id/pocket-id:${POCKET_ID_IMAGE_VERSION}
+    restart: unless-stopped
+    env_file:
+      - pocket-id.env
+    environment:
+      - APP_URL=http://localhost:1411
+      - ENCRYPTION_KEY_FILE=/run/secrets/encryption_key.txt
+    ports:
+      - 1411:1411
+    secrets:
+      - encryption_key.txt
+    volumes:
+      - ./data:/app/data
+    healthcheck:
+      test: ["CMD", "/app/pocket-id", "healthcheck"]
+      interval: 1m30s
+      timeout: 5s
+      retries: 2
+      start_period: 10s

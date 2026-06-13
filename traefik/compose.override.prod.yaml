@@ -8,3 +8,5 @@ services:
       - glance.url=https://${TRAEFIK_FQDN}
       - glance.description=Modern reverse proxy and load balancer.
       - glance.category=infrastructure
+      ## Pocket ID
+      - traefik.http.routers.${TRAEFIK_CONTAINER_NAME}.middlewares=oidc-auth@file

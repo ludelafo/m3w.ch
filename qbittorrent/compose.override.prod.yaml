@@ -26,3 +26,5 @@ services:
       - glance.url=https://${QBITTORRENT_FQDN}
       - glance.description=BitTorrent client.
       - glance.category=media
+      ## Pocket ID
+      - traefik.http.routers.${QBITTORRENT_CONTAINER_NAME}.middlewares=oidc-auth@file
