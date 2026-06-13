@@ -27,3 +27,5 @@ services:
       - glance.url=https://${SYNCTHING_FQDN}
       - glance.description=Continuous file synchronization program.
       - glance.category=infrastructure
+      ## Pocket ID
+      - traefik.http.routers.${SYNCTHING_CONTAINER_NAME}.middlewares=oidc-auth-${OIDC_USER}@file
