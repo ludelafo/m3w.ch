@@ -21,7 +21,6 @@ services:
       # Router
       - traefik.http.routers.${QBITTORRENT_CONTAINER_NAME}.entryPoints=websecure
       - traefik.http.routers.${QBITTORRENT_CONTAINER_NAME}.rule=Host(`${QBITTORRENT_FQDN}`)
-      - traefik.http.routers.${QBITTORRENT_CONTAINER_NAME}.middlewares=qbittorrent-headers"
       # Service
       - traefik.http.services.${QBITTORRENT_CONTAINER_NAME}.loadbalancer.server.port=8080
       - traefik.http.services.${QBITTORRENT_CONTAINER_NAME}.loadbalancer.passhostheader=false
@@ -33,4 +32,4 @@ services:
       - glance.description=BitTorrent client.
       - glance.category=media
       ## Pocket ID
-      - traefik.http.routers.${QBITTORRENT_CONTAINER_NAME}.middlewares=oidc-auth@file
+      - traefik.http.routers.${QBITTORRENT_CONTAINER_NAME}.middlewares=oidc-auth@file,qbittorrent-headers@docker
