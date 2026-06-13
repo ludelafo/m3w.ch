@@ -19,7 +19,7 @@ services:
     healthcheck:
       test:
         curl --fail --location --show-error --max-time 2 --output /dev/null --write-out "%{http_code}\n" --silent 127.0.0.1:8384/rest/noauth/health |
-        grep --quiet 200 ||
+        grep -q 200 ||
         exit 1
       interval: 1m
       timeout: 10s
