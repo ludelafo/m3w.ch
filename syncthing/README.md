@@ -15,6 +15,7 @@
   - [Set the environment variables](#set-the-environment-variables)
   - [Create the required directories](#create-the-required-directories)
 - [Run the application with Docker](#run-the-application-with-docker)
+- [Post-installation](#post-installation)
 - [Additional resources](#additional-resources)
 
 ## Pre-configuration
@@ -49,6 +50,23 @@ docker compose pull
 docker compose up --detach
 ```
 
+## Post-installation
+
+To disable the authentication for the web GUI of Syncthing, you can edit the
+`config/config.xml` file and set the following fields:
+
+```xml
+    <!-- ... -->
+    <gui enabled="true" tls="false" sendBasicAuthPrompt="false">
+        <!-- ... -->
+        <insecureAdminAccess>true</insecureAdminAccess>
+        <password></password>
+        <!-- ... -->
+    </gui>
+```
+
 ## Additional resources
 
 - [Syncthing](https://syncthing.net/)
+- <https://www.reddit.com/r/Syncthing/comments/ea7krz/any_possibility_to_disable_danger_no_password/>
+- <https://github.com/search?q=repo%3Asyncthing%2Fsyncthing+insecureAdminAccess&type=code>

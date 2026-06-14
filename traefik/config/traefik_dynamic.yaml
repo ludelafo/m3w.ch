@@ -5,6 +5,47 @@ http:
         customResponseHeaders:
           Strict-Transport-Security: max-age=63072000; includeSubDomains
 
+    oidc-auth:
+      plugin:
+        traefik-oidc-auth:
+          Secret: "${OIDC_SECRET}"
+          Provider:
+            Url: "https://auth.m3w.ch"
+            ClientId: "${OIDC_CLIENT_ID}"
+            ClientSecret: "${OIDC_CLIENT_SECRET}"
+            UsePkce: true
+          Scopes: ["openid", "profile", "email"]
+
+    oidc-auth-ludelafo:
+      plugin:
+        traefik-oidc-auth:
+          Secret: "${OIDC_SECRET}"
+          Provider:
+            Url: "https://auth.m3w.ch"
+            ClientId: "${OIDC_CLIENT_ID}"
+            ClientSecret: "${OIDC_CLIENT_SECRET}"
+            UsePkce: true
+          Scopes: ["openid", "profile", "email"]
+          Authorization:
+            AssertClaims:
+              - Name: preferred_username
+                AnyOf: ["ludelafo"]
+
+    oidc-auth-heaspery:
+      plugin:
+        traefik-oidc-auth:
+          Secret: "${OIDC_SECRET}"
+          Provider:
+            Url: "https://auth.m3w.ch"
+            ClientId: "${OIDC_CLIENT_ID}"
+            ClientSecret: "${OIDC_CLIENT_SECRET}"
+            UsePkce: true
+          Scopes: ["openid", "profile", "email"]
+          Authorization:
+            AssertClaims:
+              - Name: preferred_username
+                AnyOf: ["heaspery"]
+
   routers:
     adguard-home:
       rule: "Host(`adguard.m3w.ch`)"

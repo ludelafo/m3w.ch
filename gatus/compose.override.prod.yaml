@@ -24,3 +24,5 @@ services:
       - glance.url=https://${GATUS_FQDN}
       - glance.description=Service monitoring tool.
       - glance.category=infrastructure
+      ## Pocket ID
+      - traefik.http.routers.${GATUS_CONTAINER_NAME}.middlewares=oidc-auth@file

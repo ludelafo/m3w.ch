@@ -1,10 +1,9 @@
-# LLDAP
+# Pocket ID
 
-> This project is a lightweight authentication server that provides an
-> opinionated, simplified LDAP interface for authentication. It integrates with
-> many backends, from KeyCloak to Authelia to Nextcloud and more!
+> A simple and easy-to-use OIDC provider that allows users to authenticate with
+> their passkeys to your services.
 >
-> <https://github.com/lldap/lldap>
+> <https://pocket-id.org/>
 
 ## Table of contents
 
@@ -35,6 +34,9 @@ docker compose pull
 docker compose up --detach
 ```
 
+Access Pocket ID at `https://auth.m3w.ch/setup` and follow the instructions to
+set up your account and create a passkey.
+
 ## Additional resources
 
-- [LLDAP](https://github.com/lldap/lldap)
+- [Pocket ID](https://pocket-id.org/)

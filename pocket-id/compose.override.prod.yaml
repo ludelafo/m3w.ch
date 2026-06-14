@@ -1,0 +1,29 @@
+networks:
+  traefik_network:
+    external: true
+
+services:
+  pocket-id:
+    environment:
+      - APP_URL=https://${POCKET_ID_FQDN}
+      - TRUST_PROXY=true
+    networks:
+      - traefik_network
+    expose:
+      - 1411
+    ports: !reset []
+    labels:
+      ## Traefik
+      - traefik.enable=true
+      # Router
+      - traefik.http.routers.${POCKET_ID_CONTAINER_NAME}.entryPoints=websecure
+      - traefik.http.routers.${POCKET_ID_CONTAINER_NAME}.rule=Host(`${POCKET_ID_FQDN}`)
+      # Service
+      - traefik.http.services.${POCKET_ID_CONTAINER_NAME}.loadbalancer.server.port=1411
+      ## Glance
+      - glance.name=Pocket ID
+      # https://github.com/glanceapp/glance/blob/main/docs/configuration.md#icons
+      - glance.icon=sh:pocket-id
+      - glance.url=https://${POCKET_ID_FQDN}
+      - glance.description=Authentication and authorization server.
+      - glance.category=infrastructure

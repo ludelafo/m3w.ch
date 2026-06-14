@@ -17,3 +17,5 @@ services:
     volumes:
       - ./cache:/data
       - ./config:/config
+    healthcheck:
+      disable: true

@@ -51,6 +51,12 @@ In the qBittorrent web interface, go to "Tools" > "Options" > "Web UI" and set
 the "Bypass authentication for clients on localhost" option to "Enabled" for the
 health check to work.
 
+If using OIDC (Pocket ID), in the qBittorrent web interface, go to "Tools" >
+"Options" > "Web UI" and set the "Bypass authentication for clients in
+whitelisted IP subnets" option to "0.0.0.0/0" and set the "Enable Cross-Site
+Request Forgery (CSRF) protection" option to "Disabled" for the authentication
+to work.
+
 ## Additional resources
 
 - [qBittorrent](https://www.qbittorrent.org/)
