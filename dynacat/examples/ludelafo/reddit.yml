@@ -1,0 +1,4 @@
+- type: rss
+  title: Reddit
+  feeds:
+    - url: https://reddit.com/r/selfhosted.rss

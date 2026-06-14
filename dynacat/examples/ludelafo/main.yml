@@ -1,0 +1,99 @@
+- name: ludelafo
+  hide-from-navigation: true
+  columns:
+    - size: small
+      widgets:
+        - type: clock
+          hour-format: 24h
+
+        - type: calendar
+          first-day-of-week: monday
+
+        - type: weather
+          location: ${DYNACAT_WEATHER_LOCATION}
+          units: metric
+          hour-format: 24h
+
+        - $include: ../custom-widgets/weather-forecast.yml
+
+    - size: full
+      widgets:
+        - type: rss
+          cache: 12h
+          feeds:
+            - title: Ahmad Shadeed
+              url: https://ishadeed.com/feed.xml
+            - title: Bartosz Ciechanowski
+              url: https://ciechanow.ski/atom.xml
+            - title: Josh Comeau
+              url: https://www.joshwcomeau.com/rss.xml
+            - title: Sam Rose
+              url: https://samwho.dev/rss.xml
+            - title: selfh.st
+              url: https://selfh.st/rss/
+            # - title: RTS
+            #   url: https://www.rts.ch/info/toute-info/?format=rss/news
+
+        - type: hacker-news
+
+        - type: lobsters
+
+        - $include: reddit.yml
+
+        - type: videos
+          title: Music - YouTube
+          style: vertical-list
+          collapse-after: 3
+          limit: 10
+          channels:
+            - UC2g89Wkff0MajTScx4pXUNA # Kardavox Academy - https://www.youtube.com/@KardavoxAcademy
+            - UC_62jYuKq0O-K66pjrK5jhQ # Knox Hill - https://www.youtube.com/@KnoxHill
+            - UCK5G-rUDSKKUXeMkrL7Bs1w # The Charismatic Voice - https://www.youtube.com/@TheCharismaticVoice
+
+        - type: videos
+          title: Technology - YouTube
+          style: vertical-list
+          collapse-after: 3
+          limit: 10
+          channels:
+            - UCXuqSBlHAE6Xw-yeJA0Tunw # Linus Tech Tips
+            - UCR-DXc1voovS8nhAvccRZhg # Jeff Geerling
+            - UCsBjURrPoezykLs9EqgamOA # Fireship
+            - UCBJycsmduvYEL83R_U4JriQ # Marques Brownlee
+
+        - type: videos
+          title: Educational - YouTube
+          style: vertical-list
+          collapse-after: 3
+          limit: 10
+          channels:
+            - UCHnyfMqiRRG1u-2MsSQLbXA # Veritasium - https://www.youtube.com/@veritasium
+            - UCYO_jab_esuFRV4b17AJtAw # 3Blue1Brown - https://www.youtube.com/@3blue1brown
+
+    - size: small
+      widgets:
+        - type: docker-containers
+          title: Media
+          category: media
+
+        - type: docker-containers
+          title: Games
+          category: games
+
+        - type: docker-containers
+          title: Infrastructure
+          category: infrastructure
+
+        - type: releases
+          cache: 1d
+          repositories:
+            - AdguardTeam/AdGuardHome
+            - crazy-max/docker-samba
+            - dynacatapp/dynacat
+            - itzg/docker-minecraft-server
+            - navidrome/navidrome
+            - qbittorrent/qBittorrent
+            - sigoden/dufs
+            - syncthing/syncthing
+            - traefik/traefik
+            - wg-easy/wg-easy

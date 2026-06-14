@@ -1,0 +1,48 @@
+branding:
+  custom-footer: |
+    <p>Powered by <a href="https://github.com/Panonim/dynacat">Dynacat</a>.</p>
+  hide-logo: true
+  show-desktop-navigation-on-hover: true
+  center-desktop-navigation: true
+
+pages:
+  - name: Home
+    width: slim
+    hide-desktop-navigation: true
+    center-vertically: true
+    hide-from-navigation: false
+    show-mobile-header: true
+    columns:
+      - size: full
+        widgets:
+          - type: search
+            search-engine: google
+            autofocus: true
+
+          - type: bookmarks
+            hide-header: true
+            groups:
+              - title: ludelafo's space
+                links:
+                  - title: Home
+                    url: /ludelafo
+                    same-tab: true
+              - title: heaspery's space
+                links:
+                  - title: Home
+                    url: /heaspery
+                    same-tab: true
+
+          - type: docker-containers
+            title: Media
+            category: media
+
+          - type: docker-containers
+            title: Games
+            category: games
+
+          - type: docker-containers
+            title: Infrastructure
+            category: infrastructure
+
+  - $include: ludelafo/main.yml

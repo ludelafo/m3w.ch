@@ -19,6 +19,18 @@ endpoints:
     conditions:
       - "[STATUS] == 200"
 
+  - name: Dynacat
+    url: https://m3w.ch
+    <<: *internal-defaults
+    conditions:
+      - "[STATUS] == 200"
+
+  - name: Navidrome
+    url: https://navidrome.m3w.ch
+    <<: *internal-defaults
+    conditions:
+      - "[STATUS] == 200"
+
   - name: Pocket ID
     url: https://auth.m3w.ch
     <<: *internal-defaults
