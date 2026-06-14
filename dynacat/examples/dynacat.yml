@@ -46,3 +46,5 @@ pages:
             category: infrastructure
 
   - $include: ludelafo/main.yml
+
+  - $include: heaspery/main.yml

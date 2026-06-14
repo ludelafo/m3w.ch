@@ -1,4 +1,5 @@
 - type: rss
   title: Reddit
   feeds:
-    - url: https://reddit.com/r/selfhosted.rss
+    - url: https://reddit.com/r/audioengineering.rss
+    - url: https://reddit.com/r/audiophile.rss

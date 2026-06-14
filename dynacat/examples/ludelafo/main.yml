@@ -1,4 +1,5 @@
-- name: ludelafo
+- name: ludelafo's space
+  slug: ludelafo
   hide-from-navigation: true
   columns:
     - size: small
