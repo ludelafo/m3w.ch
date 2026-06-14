@@ -1,0 +1,32 @@
+- name: heaspery's space
+  slug: heaspery
+  hide-from-navigation: true
+  columns:
+    - size: small
+      widgets:
+        - type: clock
+          hour-format: 24h
+
+        - type: calendar
+          first-day-of-week: monday
+
+        - type: weather
+          location: ${DYNACAT_WEATHER_LOCATION}
+          units: metric
+          hour-format: 24h
+
+        - $include: ../custom-widgets/weather-forecast.yml
+
+    - size: full
+      widgets:
+        - type: rss
+          feeds:
+            - title: RTS
+              url: https://www.rts.ch/info/toute-info/?format=rss/news
+
+    - size: small
+      widgets:
+        - type: rss
+          feeds:
+            - title: RTS
+              url: https://www.rts.ch/info/toute-info/?format=rss/news

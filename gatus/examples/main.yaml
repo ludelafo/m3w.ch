@@ -25,10 +25,10 @@ alerting:
 
 ## Security
 # https://github.com/TwiN/gatus#security
-security:
-  oidc:
-    issuer-url: "https://auth.m3w.ch"
-    redirect-url: "https://gatus.m3w.ch/authorization-code/callback"
-    client-id: "${OIDC_CLIENT_ID}"
-    client-secret: "${OIDC_CLIENT_SECRET}"
-    scopes: ["openid"]
+# security:
+#   oidc:
+#     issuer-url: "https://auth.m3w.ch"
+#     redirect-url: "https://gatus.m3w.ch/authorization-code/callback"
+#     client-id: "${OIDC_CLIENT_ID}"
+#     client-secret: "${OIDC_CLIENT_SECRET}"
+#     scopes: ["openid"]
