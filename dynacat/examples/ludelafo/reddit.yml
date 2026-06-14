@@ -1,5 +1,12 @@
 - type: rss
   title: Reddit
   feeds:
-    - url: https://reddit.com/r/audioengineering.rss
+    # Audio
     - url: https://reddit.com/r/audiophile.rss
+    # Reading
+    - url: https://reddit.com/r/bandedessinee.rss
+    # Technology
+    - url: https://reddit.com/r/homelab.rss
+    - url: https://reddit.com/r/linux.rss
+    - url: https://reddit.com/r/selfhosted.rss
+    - url: https://reddit.com/r/technology.rss
