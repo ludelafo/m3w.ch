@@ -42,9 +42,6 @@ nwdiag {
   raspberry_pi [description = "<$server_generic>\nRaspberry Pi 3\nraspberry.m3w.ch"]
   raspberry_pi_1 [description = "<$server_generic>\nRaspberry Pi 3\nraspberry.m3w.ch"]
 
-  storage_1 [description = "<$hard_disk>\nStorage\n(18 TB)"]
-  storage_2 [description = "<$hard_disk>\nBackups\n(2 TB)"]
-
   adguard_home [description = "<$virtual_application_server>\nAdGuard Home\n(DNS and DHCP server)\nhttps://adguard.m3w.ch"]
   backrest [description = "<$virtual_application_server>\nBackrest ?\n(Backups)\nhttps://beszel.m3w.ch"]
   beszel [description = "<$virtual_application_server>\nBeszel\n(Hardware monitoring)\nhttps://beszel.m3w.ch"]
@@ -74,9 +71,6 @@ nwdiag {
     sony_ps5
     libreelec
     raspberry_pi
-
-    storage_1
-    storage_2
   }
 
   group {
@@ -128,13 +122,6 @@ nwdiag {
       sony_ps5 [address = "192.168.1.8"]
       libreelec [address = "192.168.1.9"]
       raspberry_pi [address = "192.168.1.254"]
-  }
-
-  network {
-      color = "LightGreen"
-      nas
-      storage_1
-      storage_2
   }
 
   // Raspberry Pi

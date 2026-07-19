@@ -1,0 +1,37 @@
+version: "1"
+
+default-gatus-authentication: &gatus-authentication
+  method: POST
+  headers:
+    - name: Authorization
+      value: "Bearer ${GATUS_RESTICPROFILE_TOKEN}"
+
+global:
+  scheduler: crond
+  restic-stale-lock-age: 2h
+  log: "-" # Redirect to stdout
+  min-memory: 100 # in MB
+
+default:
+  password-file: password.txt
+  lock: resticprofile.lock
+  repository: local:/data/backups
+  initialize: true
+
+  backup:
+    source:
+      - /data/storage
+    exclude-caches: true
+    one-file-system: true
+    # https://www.freedesktop.org/software/systemd/man/latest/systemd.time.html
+    # https://systemd.guru
+    schedule: "minutely"
+    schedule-permission: system
+    check-before: true
+    send-after:
+      - url: https://gatus.m3w.ch/api/v1/endpoints/Internal-resticprofile/external?success=true
+        <<: *gatus-authentication
+
+    send-after-fail:
+      - url: https://gatus.m3w.ch/api/v1/endpoints/Internal-resticprofile/external?success=false&error=${ERROR}
+        <<: *gatus-authentication

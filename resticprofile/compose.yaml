@@ -1,0 +1,16 @@
+name: resticprofile
+
+services:
+  resticprofile:
+    container_name: ${RESTICPROFILE_CONTAINER_NAME}
+    image: creativeprojects/resticprofile:${RESTICPROFILE_IMAGE_VERSION}
+    entrypoint: "/bin/ash"
+    command:
+      - "-c"
+      - "resticprofile schedule --all && crond -f"
+    restart: unless-stopped
+    env_file:
+      - resticprofile.env
+    volumes:
+      - ./config:/etc/resticprofile
+      - ./data:/data
