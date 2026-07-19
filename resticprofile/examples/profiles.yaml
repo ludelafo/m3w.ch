@@ -4,7 +4,7 @@ default-gatus-authentication: &gatus-authentication
   method: POST
   headers:
     - name: Authorization
-      value: "Bearer ${GATUS_RESTICPROFILE_TOKEN}"
+      value: "Bearer {{ .Env.GATUS_RESTICPROFILE_TOKEN }}"
 
 global:
   scheduler: crond
