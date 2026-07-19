@@ -61,13 +61,12 @@ default:
 
     send-after:
       - url:
-          https://gatus.m3w.ch/api/v1/endpoints/{{
-          .Env.{GATUS_RESTICPROFILE_KEY} }}/external?success=true
+          "https://gatus.m3w.ch/api/v1/endpoints/{{ .Env.GATUS_RESTICPROFILE_KEY
+          }}/external?success=true"
         <<: *gatus-authentication
 
     send-after-fail:
       - url:
-          https://gatus.m3w.ch/api/v1/endpoints/{{
-          .Env.{GATUS_RESTICPROFILE_KEY}
-          }}/external?success=false&error=${ERROR}
+          "https://gatus.m3w.ch/api/v1/endpoints/{{ .Env.GATUS_RESTICPROFILE_KEY
+          }}/external?success=false&error=${ERROR}"
         <<: *gatus-authentication
