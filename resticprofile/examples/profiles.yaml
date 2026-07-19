@@ -34,7 +34,7 @@ default:
     one-file-system: true
     # https://www.freedesktop.org/software/systemd/man/latest/systemd.time.html
     # https://systemd.guru
-    schedule: "minutely"
+    schedule: "08,20:00:00"
     schedule-permission: system
     check-before: true
     exclude:
