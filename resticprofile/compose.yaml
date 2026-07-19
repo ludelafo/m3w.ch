@@ -13,4 +13,5 @@ services:
       - resticprofile.env
     volumes:
       - ./config:/etc/resticprofile
-      - ./data:/data
+      - ./data/storage:/data/storage
+      - ./data/backups:/data/backups
