@@ -75,7 +75,7 @@ endpoints:
 
 external-endpoints:
   # curl -I -X POST -H "Authorization: Bearer ${GATUS_RESTICPROFILE_TOKEN}" "https://gatus.m3w.ch/api/v1/endpoints/internal_resticprofile-ludelafo/external?success=true|false[]&error={error}"
-  - name: resticprofile-ludelafo
+  - name: resticprofile (ludelafo)
     group: Internal
     token: ${GATUS_RESTICPROFILE_TOKEN}
     heartbeat:
