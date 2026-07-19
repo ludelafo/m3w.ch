@@ -74,13 +74,12 @@ endpoints:
       - "[STATUS] == 200"
 
 external-endpoints:
-  # curl -I -X POST -H "Authorization: Bearer ${GATUS_RESTICPROFILE_TOKEN}" "https://gatus.m3w.ch/api/v1/endpoints/Internal_resticprofile/external?success=true"
-  # curl -I -X POST -H "Authorization: Bearer ${GATUS_RESTICPROFILE_TOKEN}" "https://gatus.m3w.ch/api/v1/endpoints/Internal_resticprofile/external?success=false&error={error}"
-  - name: resticprofile
-    <<: *internal-defaults
+  # curl -I -X POST -H "Authorization: Bearer ${GATUS_RESTICPROFILE_TOKEN}" "https://gatus.m3w.ch/api/v1/endpoints/internal_resticprofile-ludelafo/external?success=true|false[]&error={error}"
+  - name: resticprofile-ludelafo
+    group: Internal
     token: ${GATUS_RESTICPROFILE_TOKEN}
     heartbeat:
-      # Automatically create a failure if no update is received within 30 minutes
+      # Automatically create a failure if no update is received within the time internal
       interval: 10m
     alerts:
       - type: telegram

@@ -18,6 +18,15 @@ default:
   repository: local:/data/backups
   initialize: true
 
+  retention:
+    after-backup: true
+    keep-hourly: 24
+    keep-daily: 7
+    keep-weekly: 4
+    keep-monthly: 12
+    keep-yearly: 1
+    prune: true
+
   backup:
     source:
       - /data/storage
@@ -28,10 +37,37 @@ default:
     schedule: "minutely"
     schedule-permission: system
     check-before: true
+    exclude:
+      ## Linux
+      # Temporary files
+      - "*~"
+
+      ## macOS
+      # Files created by macOS Finder
+      - ".DS_Store"
+
+      ## Windows
+      # Windows thumbnail cache files
+      - "Thumbs.db"
+
+      # Folder config file
+      - "[Dd]esktop.ini"
+
+      # ## Node
+      # - "node_modules"
+
+      # ## Python
+      # - ".venv"
+
     send-after:
-      - url: https://gatus.m3w.ch/api/v1/endpoints/Internal-resticprofile/external?success=true
+      - url:
+          https://gatus.m3w.ch/api/v1/endpoints/{{
+          .Env.{GATUS_RESTICPROFILE_KEY} }}/external?success=true
         <<: *gatus-authentication
 
     send-after-fail:
-      - url: https://gatus.m3w.ch/api/v1/endpoints/Internal-resticprofile/external?success=false&error=${ERROR}
+      - url:
+          https://gatus.m3w.ch/api/v1/endpoints/{{
+          .Env.{GATUS_RESTICPROFILE_KEY}
+          }}/external?success=false&error=${ERROR}
         <<: *gatus-authentication

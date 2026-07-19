@@ -10,9 +10,9 @@
 - [Table of contents](#table-of-contents)
 - [Pre-configuration](#pre-configuration)
   - [Set the environment variables](#set-the-environment-variables)
-  - [Create the resticprofile configuration file(s)](#create-the-resticprofile-configuration-files)
-  - [Create the password file](#create-the-password-file)
+  - [Create the resticprofile configuration file](#create-the-resticprofile-configuration-file)
 - [Run the application with Docker](#run-the-application-with-docker)
+- [Check the configuration](#check-the-configuration)
 - [Manual backups](#manual-backups)
 - [Additional resources](#additional-resources)
 
@@ -22,23 +22,11 @@
 
 Edit the `*.env` files to your needs.
 
-### Create the resticprofile configuration file(s)
+### Create the resticprofile configuration file
 
-Create a `config` directory with the configuration file(s) needed for
+Create a `config` directory with the configuration file needed for
 resticprofile. You can find an example configuration file in the `examples`
 directory.
-
-### Create the password file
-
-Create a password file for resticprofile.
-
-The password file can have a set password or a random password with the
-following command:
-
-```bash
-docker compose run --rm --entrypoint=/usr/bin/resticprofile resticprofile \
-  generate --random-key 20 > config/password.txt
-```
 
 ## Run the application with Docker
 
@@ -53,6 +41,13 @@ docker compose pull
 
 # Start the application with Docker
 docker compose up --detach
+```
+
+## Check the configuration
+
+```bash
+docker compose run --rm --entrypoint=/usr/bin/resticprofile resticprofile \
+  --config /etc/resticprofile/profiles.yaml show
 ```
 
 ## Manual backups
