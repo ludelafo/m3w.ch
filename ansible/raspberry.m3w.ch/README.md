@@ -335,7 +335,6 @@ doas mkdir /var/lib/beszel-agent
 
 doas chown beszel-agent:beszel-agent /var/lib/beszel-agent
 
-
 doas tee /etc/init.d/beszel-agent >/dev/null <<'EOF'
 #!/sbin/openrc-run
 
@@ -357,6 +356,7 @@ start_pre() {
     export HUB_URL="$HUB_URL"
     export TOKEN="$TOKEN"
     export EXCLUDE_SMART="$EXCLUDE_SMART"
+    export DISABLE_SSH="$DISABLE_SSH"
 }
 
 depend() {
@@ -366,20 +366,20 @@ depend() {
 EOF
 
 doas tee /etc/conf.d/beszel-agent >/dev/null <<'EOF'
-# Disable the SSH server completely (WebSocket connection only).
-DISABLE_SSH=true
-
 # URL of the Hub.
 HUB_URL="https://beszel.m3w.ch"
 
 # Public SSH key(s) to use for authentication. Provided in Hub.
-KEY="ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILi8MTmsrveQdtQ9hDfcEmr4tnP4rAsLiB42WA+Fjde5"
+KEY="CHANGE_ME"
 
 # WebSocket registration token. Provided in Hub.
-TOKEN="a388a0e1-4063-4e11-a27f-e2c1e7076cb9"
+TOKEN="CHANGE_ME"
 
 # Exclude S.M.A.R.T. devices from being monitored.
 EXCLUDE_SMART=true
+
+# Disable the SSH server completely (WebSocket connection only).
+DISABLE_SSH=true
 EOF
 
 doas lbu include /etc/init.d/beszel-agent
@@ -392,9 +392,42 @@ doas rc-update add beszel-agent
 doas service beszel-agent start
 
 doas lbu ci
+
+doas tee /etc/modprobe.d/brcmfmac.conf >/dev/null <<'EOF'
+options brcmfmac roamoff=1 feature_disable=0x282000
+EOF
+
+doas lbu ci
+
+doas apk add watchdog
+
+doas tee /etc/conf.d/watchdog >/dev/null <<'EOF'
+#WATCHDOG_OPTS="-t 30"
+WATCHDOG_DEV="/dev/watchdog"
+EOF
+
+doas tee /etc/watchdog.conf >/dev/null <<'EOF'
+watchdog-device = /dev/watchdog
+watchdog-timeout = 60
+realtime = yes
+priority = 1
+ping = 192.168.1.1
+ping-count = 3
+interface = wlan0
+EOF
+
+doas rc-update add watchdog
+
+doas service watchdog start
+
+doas lbu commit
 ```
 
 - <https://wiki.alpinelinux.org/wiki/OpenRC>
 - <https://wiki.alpinelinux.org/wiki/Repositories#Edge>
 - <https://wiki.alpinelinux.org/wiki/Repositories#Upgrading_to_edge>
 - <https://gitlab.alpinelinux.org/alpine/aports/-/tree/master/community/beszel>
+- <https://github.com/raspberrypi/bookworm-feedback/issues/220>
+- <https://github.com/raspberrypi/trixie-feedback/issues/25>
+- <https://www.dzombak.com/blog/2023/12/maintaining-a-solid-wifi-connection-on-raspberry-pi/>
+- <https://www.dzombak.com/blog/2023/12/mitigating-hardware-firmware-driver-instability-on-the-raspberry-pi/>

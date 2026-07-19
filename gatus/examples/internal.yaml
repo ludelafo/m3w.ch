@@ -72,3 +72,13 @@ endpoints:
     <<: *internal-defaults
     conditions:
       - "[STATUS] == 200"
+
+external-endpoints:
+  # curl -X POST "https://gatus.m3w.ch/api/v1/endpoints/Internal-resticprofile/external?success=true"
+  # curl -X POST "https://gatus.m3w.ch/api/v1/endpoints/Internal-resticprofile/external?success=false&error={error}"
+  - name: resticprofile
+    <<: *internal-defaults
+    token: ${GATUS_RESTICPROFILE_TOKEN}
+    heartbeat:
+      # Automatically create a failure if no update is received within 30 minutes
+      interval: 6h

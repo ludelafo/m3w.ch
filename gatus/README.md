@@ -36,21 +36,6 @@ In a terminal, run the following commands:
 # Pull the latest images
 docker compose pull
 
-# Start the Gatus Hub only on first start
-docker compose up gatus
-
-# Add a new system to Gatus:
-#
-# - Name: `Host`
-# - Host / IP: `/gatus_socket/gatus.sock`
-# - Port: (leave as default)
-# - Public Key: (copy and store it in the host's `gatus_agent_data/gatus_key.txt` file)
-# - Token: (copy and store it in the host's `gatus_agent_data/gatus_token.txt` file)
-
-# Access the superuser PocketBase admin panel at `/_/` (https://gatus.dev/guide/user-accounts)
-#
-# Change the Mail settings in PocketBase admin panel if needed
-
 # Start the application with Docker
 docker compose up --detach
 ```
