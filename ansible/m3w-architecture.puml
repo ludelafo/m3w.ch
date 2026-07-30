@@ -10,6 +10,7 @@
 !include <office/Servers/application_server>
 !include <office/Servers/server_generic>
 !include <office/Servers/virtual_application_server>
+!include <office/Users/user>
 
 <style>
 legend {
@@ -22,42 +23,51 @@ title m3w.ch architecture
 
 legend
   **Legend**
-  <#transparent,#transparent>|   <$public_cloud>   |   <$router>   |   <$server_generic>   |   <$device_laptop>   |   <$device_tv>   |   <$workstation>   |   <$application_generic>   |   <$virtual_application_server>   |   <$hard_disk>   |   <$cell_phone_generic>   |
-  |   Internet   |   Router   |   Server   |   Laptop   |   Console   |   Workstation   |   Application   |   Container   |   Storage   |   Smartphone   |
+  <#transparent,#transparent>|   <$public_cloud>   |   <$router>   |   <$server_generic>   |   <$device_laptop>   |   <$device_tv>   |   <$workstation>   |   <$application_generic>   |   <$virtual_application_server>   |   <$hard_disk>   |   <$cell_phone_generic>   |   <$user>   |
+  |   Internet   |   Router   |   Server   |   Laptop   |   Console   |   Workstation   |   Application   |   Container   |   Storage   |   Smartphone   |   User  |
 endlegend
 
 nwdiag {
-  internet [shape = cloud,  description = "<$public_cloud>\n**Internet**"]
+  ' Infrastructure
+  internet [shape = cloud,  description = "<$public_cloud>, **Internet**"]
 
-  router [address = "<External IP>, :25565, :51820/udp, :52570/tcp+udp", description = "<$router>\n**Yallo Fiber Box 2**\nyallo.m3w.ch"]
+  router [address = "<External IP>, :25565, :51820/udp, :52570/tcp+udp", description = "<$router>, **Yallo Fiber Box 2**, yallo.m3w.ch"]
 
-  nas [description = "<$server_generic>\n**NAS**\nnas.m3w.ch"]
-  nas_1 [description = "<$server_generic><$hard_disk><$hard_disk>\n**NAS**\nStorage 18 TB + 2 TB"]
+  ' Users
+  alpine [description = "<$user>, **alpine**, doas"]
+  debian [description = "<$user>, **debian**, sudo + users"]
+  ludelafo [description = "<$user>, **ludelafo**, users"]
+  heaspery [description = "<$user>, **heaspery**, users"]
 
-  framework [description = "<$device_laptop>\n**Framework**\nframework.m3w.ch"]
-  macbook_pro [description = "<$device_laptop>\n**MacBook Pro**\nmacbook.m3w.ch"]
-  nintendo_wii [description = "<$device_tv>\n**Nintendo Wii**\nwii.m3w.ch"]
-  sony_ps5 [description = "<$device_tv>\n**Sony PlayStation 5**\nps5.m3w.ch"]
-  libreelec [description = "<$workstation>\n**LibreELEC**\nkodi.m3w.ch"]
-  raspberry_pi [description = "<$server_generic>\n**Raspberry Pi 3**\nraspberry.m3w.ch"]
-  raspberry_pi_1 [description = "<$server_generic><$hard_disk>\n**Raspberry Pi 3**\nStorage 8 GB"]
+  ' Devices
+  nas [description = "<$server_generic>, **NAS**, nas.m3w.ch"]
+  nas_1 [description = "<$server_generic><$hard_disk><$hard_disk>, **NAS**, Storage 18 TB + 2 TB"]
 
-  adguard_home [description = "<$virtual_application_server>\n**AdGuard Home**\nDNS and DHCP server\nhttps://adguard.m3w.ch"]
-  beszel [description = "<$virtual_application_server>\n**Beszel**\nHardware monitoring\nhttps://beszel.m3w.ch"]
-  gatus [description = "<$virtual_application_server>\n**Gatus**\nSoftware monitoring\nhttps://gatus.m3w.ch"]
-  glance [description = "<$virtual_application_server>\n**Glance**\nDashboard\nhttps://m3w.ch"]
-  navidrome [description = "<$virtual_application_server>\n**Navidrome**\nMusic server\nhttps://navidrome.m3w.ch"]
-  pocket_id [description = "<$virtual_application_server>\n**Pocket ID**\nAuthentification\nhttps://auth.m3w.ch"]
-  qbittorrent [description = "<$virtual_application_server>\n**qBittorrent**\nTorrent client\nhttps://qbittorrent.m3w.ch"]
-  resticprofile_debian [description = "<$virtual_application_server>\n**resticprofile (debian)**\nBackups"]
-  resticprofile_heaspery [description = "<$virtual_application_server>\n**resticprofile (heaspery)**\nBackups"]
-  resticprofile_ludelafo [description = "<$virtual_application_server>\n**resticprofile (ludelafo)**\nBackups"]
-  samba [description = "<$virtual_application_server>\n**Samba**\nNetwork shares\nsmb://192.168.1.2"]
-  syncthing_ludelafo [description = "<$virtual_application_server>\n**Syncthing (ludelafo)**\nFiles synchronization\nhttps://syncthing.ludelafo.m3w.ch"]
-  syncthing_heaspery [description = "<$virtual_application_server>\n**Syncthing (heaspery)**\nFiles synchronization\nhttps://syncthing.heaspery.m3w.ch"]
-  traefik [description = "<$virtual_application_server>\n**Traefik**\nReverse proxy\nhttps://traefik.m3w.ch"];
-  wg_easy [description = "<$virtual_application_server>\n**Wireguard Easy**\nVPN\nhttps://vpn.m3w.ch"]
-  tang [description = "<$application_generic>\n**Tang**\nLUKS unlocker\nhttp://192.168.1.254"]
+  framework [description = "<$device_laptop>, **Framework**, framework.m3w.ch"]
+  macbook_pro [description = "<$device_laptop>, **MacBook Pro**, macbook.m3w.ch"]
+  nintendo_wii [description = "<$device_tv>, **Nintendo Wii**, wii.m3w.ch"]
+  sony_ps5 [description = "<$device_tv>, **Sony PlayStation 5**, ps5.m3w.ch"]
+  libreelec [description = "<$workstation>, **LibreELEC**, kodi.m3w.ch"]
+  raspberry_pi [description = "<$server_generic>, **Raspberry Pi 3**, raspberry.m3w.ch"]
+  raspberry_pi_1 [description = "<$server_generic><$hard_disk>, **Raspberry Pi 3**, Storage 8 GB"]
+
+  ' Services
+  adguard_home [description = "<$virtual_application_server>, **AdGuard Home**, DNS and DHCP server, https://adguard.m3w.ch"]
+  beszel [description = "<$virtual_application_server>, **Beszel**, Hardware monitoring, https://beszel.m3w.ch"]
+  gatus [description = "<$virtual_application_server>, **Gatus**, Software monitoring, https://gatus.m3w.ch"]
+  glance [description = "<$virtual_application_server>, **Glance**, Dashboard, https://m3w.ch"]
+  navidrome [description = "<$virtual_application_server>, **Navidrome**, Music server, https://navidrome.m3w.ch"]
+  pocket_id [description = "<$virtual_application_server>, **Pocket ID**, Authentification, https://auth.m3w.ch"]
+  qbittorrent [description = "<$virtual_application_server>, **qBittorrent**, Torrent client, https://qbittorrent.m3w.ch"]
+  resticprofile_debian [description = "<$virtual_application_server>, **resticprofile (debian)**, Backups"]
+  resticprofile_heaspery [description = "<$virtual_application_server>, **resticprofile (heaspery)**, Backups"]
+  resticprofile_ludelafo [description = "<$virtual_application_server>, **resticprofile (ludelafo)**, Backups"]
+  samba [description = "<$virtual_application_server>, **Samba**, Network shares, smb://192.168.1.2"]
+  syncthing_ludelafo [description = "<$virtual_application_server>, **Syncthing (ludelafo)**, Files synchronization, https://syncthing.ludelafo.m3w.ch"]
+  syncthing_heaspery [description = "<$virtual_application_server>, **Syncthing (heaspery)**, Files synchronization, https://syncthing.heaspery.m3w.ch"]
+  traefik [description = "<$virtual_application_server>, **Traefik**, Reverse proxy, https://traefik.m3w.ch"];
+  wg_easy [description = "<$virtual_application_server>, **Wireguard Easy**, VPN, https://vpn.m3w.ch"]
+  tang [description = "<$application_generic>, **Tang**, LUKS unlocker, http://192.168.1.254"]
 
   group {
     description = "**Overview**"
@@ -75,6 +85,7 @@ nwdiag {
 
   group {
     description = "**Raspberry Pi**"
+    alpine
 
     raspberry_pi_1
 
@@ -83,6 +94,9 @@ nwdiag {
   
   group {
     description = "**NAS**"
+    debian
+    ludelafo
+    heaspery
 
     nas_1
 
@@ -133,6 +147,9 @@ nwdiag {
   // Raspberry Pi
   network host {
     color = "LightSkyBlue"
+
+    alpine
+
     raspberry_pi_1
 
     tang
@@ -141,6 +158,15 @@ nwdiag {
   // NAS
   network host {
     color = "LightPink"
+
+    debian
+    ludelafo
+    heaspery
+  }
+
+  network host {
+    color = "LightPink"
+
     nas_1
 
     adguard_home [address = ":53/tcp+udp, :67/udp, :68/udp, ..."]
