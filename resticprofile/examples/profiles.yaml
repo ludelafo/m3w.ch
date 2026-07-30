@@ -1,0 +1,72 @@
+version: "1"
+
+default-gatus-authentication: &gatus-authentication
+  method: POST
+  headers:
+    - name: Authorization
+      value: "Bearer {{ .Env.GATUS_RESTICPROFILE_TOKEN }}"
+
+global:
+  scheduler: crond
+  restic-stale-lock-age: 2h
+  log: "-" # Redirect to stdout
+  min-memory: 100 # in MB
+
+default:
+  password-file: password.txt
+  lock: resticprofile.lock
+  repository: local:/data/backups
+  initialize: true
+
+  retention:
+    after-backup: true
+    keep-hourly: 24
+    keep-daily: 7
+    keep-weekly: 4
+    keep-monthly: 12
+    keep-yearly: 1
+    prune: true
+
+  backup:
+    source:
+      - /data/storage
+    exclude-caches: true
+    one-file-system: true
+    # https://www.freedesktop.org/software/systemd/man/latest/systemd.time.html
+    # https://systemd.guru
+    schedule: "08,20:00:00"
+    schedule-permission: system
+    check-before: true
+    exclude:
+      ## Linux
+      # Temporary files
+      - "*~"
+
+      ## macOS
+      # Files created by macOS Finder
+      - ".DS_Store"
+
+      ## Windows
+      # Windows thumbnail cache files
+      - "Thumbs.db"
+
+      # Folder config file
+      - "[Dd]esktop.ini"
+
+      # ## Node
+      # - "node_modules"
+
+      # ## Python
+      # - ".venv"
+
+    send-after:
+      - url:
+          "https://gatus.m3w.ch/api/v1/endpoints/{{ .Env.GATUS_RESTICPROFILE_KEY
+          }}/external?success=true"
+        <<: *gatus-authentication
+
+    send-after-fail:
+      - url:
+          "https://gatus.m3w.ch/api/v1/endpoints/{{ .Env.GATUS_RESTICPROFILE_KEY
+          }}/external?success=false&error=${ERROR}"
+        <<: *gatus-authentication
