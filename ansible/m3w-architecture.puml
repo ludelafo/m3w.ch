@@ -27,42 +27,42 @@ legend
 endlegend
 
 nwdiag {
-  internet [shape = cloud,  description = "<$public_cloud>\nInternet"]
+  internet [shape = cloud,  description = "<$public_cloud>\n**Internet**"]
 
-  router [address = "<External IP>, :25565, :51820/udp, :52570/tcp+udp",  description = "<$router>\nYallo Fiber Box 2\nyallo.m3w.ch"]
+  router [address = "<External IP>, :25565, :51820/udp, :52570/tcp+udp",  description = "<$router>\n**Yallo Fiber Box 2**\nyallo.m3w.ch"]
 
-  nas [description = "<$server_generic>\nNAS\nnas.m3w.ch"]
-  nas_1 [description = "<$server_generic>\nNAS\nnas.m3w.ch"]
-  
-  framework [description = "<$device_laptop>\nFramework\nframework.m3w.ch"]
-  macbook_pro [description = "<$device_laptop>\nMacBook Pro\nmacbook.m3w.ch"]
-  nintendo_wii [description = "<$device_tv>\nNintendo Wii\nwii.m3w.ch"]
-  sony_ps5 [description = "<$device_tv>\nSony PlayStation 5\nps5.m3w.ch"]
-  libreelec [description = "<$workstation>\nLibreELEC\nkodi.m3w.ch"]
-  raspberry_pi [description = "<$server_generic>\nRaspberry Pi 3\nraspberry.m3w.ch"]
-  raspberry_pi_1 [description = "<$server_generic>\nRaspberry Pi 3\nraspberry.m3w.ch"]
+  nas [description = "<$server_generic>\n**NAS**\nnas.m3w.ch"]
+  nas_1 [description = "<$server_generic><$hard_disk><$hard_disk>\n**NAS**\nStorage 18 TB + 2 TB"]
 
-  adguard_home [description = "<$virtual_application_server>\nAdGuard Home\n(DNS and DHCP server)\nhttps://adguard.m3w.ch"]
-  backrest [description = "<$virtual_application_server>\nBackrest ?\n(Backups)\nhttps://beszel.m3w.ch"]
-  beszel [description = "<$virtual_application_server>\nBeszel\n(Hardware monitoring)\nhttps://beszel.m3w.ch"]
-  gatus [description = "<$virtual_application_server>\nGatus\n(Service monitoring)\nhttps://gatus.m3w.ch"]
-  glance [description = "<$virtual_application_server>\nGlance\n(Dashboard)\nhttps://m3w.ch"]
-  navidrome [description = "<$virtual_application_server>\nNavidrome\n(Music server)\nhttps://navidrome.m3w.ch"]
-  pocket_id [description = "<$virtual_application_server>\nPocket ID\n(Authentification)\nhttps://auth.m3w.ch"]
-  qbittorrent [description = "<$virtual_application_server>\nqBittorrent\n(Torrent client)\nhttps://qbittorrent.m3w.ch"]
-  samba [description = "<$virtual_application_server>\nSamba\n(Network shares)\nsmb://192.168.1.2"]
-  syncthing_ludelafo [description = "<$virtual_application_server>\nSyncthing (ludelafo)\n(Files synchronisation)\nhttps://syncthing.ludelafo.m3w.ch"]
-  syncthing_heaspery [description = "<$virtual_application_server>\nSyncthing (heaspery)\n(Files synchronisation)\nhttps://syncthing.heaspery.m3w.ch"]
-  traefik [description = "<$virtual_application_server>\nTraefik\n(Reverse proxy)\nhttps://traefik.m3w.ch"];
-  wg_easy [description = "<$virtual_application_server>\nWireguard Easy\n(VPN)\nhttps://vpn.m3w.ch"]
-  tang [description = "<$application_generic>\nTang\n(LUKS unlocker)\nhttp://192.168.1.254"]
+  framework [description = "<$device_laptop>\n**Framework**\nframework.m3w.ch"]
+  macbook_pro [description = "<$device_laptop>\n**MacBook Pro**\nmacbook.m3w.ch"]
+  nintendo_wii [description = "<$device_tv>\n**Nintendo Wii**\nwii.m3w.ch"]
+  sony_ps5 [description = "<$device_tv>\n**Sony PlayStation 5**\nps5.m3w.ch"]
+  libreelec [description = "<$workstation>\n**LibreELEC**\nkodi.m3w.ch"]
+  raspberry_pi [description = "<$server_generic>\n**Raspberry Pi 3**\nraspberry.m3w.ch"]
+  raspberry_pi_1 [description = "<$server_generic><$hard_disk>\n**Raspberry Pi 3 **\nStorage 8 GB"]
+
+  adguard_home [description = "<$virtual_application_server>\n**AdGuard Home**\nDNS and DHCP server\nhttps://adguard.m3w.ch"]
+  beszel [description = "<$virtual_application_server>\n**Beszel**\nHardware monitoring\nhttps://beszel.m3w.ch"]
+  gatus [description = "<$virtual_application_server>\n**Gatus**\nSoftware monitoring\nhttps://gatus.m3w.ch"]
+  glance [description = "<$virtual_application_server>\n**Glance**\nDashboard\nhttps://m3w.ch"]
+  navidrome [description = "<$virtual_application_server>\n**Navidrome**\nMusic server\nhttps://navidrome.m3w.ch"]
+  pocket_id [description = "<$virtual_application_server>\n**Pocket ID**\nAuthentification\nhttps://auth.m3w.ch"]
+  qbittorrent [description = "<$virtual_application_server>\n**qBittorrent**\nTorrent client\nhttps://qbittorrent.m3w.ch"]
+  resticprofile_debian [description = "<$virtual_application_server>\n**resticprofile (debian)**\nBackups"]
+  resticprofile_heaspery [description = "<$virtual_application_server>\n**resticprofile (heaspery)**\nBackups"]
+  resticprofile_ludelafo [description = "<$virtual_application_server>\n**resticprofile (ludelafo)**\nBackups"]
+  samba [description = "<$virtual_application_server>\n**Samba**\nNetwork shares\nsmb://192.168.1.2"]
+  syncthing_ludelafo [description = "<$virtual_application_server>\n**Syncthing (ludelafo)**\nFiles synchronization\nhttps://syncthing.ludelafo.m3w.ch"]
+  syncthing_heaspery [description = "<$virtual_application_server>\n**Syncthing (heaspery)**\nFiles synchronization\nhttps://syncthing.heaspery.m3w.ch"]
+  traefik [description = "<$virtual_application_server>\n**Traefik**\nReverse proxy\nhttps://traefik.m3w.ch"];
+  wg_easy [description = "<$virtual_application_server>\n**Wireguard Easy**\nVPN\nhttps://vpn.m3w.ch"]
+  tang [description = "<$application_generic>\n**Tang**\nLUKS unlocker\nhttp://192.168.1.254"]
 
   group {
     description = "**Overview**"
   
-    internet
-
-    router
+    internet -- router
 
     nas
     framework
@@ -84,18 +84,18 @@ nwdiag {
   group {
     description = "**NAS**"
 
-    internet -- router
-
     nas_1
 
     adguard_home
-    backrest
     beszel
     gatus
     glance
     navidrome
     pocket_id
     qbittorrent
+    resticprofile_debian
+    resticprofile_heaspery
+    resticprofile_ludelafo
     samba
     syncthing_ludelafo
     syncthing_heaspery
@@ -112,15 +112,21 @@ nwdiag {
       nas [address = "192.168.1.2"]
       framework [address = "192.168.1.3"]
       macbook_pro [address = "192.168.1.4"]
-      nintendo_wii [address = "192.168.1.7"]
   }
 
   network internal {
       address = "192.168.1.x/24"
       color = "LightGreen"
 
+      nintendo_wii [address = "192.168.1.7"]
       sony_ps5 [address = "192.168.1.8"]
       libreelec [address = "192.168.1.9"]
+  }
+
+  network internal {
+      address = "192.168.1.x/24"
+      color = "LightGreen"
+
       raspberry_pi [address = "192.168.1.254"]
   }
 
@@ -139,46 +145,46 @@ nwdiag {
 
     adguard_home [address = ":53/tcp+udp, :67/udp, :68/udp, ..."]
     samba [address = ":445, ..."]
+  }
+
+  network host {
+    color = "LightPink"
+  
+    resticprofile_debian
+    resticprofile_heaspery
+    resticprofile_ludelafo
+  }
+
+  network host {
+    color = "LightPink"
+  
     traefik [address = ":80, :443"]
   }
 
   network traefik_network {
     address = "<Docker internal network>"
-    color = "LightPink"
+    color = "LightSalmon"
 
     traefik
-  }
-
-  network traefik_network {
-    address = "<Docker internal network>"
-    color = "LightPink"
-
-    pocket_id
-    backrest
     beszel
-  }
-
-  network traefik_network {
-    address = "<Docker internal network>"
-    color = "LightPink"
-
-    gatus
-    glance
-  }
-
-  network traefik_network {
-    address = "<Docker internal network>"
-    color = "LightPink"
-
-    navidrome
-    qbittorrent
+    pocket_id
     wg_easy
   }
 
   network traefik_network {
     address = "<Docker internal network>"
-    color = "LightPink"
+    color = "LightSalmon"
 
+    gatus
+    glance
+    navidrome
+  }
+
+  network traefik_network {
+    address = "<Docker internal network>"
+    color = "LightSalmon"
+
+    qbittorrent
     syncthing_ludelafo
     syncthing_heaspery
   }

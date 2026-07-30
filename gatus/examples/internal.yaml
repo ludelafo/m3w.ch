@@ -77,10 +77,10 @@ external-endpoints:
   # curl -I -X POST -H "Authorization: Bearer ${GATUS_RESTICPROFILE_TOKEN}" "https://gatus.m3w.ch/api/v1/endpoints/internal_resticprofile-(ludelafo)/external?success=true|false[]&error={error}"
   - name: resticprofile (ludelafo)
     group: Internal
-    token: ${GATUS_RESTICPROFILE_TOKEN}
+    token: ${GATUS_RESTICPROFILE_LUDELAFO_TOKEN}
     heartbeat:
       # Automatically create a failure if no update is received within the time internal
-      interval: 12h
+      interval: 24h
     alerts:
       - type: telegram
         minimum-reminder-interval: 12h
