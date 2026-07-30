@@ -29,7 +29,7 @@ endlegend
 nwdiag {
   internet [shape = cloud,  description = "<$public_cloud>\n**Internet**"]
 
-  router [address = "<External IP>, :25565, :51820/udp, :52570/tcp+udp",  description = "<$router>\n**Yallo Fiber Box 2**\nyallo.m3w.ch"]
+  router [address = "<External IP>, :25565, :51820/udp, :52570/tcp+udp", description = "<$router>\n**Yallo Fiber Box 2**\nyallo.m3w.ch"]
 
   nas [description = "<$server_generic>\n**NAS**\nnas.m3w.ch"]
   nas_1 [description = "<$server_generic><$hard_disk><$hard_disk>\n**NAS**\nStorage 18 TB + 2 TB"]
@@ -40,7 +40,7 @@ nwdiag {
   sony_ps5 [description = "<$device_tv>\n**Sony PlayStation 5**\nps5.m3w.ch"]
   libreelec [description = "<$workstation>\n**LibreELEC**\nkodi.m3w.ch"]
   raspberry_pi [description = "<$server_generic>\n**Raspberry Pi 3**\nraspberry.m3w.ch"]
-  raspberry_pi_1 [description = "<$server_generic><$hard_disk>\n**Raspberry Pi 3 **\nStorage 8 GB"]
+  raspberry_pi_1 [description = "<$server_generic><$hard_disk>\n**Raspberry Pi 3**\nStorage 8 GB"]
 
   adguard_home [description = "<$virtual_application_server>\n**AdGuard Home**\nDNS and DHCP server\nhttps://adguard.m3w.ch"]
   beszel [description = "<$virtual_application_server>\n**Beszel**\nHardware monitoring\nhttps://beszel.m3w.ch"]

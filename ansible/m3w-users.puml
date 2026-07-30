@@ -1,0 +1,74 @@
+@startnwdiag m3w-users
+!include <office/Devices/device_laptop>
+!include <office/Devices/hard_disk>
+!include <office/Servers/server_generic>
+!include <office/Users/user>
+
+<style>
+legend {
+  HorizontalAlignment center
+  FontSize 12
+}
+</style>
+
+title m3w.ch users
+
+footer A hacky way to illustrate users and user groups.
+
+legend
+  **Legend**
+  <#transparent,#transparent>|   <$server_generic>   |   <$user>   |
+  |   Server   |   User   |
+endlegend
+
+nwdiag {
+  nas [description = "<$server_generic>\n**NAS**\nnas.m3w.ch"]
+  raspberry_pi [description = "<$server_generic>\n**Raspberry Pi 3**\nraspberry.m3w.ch"]
+
+  alpine [description = <$user>\n**""alpine""**]
+  debian [description = <$user>\n**""debian""**]
+  ludelafo [description = <$user>\n**""ludelafo""**]
+  heaspery [description = <$user>\n**""heaspery""**]
+
+  group {
+    description = "**Raspberry Pi**"
+
+    raspberry_pi
+    alpine
+  }
+  
+  group {
+    description = "**NAS**"
+
+    nas
+    debian
+    ludelafo
+    heaspery
+  }
+
+  // Raspberry Pi
+  network doas {
+    color = "LightSkyBlue"
+    raspberry_pi
+
+    alpine
+  }
+
+  // NAS
+  network sudo{
+    color = "LightPink"
+    nas
+  
+    debian
+  }
+
+  network users {
+    color = "LightPink"
+    nas
+
+    debian
+    ludelafo
+    heaspery
+  }
+}
+@endnwdiag
