@@ -14,8 +14,8 @@ import:
   log: /config/beets.log
   write: yes
   hardlink: no
-  copy: yes
-  move: no
+  copy: no
+  move: yes
   incremental: yes
   incremental_skip_later: yes
   resume: ask
@@ -92,9 +92,8 @@ album_fields:
 
 paths:
   default:
-    $custom_album_type/$custom_album_type/$albumartist
-    (%upper{$artist_country})/$albumartist - $original_year -
-    $album%if{$custom_reissue, [Reissue $year]}
+    $custom_album_type/$custom_album_type/$albumartist/$albumartist -
+    $original_year - $album%if{$custom_reissue, [Reissue $year]}
     [$custom_format%if{$custom_bitdepth && $custom_samplerate,
     $custom_bitdepth-$custom_samplerate}%if{$custom_source,
     $custom_source}]%if{$catalognum, {$catalognum$}}/%if{$custom_multidisc,CD
@@ -121,12 +120,6 @@ per_disc_numbering: yes
 
 # If the process is threaded
 threaded: yes
-
-# The musicbrainz host
-musicbrainz:
-  host: musicbrainz.org
-  ratelimit: 1
-  searchlimit: 3
 
 # UI customization
 ui:
@@ -224,64 +217,146 @@ va_name: "Various Artists"
 
 # Plugins
 plugins:
-  ## Autotagger
-  - chroma
-  # - deezer
-  - discogs
-  # - spotify
-  - musicbrainz
-  - fromfilename
-  ## Metadata
-  - artistcountry
-  - edit
-  # - extrafiles
-  - fetchart
-  - ftintitle
-  - lastgenre
-  ## Path Formats
-  - inline
-  ## Miscellaneous
+  # https://beets.readthedocs.io/en/stable/plugins/autobpm.html
+  - autobpm
+  # https://beets.readthedocs.io/en/stable/plugins/badfiles.html
   - badfiles
+  # https://beets.readthedocs.io/en/stable/plugins/bareasc.html
+  - bareasc
+  # https://beets.readthedocs.io/en/stable/plugins/chroma.html
+  - chroma
+  # https://beets.readthedocs.io/en/stable/plugins/convert.html
+  - convert
+  # https://beets.readthedocs.io/en/stable/plugins/deezer.html
+  - deezer
+  # https://beets.readthedocs.io/en/stable/plugins/discogs.html
+  - discogs
+  # https://beets.readthedocs.io/en/stable/plugins/edit.html
+  - edit
+  # https://beets.readthedocs.io/en/stable/plugins/export.html
+  - export
+  # https://beets.readthedocs.io/en/stable/plugins/fetchart.html
+  - fetchart
+  # https://github.com/gtronset/beets-filetote
+  - filetote
+  # https://beets.readthedocs.io/en/stable/plugins/fromfilename.html
+  - fromfilename
+  # https://beets.readthedocs.io/en/stable/plugins/ftintitle.html
+  - ftintitle
+  # https://beets.readthedocs.io/en/stable/plugins/ihate.html
   - ihate
-  - web
+  # https://beets.readthedocs.io/en/stable/plugins/inline.html
+  - inline
+  # https://beets.readthedocs.io/en/stable/plugins/keyfinder.html
+  - keyfinder
+  # https://beets.readthedocs.io/en/stable/plugins/lastgenre.html
+  - lastgenre
+  # https://beets.readthedocs.io/en/stable/plugins/listenbrainz.html
+  - listenbrainz
+  # https://beets.readthedocs.io/en/stable/plugins/lyrics.html
+  - lyrics
+  # https://beets.readthedocs.io/en/stable/plugins/musicbrainz.html
+  - musicbrainz
+  # https://beets.readthedocs.io/en/stable/plugins/permissions.html
+  - permissions
+  # https://beets.readthedocs.io/en/stable/plugins/replaygain.html
+  - replaygain
+  # https://beets.readthedocs.io/en/stable/plugins/spotify.html
+  - spotify
+  # https://beets.readthedocs.io/en/stable/plugins/thumbnails.html
+  - thumbnails
+  # https://beets.readthedocs.io/en/stable/plugins/tidal.html
+  - tidal
+  # https://beets.readthedocs.io/en/stable/plugins/titlecase.html
+  - titlecase
+  # https://beets.readthedocs.io/en/stable/plugins/zero.html
+  - zero
+
+acoustid:
+  apikey: CHANGE_ME
+
+autobpm:
+  auto: yes
+  force: no
+  quiet: no
 
 badfiles:
   check_on_import: yes
+  import_action_on_error: skip
+  import_action_on_warning: skip
   commands:
     flac: flac --test --warnings-as-errors --silent
 
+bareasc:
+  prefix: "#"
+
+chroma:
+  auto: yes
+
+convert:
+  auto_keep: yes
+
+deezer:
+  search_query_ascii: no
+  data_source_mismatch_penalty: 0
+  search_limit: 5
+
 discogs:
-  user_token: "CHANGE_ME"
+  user_token: CHANGE_ME
+  featured_string: "feat."
+  data_source_mismatch_penalty: 0
 
 edit:
   itemfields: [track, title, artist, album]
   albumfields: [album, albumartist, label, catalognum]
 
-extrafiles:
-  patterns:
-    all:
-      - "*.log"
-      - "*.cue"
+export:
+  json:
+    formatting:
+      ensure_ascii: false
+      indent: 2
+      separators: [",", ": "]
+      sort_keys: true
+  csv:
+    formatting:
+      delimiter: ","
+      dialect: excel
 
 fetchart:
   auto: yes
   cover_names: [cover front art album folder]
   cautious: yes
-  minwidth: 1000
-  maxwidth: 1000
+  minwidth: 1200
+  maxwidth: 1200
   enforce_ratio: yes
   cover_format: "jpg"
   quality: 100
+  deinterlace: yes
+  fanarttv_key: CHANGE_ME
+  google_key: CHANGE_ME
+  lastfm_key: CHANGE_ME
   sources:
+    - tidal
     - itunes
+    - spotify
+    - amazon
     - coverart
     - albumart
-    # - lastfm
-    - amazon
-    # - fanarttv
+    - lastfm
+    - fanarttv
     - wikipedia
+    - google
     - filesystem
-    # - google
+
+filetote:
+  extensions: .cue .log
+  pairing:
+    enabled: true
+    pairing_only: true
+    extensions: ".lrc"
+  paths:
+    ext:.cue: $albumpath/$artist - $album
+    ext:.log: $albumpath/$artist - $album
 
 ftintitle:
   auto: yes
@@ -304,11 +379,82 @@ lastgenre:
   auto: yes
   count: 1
   fallback: ""
-  force: no
-  prefer_specific: no
-  souce: album
+  force: yes
+  prefer_specific: yes
+  source: album
   title_case: yes
 
-web:
-  host: 0.0.0.0
-  port: 8337
+listenbrainz:
+  token: CHANGE_ME
+  username: CHANGE_ME
+
+lyrics:
+  auto: yes
+  fallback: ""
+  force: no
+  google_API_key: CHANGE_ME
+  print: no
+  sources:
+    - lrclib
+    - google
+    - genius
+    - lrcmux
+  synced: yes
+
+musicbrainz:
+  host: musicbrainz.org
+  data_source_mismatch_penalty: 0
+
+permissions:
+  file: 0644
+  dir: 0755
+
+replaygain:
+  auto: yes
+  backend: metaflac
+  overwrite: yes
+
+spotify:
+  mode: list
+  data_source_mismatch_penalty: 0.5
+  search_limit: 5
+
+thumbnails:
+  auto: yes
+
+tidal:
+  client_id: mcjmpl1bPATJXcBT
+  tokenfile: tidal_token.json
+  data_source_mismatch_penalty: 0
+  search_limit: 5
+
+titlecase:
+  fields:
+    - album
+    - title
+    - albumartist
+    - albumartist_credit
+    - albumartist_sort
+    - albumartists
+    - albumartists_credit
+    - albumartists_sort
+    - artist
+    - artist_credit
+    - artist_sort
+    - artists
+    - artists_credit
+    - artists_sort
+  all_caps: yes
+  all_lowercase: yes
+  replace:
+    - "’": "'"
+    - "‘": "'"
+    - "“": '"'
+    - "”": '"'
+
+zero:
+  keep_fields:
+    album albumartist artist comments composer disc genre lyrics rg_album_gain
+    rg_album_peak rg_track_gain rg_track_peak title disctotal tracktotal track
+    year
+  omit_single_disc: yes
