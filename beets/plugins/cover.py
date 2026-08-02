@@ -1,9 +1,9 @@
 """Check album art dimensions and optimize cover JPEGs with jpegoptim."""
 
 import concurrent.futures
+import contextvars
 import os
 import subprocess
-import time
 
 from beets import ui
 from beets.plugins import BeetsPlugin
@@ -52,29 +52,32 @@ class CoverPlugin(BeetsPlugin):
     def _run_parallel(self, items, func):
         threads = self.config["threads"].get(int)
 
+        # Item/Album paths are resolved lazily on first access, by expanding
+        # the DB-stored value against beets' music directory, which is
+        # tracked in a contextvar set on the main thread. That var isn't
+        # inherited by worker threads by default, so without copying it
+        # explicitly, the first (path-resolving) access from a worker thread
+        # silently returns the un-expanded, directory-relative path instead.
         with concurrent.futures.ThreadPoolExecutor(
             max_workers=threads
         ) as executor:
-            futures = [executor.submit(func, item) for item in items]
+            # Each task needs its own context snapshot -- a single Context
+            # object can't be entered by more than one call at a time, so
+            # sharing one across tasks would serialize them (or, run
+            # concurrently, raise "cannot enter context: already entered").
+            futures = [
+                executor.submit(contextvars.copy_context().run, func, item)
+                for item in items
+            ]
             for future in concurrent.futures.as_completed(futures):
                 future.result()
 
-    def _run(self, argv, retries=3, retry_delay=0.2):
-        # Under concurrent access, several tools in this pipeline (jpegoptim,
-        # identify, convert) can transiently report a sibling file in the
-        # same directory as missing even though it exists, on some
-        # filesystems/storage backends. Retry rather than fail outright, but
-        # only when the target file demonstrably still exists -- a genuinely
-        # missing file still fails immediately.
-        path = argv[-1]
-        for attempt in range(retries):
-            result = subprocess.run(argv, capture_output=True, text=True)
-            if result.returncode == 0:
-                return result
-            if attempt == retries - 1 or not os.path.exists(path):
-                return result
-            time.sleep(retry_delay)
-        return result
+    def _run(self, argv):
+        return subprocess.run(
+            argv,
+            capture_output=True,
+            text=True,
+        )
 
     def _dimensions(self, identify_command, path):
         result = self._run([identify_command, "-format", "%w %h", path])

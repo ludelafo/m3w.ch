@@ -1,9 +1,9 @@
 """Strip FLAC/MP3/Opus files down to a fixed set of blocks and tags."""
 
 import concurrent.futures
+import contextvars
 import os
 import subprocess
-import time
 
 from mutagen import MutagenError
 from mutagen.id3 import ID3
@@ -159,39 +159,32 @@ class CleanPlugin(BeetsPlugin):
     def _run_parallel(self, items, func):
         threads = self.config["threads"].get(int)
 
+        # Item paths are resolved lazily on first access, by expanding the
+        # DB-stored value against beets' music directory, which is tracked
+        # in a contextvar set on the main thread. That var isn't inherited
+        # by worker threads by default, so without copying it explicitly,
+        # the first (path-resolving) access from a worker thread silently
+        # returns the un-expanded, directory-relative path instead.
         with concurrent.futures.ThreadPoolExecutor(
             max_workers=threads
         ) as executor:
-            futures = [executor.submit(func, item) for item in items]
+            # Each task needs its own context snapshot -- a single Context
+            # object can't be entered by more than one call at a time, so
+            # sharing one across tasks would serialize them (or, run
+            # concurrently, raise "cannot enter context: already entered").
+            futures = [
+                executor.submit(contextvars.copy_context().run, func, item)
+                for item in items
+            ]
             for future in concurrent.futures.as_completed(futures):
                 future.result()
 
-    def _run(self, argv, retries=3, retry_delay=0.2):
-        # Under concurrent access, metaflac can transiently report a
-        # sibling file in the same directory as missing even though it
-        # exists, on some filesystems/storage backends. Retry rather than
-        # fail outright, but only when the target file demonstrably still
-        # exists -- a genuinely missing file still fails immediately.
-        path = argv[-1]
-        for attempt in range(retries):
-            result = subprocess.run(argv, capture_output=True, text=True)
-            if result.returncode == 0:
-                return result
-            if attempt == retries - 1 or not os.path.exists(path):
-                return result
-            time.sleep(retry_delay)
-        return result
-
-    def _with_retry(self, path, func, retries=3, retry_delay=0.2):
-        # Same rationale as _run above, for the mutagen-based MP3/Opus
-        # cleaning path, which doesn't go through subprocess.
-        for attempt in range(retries):
-            try:
-                return func()
-            except MutagenError:
-                if attempt == retries - 1 or not os.path.exists(path):
-                    raise
-                time.sleep(retry_delay)
+    def _run(self, argv):
+        return subprocess.run(
+            argv,
+            capture_output=True,
+            text=True,
+        )
 
     def _get_tag(self, metaflac_command, tag, path):
         result = self._run([metaflac_command, "--show-tag", tag, path])
@@ -240,7 +233,7 @@ class CleanPlugin(BeetsPlugin):
         }
 
         try:
-            tags = self._with_retry(path, lambda: OggOpus(path))
+            tags = OggOpus(path)
         except MutagenError as exc:
             self._log.error("failed to read tags from {}: {}", path, exc)
             return
@@ -250,7 +243,7 @@ class CleanPlugin(BeetsPlugin):
                 del tags[key]
 
         try:
-            self._with_retry(path, lambda: tags.save(padding=lambda _: 0))
+            tags.save(padding=lambda _: 0)
         except MutagenError as exc:
             self._log.error("failed to clean {}: {}", path, exc)
             return
@@ -264,7 +257,7 @@ class CleanPlugin(BeetsPlugin):
         }
 
         try:
-            tags = self._with_retry(path, lambda: ID3(path))
+            tags = ID3(path)
         except MutagenError as exc:
             self._log.error("failed to read tags from {}: {}", path, exc)
             return
@@ -278,10 +271,7 @@ class CleanPlugin(BeetsPlugin):
                 del tags[key]
 
         try:
-            self._with_retry(
-                path,
-                lambda: tags.save(path, v1=0, v2_version=4, padding=lambda _: 0),
-            )
+            tags.save(path, v1=0, v2_version=4, padding=lambda _: 0)
         except MutagenError as exc:
             self._log.error("failed to clean {}: {}", path, exc)
             return
