@@ -498,7 +498,7 @@ export:
 
 fetchart:
   auto: yes
-  cover_names: [cover front art album folder]
+  cover_names: [cover, front, art, album, folder]
   cautious: yes
   minwidth: 1200
   maxwidth: 1200
