@@ -23,7 +23,7 @@ Edit the `*.env` files to your needs.
 ### Create the Gatus configuration file(s)
 
 Create a `config` directory with the configuration file(s) needed for Gatus. You
-can find an example configuration file in the `examples` directory.
+can find some example configuration files in the `examples` directory.
 
 ## Run the application with Docker
 

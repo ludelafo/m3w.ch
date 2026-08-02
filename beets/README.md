@@ -10,9 +10,10 @@
 - [Pre-configuration](#pre-configuration)
   - [Get all the API keys and tokens you need](#get-all-the-api-keys-and-tokens-you-need)
   - [Set the environment variables](#set-the-environment-variables)
-  - [Create the `config.yaml` file](#create-the-configyaml-file)
+  - [Create the Beets configuration file](#create-the-beets-configuration-file)
 - [Run the application with Docker](#run-the-application-with-docker)
   - [Build the Docker image](#build-the-docker-image)
+  - [Login to TIDAL](#login-to-tidal)
   - [Import new items to the library](#import-new-items-to-the-library)
   - [Update the library](#update-the-library)
   - [Write the library](#write-the-library)
@@ -89,17 +90,10 @@
 
 Edit the `*.env` files to your needs.
 
-### Create the `config.yaml` file
+### Create the Beets configuration file
 
-You must create a `config/config.yaml` file prior to run the container:
-
-```sh
-# Create the config directory
-mkdir config
-
-# Copy the configuration file to config/config.yaml
-cp config.yaml config/config.yaml
-```
+Create a `config` directory with the configuration file(s) needed for Beets. You
+can find an example configuration file in the `examples` directory.
 
 ## Run the application with Docker
 
@@ -109,25 +103,33 @@ section.
 Recommended order of execution:
 
 1. [Build the Docker image](#build-the-docker-image).
-2. [Import new items to the library](#import-new-items-to-the-library).
-3. [Re-encode the FLAC library](#re-encode-the-flac-library).
-4. [Apply ReplayGain to FLAC files](#apply-replaygain-to-flac-files).
-5. [Fetch the cover art](#fetch-the-cover-art).
-6. [Check and optimize cover art](#check-and-optimize-cover-art).
-7. [Calculate the BPM](#calculate-the-bpm).
-8. [Fetch the lyrics](#fetch-the-lyrics).
-9. [Fetch the LRC files](#fetch-the-lrc-files).
-10. [Calculate the key](#calculate-the-key).
-11. [Tag the FLAC library with custom tags](#tag-the-flac-library-with-custom-tags).
-12. [Clean the FLAC library](#clean-the-flac-library).
-13. [Convert the library](#convert-the-library).
-14. [Apply ReplayGain to MP3/Opus files](#apply-replaygain-to-mp3opus-files).
+2. [Login to TIDAL](#login-to-tidal).
+3. [Import new items to the library](#import-new-items-to-the-library).
+4. [Re-encode the FLAC library](#re-encode-the-flac-library).
+5. [Apply ReplayGain to FLAC files](#apply-replaygain-to-flac-files).
+6. [Fetch the cover art](#fetch-the-cover-art).
+7. [Check and optimize cover art](#check-and-optimize-cover-art).
+8. [Calculate the BPM](#calculate-the-bpm).
+9. [Fetch the lyrics](#fetch-the-lyrics).
+10. [Fetch the LRC files](#fetch-the-lrc-files).
+11. [Calculate the key](#calculate-the-key).
+12. [Tag the FLAC library with custom tags](#tag-the-flac-library-with-custom-tags).
+13. [Clean the FLAC library](#clean-the-flac-library).
+14. [Convert the library](#convert-the-library).
+15. [Apply ReplayGain to MP3/Opus files](#apply-replaygain-to-mp3opus-files).
 
 ### Build the Docker image
 
 ```bash
-# Run the application with Docker
-docker compose run --build --rm beets
+# Build the application with Docker
+docker compose build
+```
+
+### Login to TIDAL
+
+```bash
+# Login to TIDAL (only needed once)
+docker compose run --rm beets tidal --auth
 ```
 
 ### Import new items to the library

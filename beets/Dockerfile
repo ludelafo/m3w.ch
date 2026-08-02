@@ -67,6 +67,7 @@ RUN pip install --no-cache-dir \
     beets[autobpm,chroma,discogs,fetchart,lastgenre,lyrics,replaygain,tidal,titlecase]==${BEETS_VERSION} \
     beets-filetote \
     beets-getlrc \
+    pip-system-certs \
     pyxdg
 
 COPY --from=build /usr/local/bin/keyfinder-cli /usr/local/bin/keyfinder-cli
