@@ -512,13 +512,13 @@ fetchart:
   store_source: yes
   sources:
     - filesystem
-    - itunes
-    - spotify
-    - amazon
     - coverart
+    - spotify
     - albumart
-    - lastfm
     - fanarttv
+    - lastfm
+    - itunes
+    - amazon
     - wikipedia
     - google
 
