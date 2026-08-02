@@ -83,4 +83,3 @@ external-endpoints:
       interval: 24h
     alerts:
       - type: telegram
-        minimum-reminder-interval: 12h

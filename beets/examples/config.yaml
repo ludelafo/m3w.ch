@@ -1,0 +1,555 @@
+## https://beets.readthedocs.io/en/stable/index.html
+
+# https://beets.readthedocs.io/en/stable/reference/config.html#global-options
+library: /config/beets.db
+directory: /data
+create_backup_before_migrations: no
+pluginpath: /usr/local/lib/beets-plugins
+ignore: [
+    ## Linux
+    "*~",
+
+    ## macOS
+    # General
+    ".DS_Store",
+
+    # Thumbnails
+    "._*",
+
+    ## Windows
+    # Windows thumbnail cache files
+    "Thumbs.db",
+    "Thumbs.db:encryptable",
+    "ehthumbs.db",
+    "ehthumbs_vista.db",
+
+    # Folder config file
+    "[Dd]esktop.ini",
+
+    # Windows shortcuts
+    "*.lnk",
+  ]
+ignore_hidden: yes
+replace:
+  # Replace `\/`
+  '[\\/]': "_"
+  # Replace `.`
+  '^\.': "_"
+  # Replace control characters
+  '[\x00-\x1f]': "_"
+  # Replace Windows illegal filename characters
+  '[<>:"\?\*\|]': "_"
+  # Replace white space characters
+  '\.$': "_"
+  '\s+$': "_"
+  '^\s+': "_"
+  "^-": "_"
+  # Replace special quotes
+  "‘": "'"
+  "’": "'"
+  "[“”]": '"'
+  # # Replace accented characters
+  # '[\xE2-\xE6]': a
+  # '[\xE8-\xEB]': e
+  # '[\xEC-\xEF]': i
+  # '[\xF2-\xF6,\xF8]': o
+  # '[\xF9-\xFC]': u
+  # '\xE7': c
+asciify_paths: false
+art_filename: cover
+threaded: yes
+format_item: $albumartist - $year - $album - $track. $title
+format_album: $albumartist - $year - $album
+sort_item:
+  $albumartist+ $album+ $albumdisambig+ $original_year+ $disc+ $track+ $title+
+sort_album: $albumartist+ $album+ $albumdisambig+ $original_year+ $disc+
+sort_case_insensitive: yes
+original_date: no
+per_disc_numbering: yes
+aunique:
+  keys: albumartist year album
+  disambiguators:
+    albumtype year label catalognum albumdisambig releasegroupdisambig
+  bracket: "[]"
+sunique:
+  keys: artist year title
+  disambiguators: year label catalognum trackdisambig releasegroupdisambig
+  bracket: "[]"
+clutter: [
+    ## Linux
+    "*~",
+
+    ## macOS
+    # General
+    ".DS_Store",
+
+    # Thumbnails
+    "._*",
+
+    ## Windows
+    # Windows thumbnail cache files
+    "Thumbs.db",
+    "Thumbs.db:encryptable",
+    "ehthumbs.db",
+    "ehthumbs_vista.db",
+
+    # Folder config file
+    "[Dd]esktop.ini",
+
+    # Windows shortcuts
+    "*.lnk",
+  ]
+max_filename_length: 180
+va_name: "Various Artists"
+
+# https://beets.readthedocs.io/en/stable/reference/config.html#ui-options
+ui:
+  color: yes
+  colors:
+    text_success: ["bold", "green"]
+    text_warning: ["bold", "yellow"]
+    text_error: ["bold", "red"]
+    text_highlight: ["bold", "red"]
+    text_highlight_minor: ["white"]
+    action_default: ["bold", "cyan"]
+    action: ["bold", "cyan"]
+    # New colors after UI overhaul
+    text_faint: ["faint"]
+    import_path: ["bold", "blue"]
+    import_path_items: ["bold", "blue"]
+    changed: ["yellow"]
+    text_diff_added: ["bold", "green"]
+    text_diff_removed: ["bold", "red"]
+    action_description: ["white"]
+
+# https://beets.readthedocs.io/en/stable/reference/config.html#importer-options
+import:
+  write: yes
+  copy: no
+  move: yes
+  resume: ask
+  incremental: yes
+  incremental_skip_later: yes
+  quiet: yes
+  none_rec_action: skip
+  timid: no
+  log: /config/beets.log
+  detail: no
+  autotag: yes
+  duplicate_keys:
+    album: albumartist album
+    item: artist title
+  duplicate_action: ask
+  duplicate_verbose_prompt: no
+  bell: yes
+
+# https://beets.readthedocs.io/en/stable/reference/config.html#autotagger-matching-options
+match:
+  # https://beets.readthedocs.io/en/stable/plugins/shared_metadata_source_config.html
+  distance_weights:
+    data_source: 0.0
+  strong_rec_thresh: 0.01
+  max_rec:
+    missing_tracks: strong
+    unmatched_tracks: strong
+
+# https://beets.readthedocs.io/en/stable/reference/config.html#path-format-configuration
+paths:
+  default:
+    $custom_album_type/$custom_album_type/$format/$albumartist/$albumartist -
+    $original_year - $album%if{$custom_reissue, [Reissue $year]}
+    [$format%if{$bitdepth && $custom_samplerate,
+    $bitdepth-$custom_samplerate}%if{$custom_source,
+    $custom_source}]%if{$catalognum,
+    {$catalognum$}}/%if{$custom_multidisc,$custom_discnumber-}$track. $title
+  comp:
+    $custom_album_type/$custom_album_type/$format/$album ($year)
+    [$format%if{$custom_bitdepth && $custom_samplerate,
+    $custom_bitdepth-$custom_samplerate}%if{$custom_source,
+    $custom_source}]%if{$catalognum,
+    {$catalognum$}}/%if{$custom_multidisc,$custom_discnumber-}$track. $title
+
+# https://beets.readthedocs.io/en/stable/plugins/index.html
+plugins:
+  # https://beets.readthedocs.io/en/stable/plugins/autobpm.html
+  - autobpm
+  # https://beets.readthedocs.io/en/stable/plugins/badfiles.html
+  - badfiles
+  # https://beets.readthedocs.io/en/stable/plugins/bareasc.html
+  - bareasc
+  # https://beets.readthedocs.io/en/stable/plugins/chroma.html
+  - chroma
+  # Custom plugin
+  - clean
+  # https://beets.readthedocs.io/en/stable/plugins/convert.html
+  - convert
+  # Custom plugin
+  - cover
+  # https://beets.readthedocs.io/en/stable/plugins/deezer.html
+  - deezer
+  # https://beets.readthedocs.io/en/stable/plugins/discogs.html
+  - discogs
+  # https://beets.readthedocs.io/en/stable/plugins/edit.html
+  - edit
+  # Custom plugin
+  - encode
+  # https://beets.readthedocs.io/en/stable/plugins/export.html
+  - export
+  # https://beets.readthedocs.io/en/stable/plugins/fetchart.html
+  - fetchart
+  # https://github.com/gtronset/beets-filetote
+  # Wait until this PR is merged and released: https://github.com/gtronset/beets-filetote/pull/351
+  # - filetote
+  # https://beets.readthedocs.io/en/stable/plugins/fromfilename.html
+  - fromfilename
+  # https://github.com/jaedonswanson/beets-getlrc
+  - getlrc
+  # https://beets.readthedocs.io/en/stable/plugins/ftintitle.html
+  - ftintitle
+  # https://beets.readthedocs.io/en/stable/plugins/info.html
+  - info
+  # https://beets.readthedocs.io/en/stable/plugins/ihate.html
+  - ihate
+  # https://beets.readthedocs.io/en/stable/plugins/inline.html
+  - inline
+  # https://beets.readthedocs.io/en/stable/plugins/keyfinder.html
+  - keyfinder
+  # https://beets.readthedocs.io/en/stable/plugins/lastgenre.html
+  - lastgenre
+  # https://beets.readthedocs.io/en/stable/plugins/lyrics.html
+  - lyrics
+  # https://beets.readthedocs.io/en/stable/plugins/listenbrainz.html
+  - listenbrainz
+  # https://beets.readthedocs.io/en/stable/plugins/musicbrainz.html
+  - musicbrainz
+  # https://beets.readthedocs.io/en/stable/plugins/permissions.html
+  - permissions
+  # https://beets.readthedocs.io/en/stable/plugins/replaygain.html
+  - replaygain
+  # https://beets.readthedocs.io/en/stable/plugins/spotify.html
+  - spotify
+  # Custom plugin
+  - tags
+  # https://beets.readthedocs.io/en/stable/plugins/tidal.html
+  - tidal
+  # https://beets.readthedocs.io/en/stable/plugins/titlecase.html
+  - titlecase
+
+acoustid:
+  apikey: ${ACOUSTID_API_KEY}
+
+autobpm:
+  auto: no
+  force: no
+  quiet: no
+
+badfiles:
+  check_on_import: yes
+  import_action_on_error: skip
+  import_action_on_warning: skip
+  commands:
+    flac: flac --test --warnings-as-errors --silent
+    mp3: mp3val -f -nb
+    opus: opusdec --check --quiet
+
+bareasc:
+  prefix: "#"
+
+chroma:
+  auto: yes
+
+clean:
+  auto: no
+  metaflac_command_path: metaflac
+  arguments:
+    - --remove
+    - --dont-use-padding
+    - --block-type=APPLICATION
+    - --block-type=CUESHEET
+    - --block-type=PADDING
+    - --block-type=PICTURE
+    - --block-type=SEEKTABLE
+  tags_to_keep:
+    - ALBUM
+    - ALBUMARTIST
+    - ARTIST
+    - COMMENT
+    - COMPOSER
+    - DISCNUMBER
+    - FLAC_ARGUMENTS
+    - GENRE
+    - LYRICS
+    - METAFLAC_ARGUMENTS
+    - PERFORMER
+    - REPLAYGAIN_REFERENCE_LOUDNESS
+    - REPLAYGAIN_ALBUM_GAIN
+    - REPLAYGAIN_ALBUM_PEAK
+    - REPLAYGAIN_TRACK_GAIN
+    - REPLAYGAIN_TRACK_PEAK
+    - TITLE
+    - TOTALDISCS
+    - TOTALTRACKS
+    - TRACKNUMBER
+    - YEAR
+
+convert:
+  auto_keep: no
+  format: mp3
+  dest: /data
+  never_convert_lossy_files: yes
+  embed: no
+  copy_album_art: yes
+  formats:
+    mp3:
+      command: /usr/local/bin/convert.sh mp3 "$source" "$dest"
+      extension: mp3
+    opus:
+      command: /usr/local/bin/convert.sh opus "$source" "$dest"
+      extension: opus
+  paths:
+    default:
+      $custom_album_type/$custom_album_type/$custom_convert_format/$albumartist/$albumartist
+      - $original_year - $album%if{$custom_reissue, [Reissue $year]}
+      [$custom_source $custom_convert_format
+      $custom_convert_quality]%if{$catalognum,
+      {$catalognum$}}/%if{$custom_multidisc,$custom_discnumber-}$track. $title
+    comp:
+      $custom_album_type/$custom_album_type/$custom_convert_format/$album
+      ($year) [$custom_source $custom_convert_format
+      $custom_convert_quality]%if{$catalognum,
+      {$catalognum$}}/%if{$custom_multidisc,$custom_discnumber-}$track. $title
+
+cover:
+  auto: no
+  identify_command_path: identify
+  convert_command_path: convert
+  jpegoptim_command_path: jpegoptim
+  width: 1200
+  height: 1200
+  arguments:
+    - --strip-all
+
+deezer:
+  search_query_ascii: no
+  search_limit: 5
+
+discogs:
+  user_token: ${DISCOGS_USER_TOKEN}
+  featured_string: "feat."
+
+edit:
+  itemfields: [track, title, artist, album]
+  albumfields: [album, albumartist, label, catalognum]
+
+encode:
+  auto: no
+  flac_command_path: flac
+  metaflac_command_path: metaflac
+  arguments:
+    - --compression-level-8
+    - --exhaustive-model-search
+    - --no-padding
+    - --qlp-coeff-precision-search
+    - --verify
+    - --warnings-as-errors
+  encode_if_flac_versions_mismatch: yes
+  encode_if_encode_argument_tags_mismatch: yes
+  save_encode_arguments_in_tag: yes
+  save_encode_arguments_in_tag_name: FLAC_ARGUMENTS
+  force: no
+
+export:
+  json:
+    formatting:
+      ensure_ascii: false
+      indent: 2
+      separators: [",", ": "]
+      sort_keys: true
+  csv:
+    formatting:
+      delimiter: ","
+      dialect: excel
+
+fetchart:
+  auto: no
+  cover_names: [cover front art album folder]
+  cautious: yes
+  minwidth: 1200
+  maxwidth: 1200
+  enforce_ratio: yes
+  cover_format: "jpg"
+  quality: 100
+  deinterlace: yes
+  fanarttv_key: ${FANARTTV_API_KEY}
+  google_key: ${GOOGLE_API_KEY}
+  lastfm_key: ${LASTFM_API_KEY}
+  sources:
+    - itunes
+    - spotify
+    - amazon
+    - coverart
+    - albumart
+    - lastfm
+    - fanarttv
+    - wikipedia
+    - google
+    - filesystem
+
+filetote:
+  extensions: .cue .log
+  pairing:
+    enabled: true
+    pairing_only: true
+    extensions: ".lrc"
+  paths:
+    ext:.cue:
+      $albumpath/$artist - $album %if{$custom_multidisc, - CD
+      $custom_discnumber}
+    ext:.log:
+      $albumpath/$artist - $album %if{$custom_multidisc, - CD
+      $custom_discnumber}
+
+ftintitle:
+  auto: yes
+  drop: no
+  format: "(feat. {0})"
+
+getlrc:
+  auto: no
+  overwrite: no
+  fallback_to_plain: yes
+  fallback_to_plain_lrc: yes
+
+hook:
+  hooks:
+    - event: write
+      command: echo 'Processing "{item.path}"...'
+
+    - event: album_imported
+      command: echo 'Album "{album.path}" imported.'
+
+ihate:
+  warn: ["albumtype:live"]
+  skip: []
+
+item_fields:
+  custom_album_type: |
+    if albumtype == 'audiobook':
+      return 'audiobooks'
+    elif albumtype == 'interview':
+      return 'podcasts'
+    elif albumtype == 'soundtrack':
+      return 'soundtracks'
+    else:
+      return 'music'
+
+  custom_multidisc: 1 if disctotal > 1 else 0
+
+  custom_discnumber: u'%02i' % disc
+
+  custom_source: |
+    if media == 'Digital Media':
+      return 'WEB'
+    elif media == 'Enhanced CD' or media == 'CD-R':
+      return 'CD'
+    elif media == '':
+      return False
+    else:
+      return media
+
+  custom_samplerate: |
+    return round(int(samplerate) / 1000, 1)
+
+  custom_reissue: year != original_year
+
+  custom_convert_format: |
+    from beets import config
+    return config["convert"]["format"].get(str).upper()
+
+  custom_convert_quality: |
+    from beets import config
+    target = config["convert"]["format"].get(str)
+    if target == "mp3":
+      return "v0"
+    elif target == "opus":
+      return "128"
+    else:
+      return ""
+
+keyfinder:
+  auto: no
+  overwrite: no
+  bin: keyfinder-cli
+
+lastgenre:
+  auto: yes
+  count: 1
+  fallback: ""
+  force: yes
+  prefer_specific: yes
+  source: album
+  title_case: yes
+
+listenbrainz:
+  token: ${LISTENBRAINZ_TOKEN}
+  username: ${LISTENBRAINZ_USERNAME}
+
+lyrics:
+  auto: yes
+  fallback: ""
+  force: yes
+  google_ap_key: ${GOOGLE_API_KEY}
+  # Default: [lrclib, genius, lrcmux, google]
+  sources: [lrclib]
+  synced: yes
+
+musicbrainz:
+  host: musicbrainz.org
+
+permissions:
+  file: 644
+  dir: 755
+
+replaygain:
+  auto: no
+  backend: metaflac
+  overwrite: yes
+
+spotify:
+  mode: list
+  search_limit: 5
+
+tags:
+  auto: no
+  metaflac_command_path: metaflac
+  tags:
+    METAFLAC_ARGUMENTS: --add-replay-gain
+
+tidal:
+  client_id: mcjmpl1bPATJXcBT
+  tokenfile: tidal_token.json
+  search_limit: 5
+
+titlecase:
+  fields:
+    - album
+    - title
+    - albumartist
+    - albumartist_credit
+    - albumartist_sort
+    - albumartists
+    - albumartists_credit
+    - albumartists_sort
+    - artist
+    - artist_credit
+    - artist_sort
+    - artists
+    - artists_credit
+    - artists_sort
+  all_caps: yes
+  all_lowercase: yes
+  replace:
+    - "’": "'"
+    - "‘": "'"
+    - "“": '"'
+    - "”": '"'
