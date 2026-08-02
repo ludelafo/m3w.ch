@@ -524,7 +524,7 @@ musicbrainz:
   host: musicbrainz.org
 
 permissions:
-  file: 644
+  file: 664
   dir: 775
 
 replaygain:
