@@ -540,7 +540,10 @@ tags:
   auto: no
   metaflac_command_path: metaflac
   tags:
-    METAFLAC_ARGUMENTS: --add-replay-gain
+    METAFLAC_ARGUMENTS:
+      --add-replay-gain --remove --dont-use-padding --block-type=APPLICATION
+      --block-type=CUESHEET --block-type=PADDING --block-type=PICTURE
+      --block-type=SEEKTABLE
 
 tidal:
   client_id: mcjmpl1bPATJXcBT
