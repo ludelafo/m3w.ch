@@ -26,11 +26,11 @@
   - [Tag the FLAC library with custom tags](#tag-the-flac-library-with-custom-tags)
   - [Clean the FLAC library](#clean-the-flac-library)
   - [Convert the library](#convert-the-library)
-  - [Apply ReplayGain to MP3/Opus files](#apply-replaygain-to-mp3opus-files)
   - [Check for bad files](#check-for-bad-files)
   - [Update the library](#update-the-library)
   - [Write the library](#write-the-library)
   - [Move the library](#move-the-library)
+  - [Manage converted files](#manage-converted-files)
 - [Cheat sheet](#cheat-sheet)
   - [Display FLAC metadata](#display-flac-metadata)
   - [Display Opus metadata](#display-opus-metadata)
@@ -222,12 +222,12 @@ docker compose run --rm beets clean
 docker compose run --rm beets convert --album [--format mp3|opus] [--pretend]
 ```
 
-### Apply ReplayGain to MP3/Opus files
-
-```bash
-# Apply ReplayGain to the MP3/Opus library (after conversion)
-docker compose run --rm --entrypoint rsgain beets easy [--skip-existing] /data/music/music/MP3|/data/music/music/Opus
-```
+When `clean.auto` is enabled, MP3/Opus files are stripped down to the
+configured allow-listed tags as soon as they are converted (there is no
+`beets clean`-style command for them afterwards, since converted files
+that aren't kept in the library aren't tracked as items). See
+[Manage converted files](#manage-converted-files) for more information about
+managing the converted files.
 
 ### Check for bad files
 
@@ -255,6 +255,22 @@ docker compose run --rm beets write
 ```bash
 # Move the library to a new location (e.g. after changing config.yaml)
 docker compose run --rm beets move
+```
+
+### Manage converted files
+
+#### Clean up converted files
+
+```bash
+# Clean up converted files (e.g. after changing config.yaml)
+docker compose run --rm beets convert --cleanup
+```
+
+#### Apply ReplayGain to MP3/Opus files
+
+```bash
+# Apply ReplayGain to the MP3/Opus library (after conversion)
+docker compose run --rm --entrypoint rsgain beets easy [--skip-existing] /data/music/music/MP3|/data/music/music/Opus
 ```
 
 ## Cheat sheet

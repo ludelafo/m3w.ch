@@ -363,6 +363,61 @@ clean:
     - TOTALTRACKS
     - TRACKNUMBER
     - YEAR
+  # Opus comments are Vorbis comments, same flat key/value model as FLAC.
+  opus_tags_to_keep:
+    - ACOUSTID_ID
+    - ACOUSTID_FINGERPRINT
+    - ALBUM
+    - ALBUMARTIST
+    - ARTIST
+    - BPM
+    - COMPOSER
+    - DISCNUMBER
+    - FLAC_ARGUMENTS
+    - GENRE
+    - INITIALKEY
+    - LYRICS
+    - METAFLAC_ARGUMENTS
+    - MUSICBRAINZ_ALBUMARTISTID
+    - MUSICBRAINZ_ALBUMID
+    - MUSICBRAINZ_ARTISTID
+    - MUSICBRAINZ_RELEASEGROUPID
+    - MUSICBRAINZ_RELEASETRACKID
+    - MUSICBRAINZ_TRACKID
+    - MUSICBRAINZ_WORKID
+    - PERFORMER
+    - TITLE
+    - TOTALDISCS
+    - TOTALTRACKS
+    - TRACKNUMBER
+    - YEAR
+  # ID3v2 has no equivalent flat namespace: standard fields live in fixed
+  # frames, everything else (MusicBrainz/AcoustID/ReplayGain) is a TXXX
+  # frame keyed by its description.
+  mp3_frames_to_keep:
+    - COMM
+    - TALB
+    - TBPM
+    - TCOM
+    - TCON
+    - TDRC
+    - TIT2
+    - TKEY
+    - TPE1
+    - TPE2
+    - TPOS
+    - TRCK
+    - USLT
+  mp3_txxx_to_keep:
+    - ACOUSTID_FINGERPRINT
+    - ACOUSTID_ID
+    - MUSICBRAINZ_ALBUMARTISTID
+    - MUSICBRAINZ_ALBUMID
+    - MUSICBRAINZ_ARTISTID
+    - MUSICBRAINZ_RELEASEGROUPID
+    - MUSICBRAINZ_RELEASETRACKID
+    - MUSICBRAINZ_TRACKID
+    - MUSICBRAINZ_WORKID
 
 convert:
   auto: no
