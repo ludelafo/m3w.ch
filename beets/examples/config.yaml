@@ -324,12 +324,12 @@ clean:
     - --block-type=PICTURE
     - --block-type=SEEKTABLE
   tags_to_keep:
+    - ACOUSTID_ID
     - ACOUSTID_FINGERPRINT
     - ALBUM
     - ALBUMARTIST
     - ARTIST
     - BPM
-    - CATALOGNUMBER
     - COMPOSER
     - DISCNUMBER
     - FLAC_ARGUMENTS
@@ -337,7 +337,14 @@ clean:
     - INITIALKEY
     - LYRICS
     - METAFLAC_ARGUMENTS
+    - MUSICBRAINZ_ALBUMARTISTID
     - MUSICBRAINZ_ALBUMID
+    - MUSICBRAINZ_ARTISTID
+    - MUSICBRAINZ_RELEASEGROUPID
+    - MUSICBRAINZ_RELEASETRACKID
+    - MUSICBRAINZ_TRACKID
+    - MUSICBRAINZ_WORKID
+    - PERFORMER
     - REPLAYGAIN_REFERENCE_LOUDNESS
     - REPLAYGAIN_ALBUM_GAIN
     - REPLAYGAIN_ALBUM_PEAK
@@ -507,7 +514,7 @@ listenbrainz:
 lyrics:
   auto: yes
   fallback: ""
-  force: yes
+  force: no
   google_ap_key: ${GOOGLE_API_KEY}
   # Default: [lrclib, genius, lrcmux, google]
   sources: [lrclib]
