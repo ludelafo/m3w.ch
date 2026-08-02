@@ -3,6 +3,7 @@
 import concurrent.futures
 import os
 import subprocess
+import time
 
 from mutagen import MutagenError
 from mutagen.id3 import ID3
@@ -165,12 +166,32 @@ class CleanPlugin(BeetsPlugin):
             for future in concurrent.futures.as_completed(futures):
                 future.result()
 
-    def _run(self, argv):
-        return subprocess.run(
-            argv,
-            capture_output=True,
-            text=True,
-        )
+    def _run(self, argv, retries=3, retry_delay=0.2):
+        # Under concurrent access, metaflac can transiently report a
+        # sibling file in the same directory as missing even though it
+        # exists, on some filesystems/storage backends. Retry rather than
+        # fail outright, but only when the target file demonstrably still
+        # exists -- a genuinely missing file still fails immediately.
+        path = argv[-1]
+        for attempt in range(retries):
+            result = subprocess.run(argv, capture_output=True, text=True)
+            if result.returncode == 0:
+                return result
+            if attempt == retries - 1 or not os.path.exists(path):
+                return result
+            time.sleep(retry_delay)
+        return result
+
+    def _with_retry(self, path, func, retries=3, retry_delay=0.2):
+        # Same rationale as _run above, for the mutagen-based MP3/Opus
+        # cleaning path, which doesn't go through subprocess.
+        for attempt in range(retries):
+            try:
+                return func()
+            except MutagenError:
+                if attempt == retries - 1 or not os.path.exists(path):
+                    raise
+                time.sleep(retry_delay)
 
     def _get_tag(self, metaflac_command, tag, path):
         result = self._run([metaflac_command, "--show-tag", tag, path])
@@ -219,7 +240,7 @@ class CleanPlugin(BeetsPlugin):
         }
 
         try:
-            tags = OggOpus(path)
+            tags = self._with_retry(path, lambda: OggOpus(path))
         except MutagenError as exc:
             self._log.error("failed to read tags from {}: {}", path, exc)
             return
@@ -229,7 +250,7 @@ class CleanPlugin(BeetsPlugin):
                 del tags[key]
 
         try:
-            tags.save(padding=lambda _: 0)
+            self._with_retry(path, lambda: tags.save(padding=lambda _: 0))
         except MutagenError as exc:
             self._log.error("failed to clean {}: {}", path, exc)
             return
@@ -243,7 +264,7 @@ class CleanPlugin(BeetsPlugin):
         }
 
         try:
-            tags = ID3(path)
+            tags = self._with_retry(path, lambda: ID3(path))
         except MutagenError as exc:
             self._log.error("failed to read tags from {}: {}", path, exc)
             return
@@ -257,7 +278,10 @@ class CleanPlugin(BeetsPlugin):
                 del tags[key]
 
         try:
-            tags.save(path, v1=0, v2_version=4, padding=lambda _: 0)
+            self._with_retry(
+                path,
+                lambda: tags.save(path, v1=0, v2_version=4, padding=lambda _: 0),
+            )
         except MutagenError as exc:
             self._log.error("failed to clean {}: {}", path, exc)
             return

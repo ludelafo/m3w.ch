@@ -123,6 +123,20 @@ Recommended order of execution:
 14. [Convert the library](#convert-the-library).
 15. [Apply ReplayGain to MP3/Opus files](#apply-replaygain-to-mp3opus-files).
 
+```bash
+docker compose run --rm beets encode
+docker compose run --rm beets replaygain --album
+docker compose run --rm beets fetchart
+docker compose run --rm beets cover
+docker compose run --rm beets autobpm
+docker compose run --rm beets lyrics
+docker compose run --rm beets keyfinder
+docker compose run --rm beets tag
+docker compose run --rm beets clean
+docker compose run --rm beets convert --album
+docker compose run --rm beets easy /data/music/music/Opus
+```
+
 ### Build the Docker image
 
 ```bash
@@ -163,6 +177,12 @@ docker compose run --rm beets replaygain --album --force
 ```bash
 # Fetch the cover art for every FLAC already in the library
 docker compose run --rm beets fetchart
+
+# Check all missing cover art in the library (without downloading it)
+docker compose run --rm beets fetchart --quiet
+
+# Manually fetch the cover art for a specific album from the file system
+docker compose run --rm beets fetchart /data/music/music/Artist/Album
 ```
 
 ### Check and optimize cover art

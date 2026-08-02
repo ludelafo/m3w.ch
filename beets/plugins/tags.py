@@ -9,6 +9,7 @@ import concurrent.futures
 import os
 import re
 import subprocess
+import time
 
 from beets import ui
 from beets.plugins import BeetsPlugin
@@ -94,12 +95,21 @@ class TagsPlugin(BeetsPlugin):
 
         self.set_tags(item, tags)
 
-    def _run(self, argv):
-        return subprocess.run(
-            argv,
-            capture_output=True,
-            text=True,
-        )
+    def _run(self, argv, retries=3, retry_delay=0.2):
+        # Under concurrent access, metaflac can transiently report a
+        # sibling file in the same directory as missing even though it
+        # exists, on some filesystems/storage backends. Retry rather than
+        # fail outright, but only when the target file demonstrably still
+        # exists -- a genuinely missing file still fails immediately.
+        path = argv[-1]
+        for attempt in range(retries):
+            result = subprocess.run(argv, capture_output=True, text=True)
+            if result.returncode == 0:
+                return result
+            if attempt == retries - 1 or not os.path.exists(path):
+                return result
+            time.sleep(retry_delay)
+        return result
 
     def set_tags(self, item, tags):
         path = syspath(item.path)

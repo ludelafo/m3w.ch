@@ -3,6 +3,7 @@
 import concurrent.futures
 import os
 import subprocess
+import time
 
 from beets import ui
 from beets.plugins import BeetsPlugin
@@ -58,12 +59,22 @@ class CoverPlugin(BeetsPlugin):
             for future in concurrent.futures.as_completed(futures):
                 future.result()
 
-    def _run(self, argv):
-        return subprocess.run(
-            argv,
-            capture_output=True,
-            text=True,
-        )
+    def _run(self, argv, retries=3, retry_delay=0.2):
+        # Under concurrent access, several tools in this pipeline (jpegoptim,
+        # identify, convert) can transiently report a sibling file in the
+        # same directory as missing even though it exists, on some
+        # filesystems/storage backends. Retry rather than fail outright, but
+        # only when the target file demonstrably still exists -- a genuinely
+        # missing file still fails immediately.
+        path = argv[-1]
+        for attempt in range(retries):
+            result = subprocess.run(argv, capture_output=True, text=True)
+            if result.returncode == 0:
+                return result
+            if attempt == retries - 1 or not os.path.exists(path):
+                return result
+            time.sleep(retry_delay)
+        return result
 
     def _dimensions(self, identify_command, path):
         result = self._run([identify_command, "-format", "%w %h", path])
