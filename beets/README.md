@@ -31,6 +31,10 @@
   - [Update the library](#update-the-library)
   - [Write the library](#write-the-library)
   - [Move the library](#move-the-library)
+- [Cheat sheet](#cheat-sheet)
+  - [Display FLAC metadata](#display-flac-metadata)
+  - [Display Opus metadata](#display-opus-metadata)
+  - [Display MP3 metadata](#display-mp3-metadata)
 - [Additional resources](#additional-resources)
 
 ## Pre-configuration
@@ -151,7 +155,7 @@ docker compose run --rm beets encode [--force] [--pretend]
 
 ```bash
 # Apply ReplayGain to the whole existing library (FLAC only, MP3/Opus must be done after conversion)
-docker compose run --rm beets replaygain
+docker compose run --rm beets replaygain --album --force
 ```
 
 ### Fetch the cover art
@@ -222,7 +226,7 @@ docker compose run --rm beets convert --album [--format mp3|opus] [--pretend]
 
 ```bash
 # Apply ReplayGain to the MP3/Opus library (after conversion)
-docker compose run --rm --entrypoint rsgain beets easy [--skip-existing] /data/music/music/MP3|/data/music/music/OPUS
+docker compose run --rm --entrypoint rsgain beets easy [--skip-existing] /data/music/music/MP3|/data/music/music/Opus
 ```
 
 ### Check for bad files
@@ -251,6 +255,29 @@ docker compose run --rm beets write
 ```bash
 # Move the library to a new location (e.g. after changing config.yaml)
 docker compose run --rm beets move
+```
+
+## Cheat sheet
+
+### Display FLAC metadata
+
+```bash
+# Display the metadata of a FLAC file
+metaflac --list /path/to/file.flac
+```
+
+### Display Opus metadata
+
+```bash
+# Display the metadata of an Opus file
+opusinfo /path/to/file.opus
+```
+
+### Display MP3 metadata
+
+```bash
+# Display the metadata of an MP3 file
+id3v2 -l /path/to/file.mp3
 ```
 
 ## Additional resources

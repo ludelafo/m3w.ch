@@ -196,11 +196,19 @@ item_fields:
 
   custom_convert_format: |
     from beets import config
-    return config["convert"]["format"].get(str).upper()
+    format = config["convert"]["format"].get(str)
+
+    if format == "mp3":
+      return "MP3"
+    elif format == "opus":
+      return "Opus"
+    else:
+      return ""
 
   custom_convert_quality: |
     from beets import config
     target = config["convert"]["format"].get(str)
+
     if target == "mp3":
       return "v0"
     elif target == "opus":
@@ -293,7 +301,7 @@ acoustid:
   apikey: ${ACOUSTID_API_KEY}
 
 autobpm:
-  auto: no
+  auto: yes
   force: no
   quiet: no
 
@@ -407,7 +415,7 @@ edit:
   albumfields: [album, albumartist, label, catalognum]
 
 encode:
-  auto: no
+  auto: yes
   flac_command_path: flac
   metaflac_command_path: metaflac
   arguments:
@@ -436,7 +444,7 @@ export:
       dialect: excel
 
 fetchart:
-  auto: no
+  auto: yes
   cover_names: [cover front art album folder]
   cautious: yes
   minwidth: 1200
@@ -449,6 +457,7 @@ fetchart:
   google_key: ${GOOGLE_API_KEY}
   lastfm_key: ${LASTFM_API_KEY}
   sources:
+    - filesystem
     - itunes
     - spotify
     - amazon
@@ -458,7 +467,6 @@ fetchart:
     - fanarttv
     - wikipedia
     - google
-    - filesystem
 
 filetote:
   extensions: .cue .log
@@ -494,7 +502,7 @@ ihate:
   skip: []
 
 keyfinder:
-  auto: no
+  auto: yes
   overwrite: no
   bin: keyfinder-cli
 
@@ -528,7 +536,7 @@ permissions:
   dir: 775
 
 replaygain:
-  auto: no
+  auto: yes
   backend: metaflac
   overwrite: no
 
