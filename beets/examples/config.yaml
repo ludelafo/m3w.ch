@@ -130,11 +130,11 @@ import:
   resume: ask
   incremental: yes
   incremental_skip_later: yes
-  quiet: yes
+  quiet: no
   none_rec_action: skip
-  timid: no
+  timid: yes
   log: /config/beets.log
-  detail: no
+  detail: yes
   autotag: yes
   duplicate_keys:
     album: albumartist album
@@ -154,6 +154,51 @@ match:
     unmatched_tracks: strong
 
 # https://beets.readthedocs.io/en/stable/reference/config.html#path-format-configuration
+
+item_fields:
+  custom_album_type: |
+    if albumtype == 'audiobook':
+      return 'audiobooks'
+    elif albumtype == 'interview':
+      return 'podcasts'
+    elif albumtype == 'soundtrack':
+      return 'soundtracks'
+    else:
+      return 'music'
+
+  custom_multidisc: 1 if disctotal > 1 else 0
+
+  custom_discnumber: u'%02i' % disc
+
+  custom_source: |
+    if media == 'Digital Media':
+      return 'WEB'
+    elif media == 'Enhanced CD' or media == 'CD-R':
+      return 'CD'
+    elif media == '':
+      return False
+    else:
+      return media
+
+  custom_samplerate: |
+    return round(int(samplerate) / 1000, 1)
+
+  custom_reissue: year != original_year
+
+  custom_convert_format: |
+    from beets import config
+    return config["convert"]["format"].get(str).upper()
+
+  custom_convert_quality: |
+    from beets import config
+    target = config["convert"]["format"].get(str)
+    if target == "mp3":
+      return "v0"
+    elif target == "opus":
+      return "128"
+    else:
+      return ""
+
 paths:
   default:
     $custom_album_type/$custom_album_type/$format/$albumartist/$albumartist -
@@ -293,6 +338,7 @@ clean:
     - YEAR
 
 convert:
+  auto: no
   auto_keep: no
   format: mp3
   dest: /data
@@ -402,12 +448,8 @@ filetote:
     pairing_only: true
     extensions: ".lrc"
   paths:
-    ext:.cue:
-      $albumpath/$artist - $album %if{$custom_multidisc, - CD
-      $custom_discnumber}
-    ext:.log:
-      $albumpath/$artist - $album %if{$custom_multidisc, - CD
-      $custom_discnumber}
+    ext:.cue: $albumpath/$artist - $album%if{$custom_multidisc, - CD $disc}
+    ext:.log: $albumpath/$artist - $album%if{$custom_multidisc, - CD $disc}
 
 ftintitle:
   auto: yes
@@ -431,50 +473,6 @@ hook:
 ihate:
   warn: ["albumtype:live"]
   skip: []
-
-item_fields:
-  custom_album_type: |
-    if albumtype == 'audiobook':
-      return 'audiobooks'
-    elif albumtype == 'interview':
-      return 'podcasts'
-    elif albumtype == 'soundtrack':
-      return 'soundtracks'
-    else:
-      return 'music'
-
-  custom_multidisc: 1 if disctotal > 1 else 0
-
-  custom_discnumber: u'%02i' % disc
-
-  custom_source: |
-    if media == 'Digital Media':
-      return 'WEB'
-    elif media == 'Enhanced CD' or media == 'CD-R':
-      return 'CD'
-    elif media == '':
-      return False
-    else:
-      return media
-
-  custom_samplerate: |
-    return round(int(samplerate) / 1000, 1)
-
-  custom_reissue: year != original_year
-
-  custom_convert_format: |
-    from beets import config
-    return config["convert"]["format"].get(str).upper()
-
-  custom_convert_quality: |
-    from beets import config
-    target = config["convert"]["format"].get(str)
-    if target == "mp3":
-      return "v0"
-    elif target == "opus":
-      return "128"
-    else:
-      return ""
 
 keyfinder:
   auto: no
@@ -508,7 +506,7 @@ musicbrainz:
 
 permissions:
   file: 644
-  dir: 755
+  dir: 775
 
 replaygain:
   auto: no
