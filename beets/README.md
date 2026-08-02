@@ -15,9 +15,6 @@
   - [Build the Docker image](#build-the-docker-image)
   - [Login to TIDAL](#login-to-tidal)
   - [Import new items to the library](#import-new-items-to-the-library)
-  - [Update the library](#update-the-library)
-  - [Write the library](#write-the-library)
-  - [Move the library](#move-the-library)
   - [Re-encode the FLAC library](#re-encode-the-flac-library)
   - [Apply ReplayGain to FLAC files](#apply-replaygain-to-flac-files)
   - [Fetch the cover art](#fetch-the-cover-art)
@@ -30,6 +27,10 @@
   - [Clean the FLAC library](#clean-the-flac-library)
   - [Convert the library](#convert-the-library)
   - [Apply ReplayGain to MP3/Opus files](#apply-replaygain-to-mp3opus-files)
+  - [Check for bad files](#check-for-bad-files)
+  - [Update the library](#update-the-library)
+  - [Write the library](#write-the-library)
+  - [Move the library](#move-the-library)
 - [Additional resources](#additional-resources)
 
 ## Pre-configuration
@@ -139,27 +140,6 @@ docker compose run --rm beets tidal --auth
 docker compose run --rm beets import /data/music/.to\ sort
 ```
 
-### Update the library
-
-```bash
-# Update the library with new metadata
-docker compose run --rm beets update
-```
-
-### Write the library
-
-```bash
-# Write the library to disk
-docker compose run --rm beets write
-```
-
-### Move the library
-
-```bash
-# Move the library to a new location (e.g. after changing config.yaml)
-docker compose run --rm beets move
-```
-
 ### Re-encode the FLAC library
 
 ```bash
@@ -220,8 +200,8 @@ docker compose run --rm beets keyfinder
 ### Tag the FLAC library with custom tags
 
 ```bash
-# Re-apply tags to the whole existing library
-docker compose run --rm beets tag [MOOD=chill]
+# Apply custom tags for every FLAC already in the library
+docker compose run --rm beets tag
 ```
 
 ### Clean the FLAC library
@@ -243,6 +223,34 @@ docker compose run --rm beets convert --album [--format mp3|opus] [--pretend]
 ```bash
 # Apply ReplayGain to the MP3/Opus library (after conversion)
 docker compose run --rm --entrypoint rsgain beets easy [--skip-existing] /data/music/music/MP3|/data/music/music/OPUS
+```
+
+### Check for bad files
+
+```bash
+# Check for bad files in the library
+docker compose run --rm beets bad
+```
+
+### Update the library
+
+```bash
+# Update the library with new metadata
+docker compose run --rm beets update
+```
+
+### Write the library
+
+```bash
+# Write the library to disk
+docker compose run --rm beets write
+```
+
+### Move the library
+
+```bash
+# Move the library to a new location (e.g. after changing config.yaml)
+docker compose run --rm beets move
 ```
 
 ## Additional resources

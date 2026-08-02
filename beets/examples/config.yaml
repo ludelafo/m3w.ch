@@ -315,17 +315,20 @@ clean:
     - --block-type=PICTURE
     - --block-type=SEEKTABLE
   tags_to_keep:
+    - ACOUSTID_FINGERPRINT
     - ALBUM
     - ALBUMARTIST
     - ARTIST
-    - COMMENT
+    - BPM
+    - CATALOGNUMBER
     - COMPOSER
     - DISCNUMBER
     - FLAC_ARGUMENTS
     - GENRE
+    - INITIALKEY
     - LYRICS
     - METAFLAC_ARGUMENTS
-    - PERFORMER
+    - MUSICBRAINZ_ALBUMID
     - REPLAYGAIN_REFERENCE_LOUDNESS
     - REPLAYGAIN_ALBUM_GAIN
     - REPLAYGAIN_ALBUM_PEAK
@@ -511,7 +514,7 @@ permissions:
 replaygain:
   auto: no
   backend: metaflac
-  overwrite: yes
+  overwrite: no
 
 spotify:
   mode: list
