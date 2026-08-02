@@ -58,8 +58,17 @@ replace:
 asciify_paths: false
 art_filename: cover
 threaded: yes
-format_item: $albumartist - $year - $album - $track. $title
-format_album: $albumartist - $year - $album
+format_item:
+  $albumartist - $original_year - $album%if{$custom_reissue, [Reissue $year]}
+  [$format%if{$bitdepth && $custom_samplerate,
+  $bitdepth-$custom_samplerate}%if{$custom_source,
+  $custom_source}]%if{$catalognum,
+  {$catalognum$}}/%if{$custom_multidisc,$custom_discnumber-}$track. $title
+format_album:
+  $albumartist - $original_year - $album%if{$custom_reissue, [Reissue $year]}
+  [$format%if{$bitdepth && $custom_samplerate,
+  $bitdepth-$custom_samplerate}%if{$custom_source,
+  $custom_source}]%if{$catalognum, {$catalognum$}}
 sort_item:
   $albumartist+ $album+ $albumdisambig+ $original_year+ $disc+ $track+ $title+
 sort_album: $albumartist+ $album+ $albumdisambig+ $original_year+ $disc+
