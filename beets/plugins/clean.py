@@ -110,7 +110,14 @@ class CleanPlugin(BeetsPlugin):
         if self.config["auto"].get(bool):
             self.register_listener("item_imported", self.on_item_imported)
             self.register_listener("album_imported", self.on_album_imported)
-            self.register_listener("after_convert", self.on_after_convert)
+
+        # Unlike the FLAC listeners above, this isn't gated behind `auto`:
+        # converted MP3/Opus files are usually not library items (e.g. when
+        # `convert.keep_new` is off), so there is no `beets clean`-style
+        # command that could reach them afterwards. Cleaning has to happen
+        # as part of the convert step itself, whether that step is run
+        # manually or automatically.
+        self.register_listener("after_convert", self.on_after_convert)
 
     def commands(self):
         cmd = ui.Subcommand(

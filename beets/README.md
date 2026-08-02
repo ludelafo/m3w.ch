@@ -222,13 +222,6 @@ docker compose run --rm beets clean
 docker compose run --rm beets convert --album [--format mp3|opus] [--pretend]
 ```
 
-When `clean.auto` is enabled, MP3/Opus files are stripped down to the
-configured allow-listed tags as soon as they are converted (there is no
-`beets clean`-style command for them afterwards, since converted files
-that aren't kept in the library aren't tracked as items). See
-[Manage converted files](#manage-converted-files) for more information about
-managing the converted files.
-
 ### Check for bad files
 
 ```bash
@@ -261,10 +254,10 @@ docker compose run --rm beets move
 
 #### Clean up converted files
 
-```bash
-# Clean up converted files (e.g. after changing config.yaml)
-docker compose run --rm beets convert --cleanup
-```
+MP3/Opus files are automatically stripped down to the configured allow-listed
+tags as soon as they are converted, regardless of `clean.auto` (there is no
+`beets clean`-style command for them afterwards, since converted files that
+aren't kept in the library aren't tracked as items).
 
 #### Apply ReplayGain to MP3/Opus files
 
