@@ -1,5 +1,6 @@
 """Strip FLAC/MP3/Opus files down to a fixed set of blocks and tags."""
 
+import concurrent.futures
 import os
 import subprocess
 
@@ -19,6 +20,7 @@ class CleanPlugin(BeetsPlugin):
         self.config.add(
             {
                 "auto": True,
+                "threads": os.cpu_count() or 1,
                 "metaflac_command_path": "metaflac",
                 "arguments": [
                     "--remove",
@@ -126,8 +128,7 @@ class CleanPlugin(BeetsPlugin):
         )
 
         def func(lib, opts, args):
-            for item in lib.items(ui.decargs(args)):
-                self.process_item(item)
+            self._run_parallel(lib.items(ui.decargs(args)), self.process_item)
 
         cmd.func = func
         return [cmd]
@@ -136,8 +137,7 @@ class CleanPlugin(BeetsPlugin):
         self.process_item(item)
 
     def on_album_imported(self, lib, album):
-        for item in album.items():
-            self.process_item(item)
+        self._run_parallel(album.items(), self.process_item)
 
     def on_after_convert(self, item, dest, keepnew):
         path = syspath(dest)
@@ -154,6 +154,16 @@ class CleanPlugin(BeetsPlugin):
         if item.format != "FLAC":
             return
         self.clean(item)
+
+    def _run_parallel(self, items, func):
+        threads = self.config["threads"].get(int)
+
+        with concurrent.futures.ThreadPoolExecutor(
+            max_workers=threads
+        ) as executor:
+            futures = [executor.submit(func, item) for item in items]
+            for future in concurrent.futures.as_completed(futures):
+                future.result()
 
     def _run(self, argv):
         return subprocess.run(

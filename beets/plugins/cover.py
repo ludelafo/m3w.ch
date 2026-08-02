@@ -1,5 +1,6 @@
 """Check album art dimensions and optimize cover JPEGs with jpegoptim."""
 
+import concurrent.futures
 import os
 import subprocess
 
@@ -15,6 +16,7 @@ class CoverPlugin(BeetsPlugin):
         self.config.add(
             {
                 "auto": True,
+                "threads": os.cpu_count() or 1,
                 "identify_command_path": "identify",
                 "convert_command_path": "convert",
                 "jpegoptim_command_path": "jpegoptim",
@@ -36,14 +38,25 @@ class CoverPlugin(BeetsPlugin):
         )
 
         def func(lib, opts, args):
-            for album in lib.albums(ui.decargs(args)):
-                self.process_album(album)
+            self._run_parallel(
+                lib.albums(ui.decargs(args)), self.process_album
+            )
 
         cmd.func = func
         return [cmd]
 
     def on_album_imported(self, lib, album):
         self.process_album(album)
+
+    def _run_parallel(self, items, func):
+        threads = self.config["threads"].get(int)
+
+        with concurrent.futures.ThreadPoolExecutor(
+            max_workers=threads
+        ) as executor:
+            futures = [executor.submit(func, item) for item in items]
+            for future in concurrent.futures.as_completed(futures):
+                future.result()
 
     def _run(self, argv):
         return subprocess.run(

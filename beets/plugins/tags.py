@@ -5,6 +5,8 @@ every imported FLAC automatically. The `beet tag KEY=VALUE ... [query]`
 command additionally lets you set ad hoc tags on demand.
 """
 
+import concurrent.futures
+import os
 import re
 import subprocess
 
@@ -22,6 +24,7 @@ class TagsPlugin(BeetsPlugin):
         self.config.add(
             {
                 "auto": True,
+                "threads": os.cpu_count() or 1,
                 "metaflac_command_path": "metaflac",
                 "tags": {},
             }
@@ -54,8 +57,10 @@ class TagsPlugin(BeetsPlugin):
                     " (e.g. beet tag MOOD=chill albumartist:'Some Artist')"
                 )
 
-            for item in lib.items(query):
-                self.process_item(item, extra_tags=tags)
+            self._run_parallel(
+                lib.items(query),
+                lambda item: self.process_item(item, extra_tags=tags),
+            )
 
         cmd.func = func
         return [cmd]
@@ -64,8 +69,17 @@ class TagsPlugin(BeetsPlugin):
         self.process_item(item)
 
     def on_album_imported(self, lib, album):
-        for item in album.items():
-            self.process_item(item)
+        self._run_parallel(album.items(), self.process_item)
+
+    def _run_parallel(self, items, func):
+        threads = self.config["threads"].get(int)
+
+        with concurrent.futures.ThreadPoolExecutor(
+            max_workers=threads
+        ) as executor:
+            futures = [executor.submit(func, item) for item in items]
+            for future in concurrent.futures.as_completed(futures):
+                future.result()
 
     def process_item(self, item, extra_tags=None):
         if item.format != "FLAC":

@@ -1,5 +1,7 @@
 """Re-encode FLAC files with a fixed, idempotent set of `flac` arguments."""
 
+import concurrent.futures
+import os
 import re
 import subprocess
 
@@ -20,6 +22,7 @@ class EncodePlugin(BeetsPlugin):
         self.config.add(
             {
                 "auto": True,
+                "threads": os.cpu_count() or 1,
                 "flac_command_path": "flac",
                 "metaflac_command_path": "metaflac",
                 "arguments": [
@@ -57,8 +60,10 @@ class EncodePlugin(BeetsPlugin):
         )
 
         def func(lib, opts, args):
-            for item in lib.items(ui.decargs(args)):
-                self.process_item(item, force=opts.force)
+            self._run_parallel(
+                lib.items(ui.decargs(args)),
+                lambda item: self.process_item(item, force=opts.force),
+            )
 
         cmd.func = func
         return [cmd]
@@ -67,13 +72,22 @@ class EncodePlugin(BeetsPlugin):
         self.process_item(item)
 
     def on_album_imported(self, lib, album):
-        for item in album.items():
-            self.process_item(item)
+        self._run_parallel(album.items(), self.process_item)
 
     def process_item(self, item, force=False):
         if item.format != "FLAC":
             return
         self.encode(item, force=force)
+
+    def _run_parallel(self, items, func):
+        threads = self.config["threads"].get(int)
+
+        with concurrent.futures.ThreadPoolExecutor(
+            max_workers=threads
+        ) as executor:
+            futures = [executor.submit(func, item) for item in items]
+            for future in concurrent.futures.as_completed(futures):
+                future.result()
 
     def _run(self, argv):
         return subprocess.run(
