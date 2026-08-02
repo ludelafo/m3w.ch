@@ -359,7 +359,7 @@ clean:
 convert:
   auto: no
   auto_keep: no
-  format: mp3
+  format: opus
   dest: /data
   never_convert_lossy_files: yes
   embed: no
@@ -375,13 +375,13 @@ convert:
     default:
       $custom_album_type/$custom_album_type/$custom_convert_format/$albumartist/$albumartist
       - $original_year - $album%if{$custom_reissue, [Reissue $year]}
-      [$custom_source $custom_convert_format
-      $custom_convert_quality]%if{$catalognum,
+      [$custom_convert_format $custom_convert_quality
+      $custom_source]%if{$catalognum,
       {$catalognum$}}/%if{$custom_multidisc,$custom_discnumber-}$track. $title
     comp:
       $custom_album_type/$custom_album_type/$custom_convert_format/$album
-      ($year) [$custom_source $custom_convert_format
-      $custom_convert_quality]%if{$catalognum,
+      ($year) [$custom_convert_format $custom_convert_quality
+      $custom_source]%if{$catalognum,
       {$catalognum$}}/%if{$custom_multidisc,$custom_discnumber-}$track. $title
 
 cover:
