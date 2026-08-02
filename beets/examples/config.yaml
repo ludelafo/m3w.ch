@@ -509,6 +509,7 @@ fetchart:
   fanarttv_key: ${FANARTTV_API_KEY}
   google_key: ${GOOGLE_API_KEY}
   lastfm_key: ${LASTFM_API_KEY}
+  store_source: yes
   sources:
     - filesystem
     - itunes
