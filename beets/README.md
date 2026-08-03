@@ -134,7 +134,7 @@ docker compose run --rm beets keyfinder
 docker compose run --rm beets tag
 docker compose run --rm beets clean
 docker compose run --rm beets convert --album
-docker compose run --rm beets easy /data/music/music/Opus
+docker compose run --rm --entrypoint rsgain beets easy /data/music/music/Opus
 ```
 
 ### Build the Docker image
