@@ -62,13 +62,13 @@ format_item:
   $albumartist - $original_year - $album%if{$custom_reissue, [Reissue $year]}
   [$format%if{$bitdepth && $custom_samplerate,
   $bitdepth-$custom_samplerate}%if{$custom_source,
-  $custom_source}]%if{$catalognum,
-  {$catalognum$}}/%if{$custom_multidisc,$custom_discnumber-}$track. $title
+  $custom_source}]%if{$catalognum, {$catalognum$},%if{$barcode,
+  {$barcode$}}}/%if{$custom_multidisc,$custom_discnumber-}$track. $title
 format_album:
   $albumartist - $original_year - $album%if{$custom_reissue, [Reissue $year]}
   [$format%if{$bitdepth && $custom_samplerate,
   $bitdepth-$custom_samplerate}%if{$custom_source,
-  $custom_source}]%if{$catalognum, {$catalognum$}}
+  $custom_source}]%if{$catalognum, {$catalognum$},%if{$barcode, {$barcode$}}}
 sort_item:
   $albumartist+ $album+ $albumdisambig+ $original_year+ $disc+ $track+ $title+
 sort_album: $albumartist+ $album+ $albumdisambig+ $original_year+ $disc+
@@ -222,14 +222,14 @@ paths:
     - $original_year - $album%if{$custom_reissue, [Reissue $year]}
     [$format%if{$bitdepth && $custom_samplerate,
     $bitdepth-$custom_samplerate}%if{$custom_source,
-    $custom_source}]%if{$catalognum,
-    {$catalognum$}}/%if{$custom_multidisc,$custom_discnumber-}$track. $title
+    $custom_source}]%if{$catalognum, {$catalognum$},%if{$barcode,
+    {$barcode$}}}/%if{$custom_multidisc,$custom_discnumber-}$track. $title
   comp:
     $custom_album_type/$custom_album_type/$format/%bucket{$albumartist,alpha}/$album
     ($year) [$format%if{$custom_bitdepth && $custom_samplerate,
     $custom_bitdepth-$custom_samplerate}%if{$custom_source,
-    $custom_source}]%if{$catalognum,
-    {$catalognum$}}/%if{$custom_multidisc,$custom_discnumber-}$track. $title
+    $custom_source}]%if{$catalognum, {$catalognum$},%if{$barcode,
+    {$barcode$}}}/%if{$custom_multidisc,$custom_discnumber-}$track. $title
 
 # https://beets.readthedocs.io/en/stable/plugins/index.html
 plugins:
@@ -716,11 +716,10 @@ titlecase:
     - "‘": "'"
     - "“": '"'
     - "”": '"'
-    - "Feat.": "feat."
   preserve:
     - "DJ"
     - "EP"
     - "LP"
     - "MC"
     - "TV"
-    - "feat."
+    - "(feat."
