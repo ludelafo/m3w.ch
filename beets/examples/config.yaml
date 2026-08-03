@@ -518,13 +518,13 @@ convert:
       $custom_album_type/$custom_album_type/$custom_convert_format/%bucket{$albumartist,alpha}/$albumartist/$albumartist
       - $original_year - $album%if{$custom_reissue, [Reissue $year]}
       [$custom_convert_format $custom_convert_quality
-      $custom_source]%if{$catalognum,
-      {$catalognum$}}/%if{$custom_multidisc,$custom_discnumber-}$track. $title
+      $custom_source]%if{$catalognum, {$catalognum$},%if{$barcode,
+      {$barcode$}}}/%if{$custom_multidisc,$custom_discnumber-}$track. $title
     comp:
       $custom_album_type/$custom_album_type/$custom_convert_format/%bucket{$albumartist,alpha}/$album
       ($year) [$custom_convert_format $custom_convert_quality
-      $custom_source]%if{$catalognum,
-      {$catalognum$}}/%if{$custom_multidisc,$custom_discnumber-}$track. $title
+      $custom_source]%if{$catalognum, {$catalognum$},%if{$barcode,
+      {$barcode$}}}/%if{$custom_multidisc,$custom_discnumber-}$track. $title
 
 cover:
   auto: no
