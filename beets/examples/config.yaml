@@ -45,8 +45,7 @@ replace:
   '^\s+': "_"
   "^-": "_"
   # Replace special quotes
-  "‘": "'"
-  "’": "'"
+  "[‘’]": "'"
   "[“”]": '"'
   # # Replace accented characters
   # '[\xE2-\xE6]': a
@@ -59,22 +58,18 @@ asciify_paths: false
 art_filename: cover
 threaded: yes
 format_item:
-  $albumartist - $original_year - $album%if{$custom_album_disambig,
-  ($custom_album_disambig)}%if{$custom_reissue, [Reissue $year]}
+  $albumartist - $original_year - $album%if{$custom_reissue, [Reissue $year]}
   [$format%if{$bitdepth && $custom_samplerate,
   $bitdepth-$custom_samplerate}%if{$custom_source,
   $custom_source}]%if{$catalognum, {$catalognum$},%if{$barcode,
   {$barcode$}}}/%if{$custom_multidisc,$custom_discnumber-}$track. $title
 format_album:
-  $albumartist - $original_year - $album%if{$custom_album_disambig,
-  ($custom_album_disambig)}%if{$custom_reissue, [Reissue $year]}
+  $albumartist - $original_year - $album%if{$custom_reissue, [Reissue $year]}
   [$format%if{$bitdepth && $custom_samplerate,
   $bitdepth-$custom_samplerate}%if{$custom_source,
   $custom_source}]%if{$catalognum, {$catalognum$},%if{$barcode, {$barcode$}}}
-sort_item:
-  $albumartist+ $album+ $custom_album_disambig+ $original_year+ $disc+ $track+
-  $title+
-sort_album: $albumartist+ $album+ $custom_album_disambig+ $original_year+ $disc+
+sort_item: $albumartist+ $album+ $original_year+ $disc+ $track+ $title+
+sort_album: $albumartist+ $album+ $original_year+ $disc+
 sort_case_insensitive: yes
 original_date: no
 per_disc_numbering: yes
@@ -178,10 +173,6 @@ item_fields:
     else:
       return 'music'
 
-  custom_album_disambig: |
-    if albumdisambig and albumdisambig != "explicit":
-        return albumdisambig
-
   custom_multidisc: 1 if disctotal > 1 else 0
 
   custom_discnumber: u'%02i' % disc
@@ -226,16 +217,15 @@ item_fields:
 paths:
   default:
     $custom_album_type/$custom_album_type/$format/%bucket{$albumartist,alpha}/$albumartist/$albumartist
-    - $original_year - $album%if{$custom_album_disambig,
-    ($custom_album_disambig)}%if{$custom_reissue, [Reissue $year]}
+    - $original_year - $album%if{$custom_reissue, [Reissue $year]}
     [$format%if{$bitdepth && $custom_samplerate,
     $bitdepth-$custom_samplerate}%if{$custom_source,
     $custom_source}]%if{$catalognum, {$catalognum$},%if{$barcode,
     {$barcode$}}}/%if{$custom_multidisc,$custom_discnumber-}$track. $title
   comp:
-    $custom_album_type/$custom_album_type/$format/%bucket{$albumartist,alpha}/$album%if{$custom_album_disambig,
-    ($custom_album_disambig)} ($year) [$format%if{$custom_bitdepth &&
-    $custom_samplerate, $custom_bitdepth-$custom_samplerate}%if{$custom_source,
+    $custom_album_type/$custom_album_type/$format/%bucket{$albumartist,alpha}/$album
+    ($year) [$format%if{$custom_bitdepth && $custom_samplerate,
+    $custom_bitdepth-$custom_samplerate}%if{$custom_source,
     $custom_source}]%if{$catalognum, {$catalognum$},%if{$barcode,
     {$barcode$}}}/%if{$custom_multidisc,$custom_discnumber-}$track. $title
 
@@ -259,6 +249,8 @@ plugins:
   - cover
   # https://beets.readthedocs.io/en/stable/plugins/deezer.html
   # - deezer
+  # Custom plugin
+  - disambig
   # https://beets.readthedocs.io/en/stable/plugins/discogs.html
   # - discogs
   # https://beets.readthedocs.io/en/stable/plugins/edit.html
@@ -523,16 +515,14 @@ convert:
   paths:
     default:
       $custom_album_type/$custom_album_type/$custom_convert_format/%bucket{$albumartist,alpha}/$albumartist/$albumartist
-      - $original_year - $album%if{$custom_album_disambig,
-      ($custom_album_disambig)}%if{$custom_reissue, [Reissue $year]}
+      - $original_year - $album%if{$custom_reissue, [Reissue $year]}
       [$custom_convert_format $custom_convert_quality
       $custom_source]%if{$catalognum, {$catalognum$},%if{$barcode,
       {$barcode$}}}/%if{$custom_multidisc,$custom_discnumber-}$track. $title
     comp:
-      $custom_album_type/$custom_album_type/$custom_convert_format/%bucket{$albumartist,alpha}/$album%if{$custom_album_disambig,
-      ($custom_album_disambig)} ($year) [$custom_convert_format
-      $custom_convert_quality $custom_source]%if{$catalognum,
-      {$catalognum$},%if{$barcode,
+      $custom_album_type/$custom_album_type/$custom_convert_format/%bucket{$albumartist,alpha}/$album
+      ($year) [$custom_convert_format $custom_convert_quality
+      $custom_source]%if{$catalognum, {$catalognum$},%if{$barcode,
       {$barcode$}}}/%if{$custom_multidisc,$custom_discnumber-}$track. $title
 
 cover:
@@ -711,14 +701,12 @@ titlecase:
     - albumartists
     - albumartists_credit
     - albumartists_sort
-    - albumdisambig
     - artist
     - artist_credit
     - artist_sort
     - artists
     - artists_credit
     - artists_sort
-    - custom_album_disambig
     - title
   all_caps: yes
   all_lowercase: yes
@@ -734,7 +722,6 @@ titlecase:
     # - "…": "..."
     # - "«": '"'
     # - "»": '"'
-    - "deluxe edition": "Deluxe Edition"
   preserve:
     - "DJ"
     - "EP"
