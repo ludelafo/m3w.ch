@@ -705,7 +705,6 @@ tidal:
 titlecase:
   fields:
     - album
-    - title
     - albumartist
     - albumartist_credit
     - albumartist_sort
@@ -719,6 +718,8 @@ titlecase:
     - artists
     - artists_credit
     - artists_sort
+    - custom_album_disambig
+    - title
   all_caps: yes
   all_lowercase: yes
   replace:
