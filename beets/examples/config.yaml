@@ -179,7 +179,7 @@ item_fields:
       return 'music'
 
   custom_album_disambig: |
-    if albumdisambig && albumdisambig != "explicit":
+    if albumdisambig and albumdisambig != "explicit":
         return albumdisambig
 
   custom_multidisc: 1 if disctotal > 1 else 0
