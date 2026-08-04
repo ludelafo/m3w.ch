@@ -712,6 +712,7 @@ titlecase:
     - albumartists
     - albumartists_credit
     - albumartists_sort
+    - albumdisambig
     - artist
     - artist_credit
     - artist_sort
