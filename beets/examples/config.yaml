@@ -711,14 +711,12 @@ titlecase:
     - albumartists
     - albumartists_credit
     - albumartists_sort
-    - albumdisambig
     - artist
     - artist_credit
     - artist_sort
     - artists
     - artists_credit
     - artists_sort
-    - custom_album_disambig
     - title
   all_caps: yes
   all_lowercase: yes
@@ -734,6 +732,7 @@ titlecase:
     # - "…": "..."
     # - "«": '"'
     # - "»": '"'
+    - "deluxe edition": "Deluxe Edition"
   preserve:
     - "DJ"
     - "EP"
