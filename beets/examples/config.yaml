@@ -227,7 +227,7 @@ paths:
   default:
     $custom_album_type/$custom_album_type/$format/%bucket{$albumartist,alpha}/$albumartist/$albumartist
     - $original_year - $album%if{$custom_album_disambig,
-    ($custom_album_disambig)}(%if{$custom_reissue, [Reissue $year]}
+    ($custom_album_disambig)}%if{$custom_reissue, [Reissue $year]}
     [$format%if{$bitdepth && $custom_samplerate,
     $bitdepth-$custom_samplerate}%if{$custom_source,
     $custom_source}]%if{$catalognum, {$catalognum$},%if{$barcode,
