@@ -250,9 +250,9 @@ plugins:
   # Custom plugin
   - cover
   # https://beets.readthedocs.io/en/stable/plugins/deezer.html
-  - deezer
+  # - deezer
   # https://beets.readthedocs.io/en/stable/plugins/discogs.html
-  - discogs
+  # - discogs
   # https://beets.readthedocs.io/en/stable/plugins/edit.html
   - edit
   # Custom plugin
@@ -291,11 +291,11 @@ plugins:
   # https://beets.readthedocs.io/en/stable/plugins/replaygain.html
   - replaygain
   # https://beets.readthedocs.io/en/stable/plugins/spotify.html
-  - spotify
+  # - spotify
   # Custom plugin
   - tags
   # https://beets.readthedocs.io/en/stable/plugins/tidal.html
-  - tidal
+  # - tidal
   # https://beets.readthedocs.io/en/stable/plugins/titlecase.html
   - titlecase
 
@@ -714,8 +714,15 @@ titlecase:
   replace:
     - "’": "'"
     - "‘": "'"
+    - "´": "'"
     - "“": '"'
     - "”": '"'
+    - "‐": "-"
+    - "–": "-"
+    - "—": "-"
+    # - "…": "..."
+    # - "«": '"'
+    # - "»": '"'
   preserve:
     - "DJ"
     - "EP"
