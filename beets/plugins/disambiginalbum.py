@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import re
 from functools import cached_property
 from typing import TYPE_CHECKING
 
@@ -12,6 +13,13 @@ if TYPE_CHECKING:
     from beets.autotag import AlbumInfo
     from beets.importer import ImportSession, ImportTask
     from beets.library import Album
+
+_NON_WORD_RE = re.compile(r"\W+")
+
+
+def _normalized(disambig: str) -> str:
+    """Normalize `disambig` for comparison."""
+    return _NON_WORD_RE.sub("", disambig.casefold())
 
 
 class DisambigInAlbumPlugin(BeetsPlugin):
@@ -106,7 +114,7 @@ class DisambigInAlbumPlugin(BeetsPlugin):
 
         album_title = album.get("album") or ""
 
-        if not album_title or disambig.casefold() in album_title.casefold():
+        if not album_title or _normalized(disambig) in _normalized(album_title):
             return False
 
         suffix = self.album_format.format(disambig)
