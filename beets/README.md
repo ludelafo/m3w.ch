@@ -134,7 +134,7 @@ docker compose run --rm beets cover
 docker compose run --rm beets tag
 docker compose run --rm beets clean
 docker compose run --rm beets convert --album --yes
-docker compose run --rm --entrypoint rsgain beets easy --skip-existing /data/music/Opus
+docker compose run --rm --entrypoint rsgain beets easy --skip-existing /data/music/music/Opus
 ```
 
 ### Build the Docker image
@@ -173,6 +173,17 @@ docker compose run --rm beets encode [--force] [--pretend]
 ```
 
 ### Apply ReplayGain to FLAC files
+
+`plugins/replaygain.py` is a vendored, patched copy of beets' bundled
+`replaygain` plugin (shadows the built-in one via `pluginpath`). The
+built-in `metaflac` backend computes ReplayGain by running
+`metaflac --add-replay-gain`, which writes the tags to the file as part of
+computing them -- there's no read-only mode. Since `replaygain.auto`
+processing runs before beets copies a freshly imported file to its final
+location, that write landed on the *source* file, not the copy. The
+patched version uses `metaflac --scan-replay-gain` instead, which reports
+the same values on stdout without writing anything. Delete this file (and
+its `Dockerfile` `COPY` line) once the fix lands upstream in beets.
 
 ```bash
 # Apply ReplayGain to the whole existing library (FLAC only, MP3/Opus must be done after conversion)

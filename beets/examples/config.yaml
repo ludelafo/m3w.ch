@@ -288,6 +288,7 @@ plugins:
   # https://beets.readthedocs.io/en/stable/plugins/permissions.html
   - permissions
   # https://beets.readthedocs.io/en/stable/plugins/replaygain.html
+  # Vendored + patched, see plugins/replaygain.py (metaflac backend fix)
   - replaygain
   # https://beets.readthedocs.io/en/stable/plugins/spotify.html
   # - spotify

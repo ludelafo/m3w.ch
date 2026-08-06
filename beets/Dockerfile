@@ -77,6 +77,7 @@ COPY plugins/encode.py /usr/local/lib/beets-plugins/encode.py
 COPY plugins/clean.py /usr/local/lib/beets-plugins/clean.py
 COPY plugins/cover.py /usr/local/lib/beets-plugins/cover.py
 COPY plugins/disambiginalbum.py /usr/local/lib/beets-plugins/disambiginalbum.py
+COPY plugins/replaygain.py /usr/local/lib/beets-plugins/replaygain.py
 COPY plugins/tags.py /usr/local/lib/beets-plugins/tags.py
 RUN chmod +x /usr/local/bin/entrypoint.sh
 RUN chmod +x /usr/local/bin/convert.sh
