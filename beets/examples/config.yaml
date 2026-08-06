@@ -694,6 +694,7 @@ tidal:
   search_limit: 5
 
 titlecase:
+  auto: yes
   fields:
     - album
     - albumartist

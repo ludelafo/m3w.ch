@@ -11,4 +11,5 @@ services:
       - beets.env
     volumes:
       - ./config:/config
+      - ./downloads:/downloads
       - ./data:/data

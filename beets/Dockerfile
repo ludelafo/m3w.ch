@@ -34,7 +34,7 @@ ARG BEETS_VERSION=2.13.1
 ARG BEETS_UID=1000
 ARG BEETS_GID=1000
 
-VOLUME ["/config", "/data"]
+VOLUME ["/config", "/downloads", "/data"]
 
 ENV BEETSDIR=/config
 
@@ -60,8 +60,8 @@ RUN apt-get update && apt-get install --no-install-recommends --yes \
 
 RUN groupadd --gid "${BEETS_GID}" beets \
     && useradd --uid "${BEETS_UID}" --gid beets --home-dir /config --no-create-home --shell /usr/sbin/nologin beets \
-    && mkdir -p /config /data /etc/beets \
-    && chown -R beets:beets /config /data /etc/beets
+    && mkdir -p /config /downloads /data /etc/beets \
+    && chown -R beets:beets /config /downloads /data /etc/beets
 
 RUN pip install --no-cache-dir \
     beets[autobpm,chroma,discogs,fetchart,lastgenre,lyrics,replaygain,tidal,titlecase]==${BEETS_VERSION} \

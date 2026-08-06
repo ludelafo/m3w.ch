@@ -124,17 +124,17 @@ Recommended order of execution:
 15. [Apply ReplayGain to MP3/Opus files](#apply-replaygain-to-mp3opus-files).
 
 ```bash
-docker compose run --rm beets encode
-docker compose run --rm beets replaygain --album
-docker compose run --rm beets fetchart
+# docker compose run --rm beets encode
+# docker compose run --rm beets replaygain --album
+# docker compose run --rm beets fetchart
 docker compose run --rm beets cover
-docker compose run --rm beets autobpm
-docker compose run --rm beets lyrics
-docker compose run --rm beets keyfinder
+# docker compose run --rm beets autobpm
+# docker compose run --rm beets lyrics --keep-synced
+# docker compose run --rm beets keyfinder
 docker compose run --rm beets tag
 docker compose run --rm beets clean
-docker compose run --rm beets convert --album
-docker compose run --rm --entrypoint rsgain beets easy --skip-existing /data/music/music/Opus
+docker compose run --rm beets convert --album --yes
+docker compose run --rm --entrypoint rsgain beets easy --skip-existing /data/music/Opus
 ```
 
 ### Build the Docker image
@@ -153,9 +153,16 @@ docker compose run --rm beets tidal --auth
 
 ### Import new items to the library
 
+The `/downloads` and `/data` directories are kept separated on purpose, so a
+file that's still there when you re-run the import (e.g. after retrying because
+the first pass didn't look right) is always treated as new. Beets recognizes
+files as already-imported reimports whenever they sit inside `/data`, and
+rewrites them in place there instead of doing a fresh copy -- which silently
+skips any processing that isn't idempotent across repeated runs.
+
 ```bash
 # Import new items into the library
-docker compose run --rm beets import /data/music/.to\ sort
+docker compose run --rm beets import -M /downloads/music/.to\ sort
 ```
 
 ### Re-encode the FLAC library
@@ -182,7 +189,7 @@ docker compose run --rm beets fetchart
 docker compose run --rm beets fetchart --quiet
 
 # Manually fetch the cover art for a specific album from the file system
-docker compose run --rm beets fetchart /data/music/music/Artist/Album
+docker compose run --rm beets fetchart /data/Artist/Album
 ```
 
 ### Check and optimize cover art
@@ -283,7 +290,7 @@ aren't kept in the library aren't tracked as items).
 
 ```bash
 # Apply ReplayGain to the MP3/Opus library (after conversion)
-docker compose run --rm --entrypoint rsgain beets easy [--skip-existing] /data/music/music/MP3|/data/music/music/Opus
+docker compose run --rm --entrypoint rsgain beets easy [--skip-existing] /data/music/Opus
 ```
 
 ## Cheat sheet
