@@ -250,7 +250,7 @@ plugins:
   # https://beets.readthedocs.io/en/stable/plugins/deezer.html
   # - deezer
   # Custom plugin
-  - disambig
+  - disambiginalbum
   # https://beets.readthedocs.io/en/stable/plugins/discogs.html
   # - discogs
   # https://beets.readthedocs.io/en/stable/plugins/edit.html
@@ -262,8 +262,7 @@ plugins:
   # https://beets.readthedocs.io/en/stable/plugins/fetchart.html
   - fetchart
   # https://github.com/gtronset/beets-filetote
-  # Wait until this PR is merged and released: https://github.com/gtronset/beets-filetote/pull/351
-  # - filetote
+  - filetote
   # https://beets.readthedocs.io/en/stable/plugins/fromfilename.html
   - fromfilename
   # https://github.com/jaedonswanson/beets-getlrc
@@ -539,6 +538,12 @@ deezer:
   search_query_ascii: no
   search_limit: 5
 
+disambiginalbum:
+  auto: yes
+  format: "({0})"
+  ignore:
+    - explicit
+
 discogs:
   user_token: ${DISCOGS_USER_TOKEN}
   featured_string: "feat."
@@ -604,10 +609,6 @@ fetchart:
 
 filetote:
   extensions: .cue .log
-  pairing:
-    enabled: true
-    pairing_only: true
-    extensions: ".lrc"
   paths:
     ext:.cue: $albumpath/$artist - $album%if{$custom_multidisc, - CD $disc}
     ext:.log: $albumpath/$artist - $album%if{$custom_multidisc, - CD $disc}
@@ -723,9 +724,10 @@ titlecase:
     # - "«": '"'
     # - "»": '"'
   preserve:
+    - "(feat."
     - "DJ"
     - "EP"
+    - "En"
     - "LP"
     - "MC"
     - "TV"
-    - "(feat."
