@@ -611,8 +611,8 @@ fetchart:
 filetote:
   extensions: .cue .log
   paths:
-    ext:.cue: $albumpath/$artist - $album%if{$custom_multidisc, - CD $disc}
-    ext:.log: $albumpath/$artist - $album%if{$custom_multidisc, - CD $disc}
+    ext:.cue: $albumpath/$albumartist - $album%if{$custom_multidisc, - CD $disc}
+    ext:.log: $albumpath/$albumartist - $album%if{$custom_multidisc, - CD $disc}
 
 ftintitle:
   auto: yes
@@ -730,6 +730,8 @@ titlecase:
     - "DJ"
     - "EP"
     - "En"
+    - "Florence + The Machine"
     - "LP"
     - "MC"
     - "TV"
+    - "Ty Dolla $ign"
