@@ -31,6 +31,7 @@ RUN curl -fsSL "https://github.com/EvanPurkhiser/keyfinder-cli/archive/refs/tags
 FROM python:3.13-slim
 
 ARG BEETS_VERSION=2.13.1
+ARG BEETS_SOURCE="beets[autobpm,chroma,discogs,fetchart,lastgenre,lyrics,replaygain,tidal,titlecase]==${BEETS_VERSION}"
 ARG BEETS_UID=1000
 ARG BEETS_GID=1000
 
@@ -64,7 +65,7 @@ RUN groupadd --gid "${BEETS_GID}" beets \
     && chown -R beets:beets /config /downloads /data /etc/beets
 
 RUN pip install --no-cache-dir \
-    beets[autobpm,chroma,discogs,fetchart,lastgenre,lyrics,replaygain,tidal,titlecase]==${BEETS_VERSION} \
+    "${BEETS_SOURCE}" \
     beets-filetote \
     beets-getlrc \
     pip-system-certs \
@@ -77,7 +78,7 @@ COPY plugins/encode.py /usr/local/lib/beets-plugins/encode.py
 COPY plugins/clean.py /usr/local/lib/beets-plugins/clean.py
 COPY plugins/cover.py /usr/local/lib/beets-plugins/cover.py
 COPY plugins/disambiginalbum.py /usr/local/lib/beets-plugins/disambiginalbum.py
-COPY plugins/replaygain.py /usr/local/lib/beets-plugins/replaygain.py
+# COPY plugins/replaygain.py /usr/local/lib/beets-plugins/replaygain.py
 COPY plugins/tags.py /usr/local/lib/beets-plugins/tags.py
 RUN chmod +x /usr/local/bin/entrypoint.sh
 RUN chmod +x /usr/local/bin/convert.sh

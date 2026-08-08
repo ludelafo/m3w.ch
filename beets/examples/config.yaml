@@ -135,8 +135,8 @@ import:
   copy: yes
   move: no
   resume: ask
-  incremental: yes
-  incremental_skip_later: yes
+  incremental: no
+  incremental_skip_later: no
   quiet: no
   none_rec_action: skip
   timid: yes
