@@ -30,6 +30,7 @@ RUN curl -fsSL "https://github.com/EvanPurkhiser/keyfinder-cli/archive/refs/tags
 
 FROM python:3.13-slim
 
+# docker compose build --build-arg BEETS_SOURCE="beets[autobpm,chroma,discogs,fetchart,lastgenre,lyrics,replaygain,tidal,titlecase] @ git+https://github.com/ludelafo/beets-fork.git@fix-replaygain-metaflac-backend-altering-input-files"
 ARG BEETS_VERSION=2.13.1
 ARG BEETS_SOURCE="beets[autobpm,chroma,discogs,fetchart,lastgenre,lyrics,replaygain,tidal,titlecase]==${BEETS_VERSION}"
 ARG BEETS_UID=1000
@@ -48,6 +49,7 @@ RUN apt-get update && apt-get install --no-install-recommends --yes \
     ffmpeg \
     imagemagick \
     jpegoptim \
+    git \
     libcairo2-dev \
     libchromaprint-tools \
     libgirepository-2.0 \
