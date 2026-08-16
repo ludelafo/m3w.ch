@@ -12,6 +12,7 @@
   - [Pre-configuration](#pre-configuration)
     - [Set the environment variables](#set-the-environment-variables)
   - [Run the application with Docker](#run-the-application-with-docker)
+  - [Run Minecraft commands](#run-minecraft-commands)
   - [Additional resources](#additional-resources)
 
 ## Pre-configuration
@@ -34,6 +35,27 @@ docker compose pull
 # Start the application with Docker
 docker compose up --detach
 ```
+
+## Run Minecraft commands
+
+To run Minecraft commands, you can use the `docker compose attach` command to
+access the Minecraft server console.
+
+```bash
+# Attach to the Minecraft server console
+docker compose attach minecraft-server
+```
+
+Then, in the Minecraft server console, you can type any Minecraft command, for
+example:
+
+```bash
+# Say hello to all players
+say Hello, players!
+```
+
+To detach from the Minecraft server console without stopping the server, press
+`Ctrl + P` followed by `Ctrl + Q`.
 
 ## Additional resources
 

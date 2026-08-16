@@ -1,0 +1,15 @@
+name: Beets
+
+services:
+  beets:
+    container_name: ${BEETS_CONTAINER_NAME}
+    build:
+      context: .
+      dockerfile: Dockerfile
+    user: "${PUID}:${PGID}"
+    env_file:
+      - beets.env
+    volumes:
+      - ./config:/config
+      - ./downloads:/downloads
+      - ./data:/data
