@@ -159,6 +159,9 @@ match:
     unmatched_tracks: strong
 
 # https://beets.readthedocs.io/en/stable/reference/config.html#path-format-configuration
+album_fields:
+  custom_reissue: year != original_year
+
 item_fields:
   custom_album_type: |
     if albumtype == 'audiobook':
