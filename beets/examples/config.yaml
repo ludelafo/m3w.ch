@@ -420,10 +420,11 @@ clean:
     - BPM
     - COMPOSER
     - DISCNUMBER
+    - DISCSUBTITLE
     - FLAC_ARGUMENTS
     - GENRE
     - INITIALKEY
-    - LYRICS
+    # - LYRICS
     - METAFLAC_ARGUMENTS
     - MUSICBRAINZ_ALBUMARTISTID
     - MUSICBRAINZ_ALBUMID
@@ -644,7 +645,7 @@ keyfinder:
 
 lastgenre:
   auto: yes
-  count: 1
+  count: 3
   fallback: ""
   force: yes
   prefer_specific: yes
@@ -656,7 +657,7 @@ listenbrainz:
   username: ${LISTENBRAINZ_USERNAME}
 
 lyrics:
-  auto: yes
+  auto: no
   fallback: ""
   force: no
   google_ap_key: ${GOOGLE_API_KEY}
