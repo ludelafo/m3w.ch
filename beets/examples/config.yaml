@@ -160,6 +160,16 @@ match:
 
 # https://beets.readthedocs.io/en/stable/reference/config.html#path-format-configuration
 album_fields:
+  custom_source: |
+    if media == 'Digital Media':
+      return 'WEB'
+    elif media == 'Enhanced CD' or media == 'CD-R':
+      return 'CD'
+    elif media == '':
+      return False
+    else:
+      return media
+
   custom_reissue: year != original_year
 
 item_fields:
@@ -426,7 +436,7 @@ clean:
     - FLAC_ARGUMENTS
     - GENRE
     - INITIALKEY
-    # - LYRICS
+    - LYRICS
     - METAFLAC_ARGUMENTS
     - MUSICBRAINZ_ALBUMARTISTID
     - MUSICBRAINZ_ALBUMID
@@ -456,6 +466,7 @@ clean:
     - BPM
     - COMPOSER
     - DISCNUMBER
+    - DISCSUBTITLE
     - GENRE
     - INITIALKEY
     - LYRICS
@@ -659,7 +670,7 @@ listenbrainz:
   username: ${LISTENBRAINZ_USERNAME}
 
 lyrics:
-  auto: no
+  auto: yes
   fallback: ""
   force: no
   google_ap_key: ${GOOGLE_API_KEY}
