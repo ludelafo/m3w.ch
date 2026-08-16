@@ -283,6 +283,8 @@ plugins:
   - lyrics
   # https://beets.readthedocs.io/en/stable/plugins/listenbrainz.html
   - listenbrainz
+  # https://beets.readthedocs.io/en/stable/plugins/mbsync.html
+  - mbsync
   # https://beets.readthedocs.io/en/stable/plugins/musicbrainz.html
   - musicbrainz
   # https://beets.readthedocs.io/en/stable/plugins/permissions.html
