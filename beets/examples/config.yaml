@@ -64,10 +64,8 @@ format_item:
   $custom_source}]%if{$catalognum, {$catalognum$},%if{$barcode,
   {$barcode$}}}/%if{$custom_multidisc,$custom_discnumber-}$track. $title
 format_album:
-  $albumartist - $original_year - $album%if{$custom_reissue, [Reissue $year]}
-  [$format%if{$bitdepth && $custom_samplerate,
-  $bitdepth-$custom_samplerate}%if{$custom_source,
-  $custom_source}]%if{$catalognum, {$catalognum$},%if{$barcode, {$barcode$}}}
+  $albumartist - $original_year - $album%if{$custom_reissue, [Reissue
+  $year]}%if{$catalognum, {$catalognum$},%if{$barcode, {$barcode$}}}
 sort_item: $albumartist+ $album+ $original_year+ $disc+ $track+ $title+
 sort_album: $albumartist+ $album+ $original_year+ $disc+
 sort_case_insensitive: yes
@@ -161,7 +159,6 @@ match:
     unmatched_tracks: strong
 
 # https://beets.readthedocs.io/en/stable/reference/config.html#path-format-configuration
-
 item_fields:
   custom_album_type: |
     if albumtype == 'audiobook':
