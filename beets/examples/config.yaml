@@ -174,11 +174,16 @@ album_fields:
 
 item_fields:
   custom_album_type: |
-    if albumtype == 'audiobook':
+    types = albumtypes.split('; ') if albumtypes else []
+
+    if albumtype:
+      types.append(albumtype)
+
+    if 'audiobook' in types:
       return 'audiobooks'
-    elif albumtype == 'interview':
+    elif 'interview' in types:
       return 'podcasts'
-    elif albumtype == 'soundtrack':
+    elif 'soundtrack' in types:
       return 'soundtracks'
     else:
       return 'music'
@@ -234,8 +239,8 @@ paths:
     {$barcode$}}}/%if{$custom_multidisc,$custom_discnumber-}$track. $title
   comp:
     $custom_album_type/$custom_album_type/$format/%bucket{$albumartist,alpha}/$album
-    ($year) [$format%if{$custom_bitdepth && $custom_samplerate,
-    $custom_bitdepth-$custom_samplerate}%if{$custom_source,
+    - $original_year%if{$custom_reissue, [Reissue $year]} [$format%if{$bitdepth
+    && $custom_samplerate, $bitdepth-$custom_samplerate}%if{$custom_source,
     $custom_source}]%if{$catalognum, {$catalognum$},%if{$barcode,
     {$barcode$}}}/%if{$custom_multidisc,$custom_discnumber-}$track. $title
 
@@ -661,6 +666,7 @@ lastgenre:
   count: 3
   fallback: ""
   force: yes
+  keep_existing: no
   prefer_specific: yes
   source: album
   title_case: yes
@@ -680,6 +686,7 @@ lyrics:
 
 musicbrainz:
   host: musicbrainz.org
+  extra_tags: [alias, barcode, catalognum, country, label, media, tracks, year]
 
 permissions:
   file: 664
