@@ -238,8 +238,8 @@ paths:
     $custom_source}]%if{$catalognum, {$catalognum$},%if{$barcode,
     {$barcode$}}}/%if{$custom_multidisc,$custom_discnumber-}$track. $title
   comp:
-    $custom_album_type/$custom_album_type/$format/%bucket{$albumartist,alpha}/$album
-    - $original_year%if{$custom_reissue, [Reissue $year]} [$format%if{$bitdepth
+    $custom_album_type/$custom_album_type/$format/%bucket{$album,alpha}/$album
+    ($original_year)%if{$custom_reissue, [Reissue $year]} [$format%if{$bitdepth
     && $custom_samplerate, $bitdepth-$custom_samplerate}%if{$custom_source,
     $custom_source}]%if{$catalognum, {$catalognum$},%if{$barcode,
     {$barcode$}}}/%if{$custom_multidisc,$custom_discnumber-}$track. $title
@@ -539,9 +539,11 @@ convert:
       $custom_source]%if{$catalognum, {$catalognum$},%if{$barcode,
       {$barcode$}}}/%if{$custom_multidisc,$custom_discnumber-}$track. $title
     comp:
-      $custom_album_type/$custom_album_type/$custom_convert_format/%bucket{$albumartist,alpha}/$album
-      ($year) [$custom_convert_format $custom_convert_quality
-      $custom_source]%if{$catalognum, {$catalognum$},%if{$barcode,
+      $custom_album_type/$custom_album_type/$custom_convert_format/%bucket{$album,alpha}/$album
+      ($original_year)%if{$custom_reissue, [Reissue $year]}
+      [$format%if{$bitdepth && $custom_samplerate,
+      $bitdepth-$custom_samplerate}%if{$custom_source,
+      $custom_source}]%if{$catalognum, {$catalognum$},%if{$barcode,
       {$barcode$}}}/%if{$custom_multidisc,$custom_discnumber-}$track. $title
 
 cover:
