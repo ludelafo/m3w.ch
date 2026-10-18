@@ -17,3 +17,9 @@ case "$format" in
     exit 1
     ;;
 esac
+
+# Copy the paired LRC file (same name as the source) next to the converted file
+lrc="${source%.*}.lrc"
+if [[ -f "$lrc" ]]; then
+  cp "$lrc" "${dest%.*}.lrc"
+fi

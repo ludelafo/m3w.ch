@@ -174,7 +174,7 @@ album_fields:
 
 item_fields:
   custom_album_type: |
-    types = albumtypes.split('; ') if albumtypes else []
+    types = list(albumtypes) if albumtypes else []
 
     if albumtype:
       types.append(albumtype)
@@ -320,7 +320,7 @@ acoustid:
   apikey: ${ACOUSTID_API_KEY}
 
 autobpm:
-  auto: yes
+  auto: no
   force: no
   quiet: no
 
@@ -434,14 +434,14 @@ clean:
     - ALBUM
     - ALBUMARTIST
     - ARTIST
-    - BPM
+    # - BPM
     - COMPOSER
     - DISCNUMBER
     - DISCSUBTITLE
     - FLAC_ARGUMENTS
     - GENRE
-    - INITIALKEY
-    - LYRICS
+    # - INITIALKEY
+    # - LYRICS
     - METAFLAC_ARGUMENTS
     - MUSICBRAINZ_ALBUMARTISTID
     - MUSICBRAINZ_ALBUMID
@@ -461,60 +461,6 @@ clean:
     - TOTALTRACKS
     - TRACKNUMBER
     - YEAR
-  # Opus comments are Vorbis comments, same flat key/value model as FLAC.
-  opus_tags_to_keep:
-    - ACOUSTID_ID
-    - ACOUSTID_FINGERPRINT
-    - ALBUM
-    - ALBUMARTIST
-    - ARTIST
-    - BPM
-    - COMPOSER
-    - DISCNUMBER
-    - DISCSUBTITLE
-    - GENRE
-    - INITIALKEY
-    - LYRICS
-    - MUSICBRAINZ_ALBUMARTISTID
-    - MUSICBRAINZ_ALBUMID
-    - MUSICBRAINZ_ARTISTID
-    - MUSICBRAINZ_RELEASEGROUPID
-    - MUSICBRAINZ_RELEASETRACKID
-    - MUSICBRAINZ_TRACKID
-    - MUSICBRAINZ_WORKID
-    - PERFORMER
-    - TITLE
-    - TOTALDISCS
-    - TOTALTRACKS
-    - TRACKNUMBER
-    - YEAR
-  # ID3v2 has no equivalent flat namespace: standard fields live in fixed
-  # frames, everything else (MusicBrainz/AcoustID/ReplayGain) is a TXXX
-  # frame keyed by its description.
-  mp3_frames_to_keep:
-    - COMM
-    - TALB
-    - TBPM
-    - TCOM
-    - TCON
-    - TDRC
-    - TIT2
-    - TKEY
-    - TPE1
-    - TPE2
-    - TPOS
-    - TRCK
-    - USLT
-  mp3_txxx_to_keep:
-    - ACOUSTID_FINGERPRINT
-    - ACOUSTID_ID
-    - MUSICBRAINZ_ALBUMARTISTID
-    - MUSICBRAINZ_ALBUMID
-    - MUSICBRAINZ_ARTISTID
-    - MUSICBRAINZ_RELEASEGROUPID
-    - MUSICBRAINZ_RELEASETRACKID
-    - MUSICBRAINZ_TRACKID
-    - MUSICBRAINZ_WORKID
 
 convert:
   auto: no
@@ -631,6 +577,9 @@ fetchart:
 
 filetote:
   extensions: .cue .log
+  pairing:
+    enabled: yes
+    extensions: .lrc
   paths:
     ext:.cue: $albumpath/$albumartist - $album%if{$custom_multidisc, - CD $disc}
     ext:.log: $albumpath/$albumartist - $album%if{$custom_multidisc, - CD $disc}
@@ -641,7 +590,7 @@ ftintitle:
   format: "(feat. {0})"
 
 getlrc:
-  auto: no
+  auto: yes
   overwrite: no
   fallback_to_plain: yes
   fallback_to_plain_lrc: yes
@@ -659,7 +608,7 @@ ihate:
   skip: []
 
 keyfinder:
-  auto: yes
+  auto: no
   overwrite: no
   bin: keyfinder-cli
 
@@ -678,7 +627,7 @@ listenbrainz:
   username: ${LISTENBRAINZ_USERNAME}
 
 lyrics:
-  auto: yes
+  auto: no
   fallback: ""
   force: no
   google_ap_key: ${GOOGLE_API_KEY}
