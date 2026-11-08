@@ -1,0 +1,17 @@
+services:
+  # No container_name or host ports lets auto use scale_out for a
+  # zero-downtime handover. If either is required, auto uses applier instead.
+  # Reach the API through a reverse proxy on this network.
+  doco-cd:
+    image: ghcr.io/kimdre/doco-cd:0.125.1@sha256:38198abbda1b55da7a7f37a7924b2ccdcc0583bd24466b7c2103ef6cd2ffc828
+    restart: unless-stopped
+    env_file:
+      - doco-cd.env
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ${DOCO_CD_DATA_PATH:-./data}:/data
+    healthcheck:
+      interval: 10s
+      timeout: 5s
+      start_period: 15s
+      retries: 3

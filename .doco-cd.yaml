@@ -1,0 +1,18 @@
+name: doco-cd
+working_dir: doco-cd
+compose_files:
+  - compose.yaml
+environment:
+  DOCO_CD_DATA_PATH: /srv/storage/private/debian/apps/doco-cd/data
+timeout: 120
+
+---
+# AdGuard Home
+name: adguard-home
+working_dir: adguard-home
+compose_files:
+  - compose.yaml
+  - compose.override.prod.yaml
+environment:
+  ADGUARD_HOME_CONFIG_PATH: /srv/storage/private/debian/apps/adguard-home/config
+  ADGUARD_HOME_DATA_PATH: /srv/storage/private/debian/apps/adguard-home/data
