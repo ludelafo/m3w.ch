@@ -2,8 +2,8 @@ name: Beszel
 
 services:
   beszel:
-    hostname: ${BESZEL_CONTAINER_NAME}
     container_name: ${BESZEL_CONTAINER_NAME}
+    hostname: ${BESZEL_CONTAINER_NAME}
     image: henrygd/beszel:0.21
     restart: unless-stopped
     env_file:
@@ -21,9 +21,9 @@ services:
       interval: 120s # Then check every 120 seconds after that
 
   beszel-agent:
+    container_name: ${BESZEL_AGENT_CONTAINER_NAME}
     hostname: ${BESZEL_AGENT_CONTAINER_NAME}
     image: henrygd/beszel-agent:0.20-alpine
-    container_name: ${BESZEL_AGENT_CONTAINER_NAME}
     restart: unless-stopped
     cap_add:
       - SYS_RAWIO

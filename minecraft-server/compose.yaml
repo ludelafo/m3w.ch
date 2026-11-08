@@ -1,7 +1,7 @@
 services:
   minecraft-server:
     container_name: ${MINECRAFT_SERVER_CONTAINER_NAME}
-    image: itzg/minecraft-server:${MINECRAFT_SERVER_VERSION}
+    image: itzg/minecraft-server:2026.10.1-java25
     restart: unless-stopped
     env_file:
       - minecraft-server.env
