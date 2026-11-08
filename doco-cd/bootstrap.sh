@@ -17,5 +17,5 @@ docker run --rm \
   -v "$DATA_VOLUME":/data \
   -e SELF_UPDATE_ENABLED=true \
   -e POLL_CONFIG="- url: $REPO_URL
-  reference: main" \
+  reference: 82-add-doco-cd" \
   "$IMAGE" apply-self --bootstrap
