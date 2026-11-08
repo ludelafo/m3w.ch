@@ -1,17 +1,25 @@
 {
-	"name": "m3w.ch Development Container",
-	"dockerComposeFile": "compose.yaml",
-	"service": "devcontainer",
-	"runServices": ["plantuml"],
+	"name": "m3w Development Container",
+	"image": "mcr.microsoft.com/devcontainers/base:trixie",
+	// Set environment variables for the container
+	"containerEnv": {
+		"CLAUDE_CONFIG_DIR": "/home/vscode/.claude"
+	},
+	"workspaceMount": "source=${localWorkspaceFolder},target=/workspace,type=bind,consistency=cached",
 	"workspaceFolder": "/workspace",
 	"features": {
+		"ghcr.io/anthropics/devcontainer-features/claude-code:1.0": {},
 		"ghcr.io/devcontainers/features/docker-in-docker:4": {
 			"moby": false
+		},
+		"ghcr.io/devcontainers/features/node:2": {
+			"version": "26"
 		}
 	},
 	"customizations": {
 		"vscode": {
 			"extensions": [
+				"Anthropic.claude-code",
 				"DavidAnson.vscode-markdownlint",
 				"esbenp.prettier-vscode",
 				"GitHub.copilot",
@@ -24,17 +32,16 @@
 			]
 		}
 	},
-	// Map the user's SSH directory to the container for SSH signing
+	// Mount a volume to persist the Claude configuration across container rebuilds
 	"mounts": [
-		"type=bind,source=${localEnv:HOME}/.ssh,target=${localEnv:HOME}/.ssh,type=bind,consistency=cached"
+		"source=claude-code-config,target=/home/vscode/.claude,type=volume"
 	],
-	// Ports to expose on the container's network host
 	"forwardPorts": [9090],
 	"portsAttributes": {
 		"9090": {
 			"label": "PlantUML Server"
 		}
 	},
-	// Execute the post-create.sh script once the container is created
+	// Execute the following command once the container is created
 	"postCreateCommand": ".devcontainer/post-create.sh"
 }

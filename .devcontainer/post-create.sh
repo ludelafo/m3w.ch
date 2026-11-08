@@ -13,6 +13,9 @@ tee -a ~/.bashrc > /dev/null <<"EOF"
 shopt -s globstar nullglob
 EOF
 
+## Set permissions for volume
+sudo chown vscode:vscode /home/vscode/.claude
+
 ## Install required packages
 # Update packages list
 sudo apt update
@@ -28,3 +31,6 @@ sudo apt install --yes ansible-lint
 
 # Install network utilities (dig, nslookup, ping, ncat)
 sudo apt install --yes dnsutils iputils-ping ncat
+
+# Install packages to convert audio files (flac, lame)
+sudo apt install --yes flac lame lame-doc opus-tools
