@@ -23,7 +23,7 @@ services:
   beszel-agent:
     container_name: ${BESZEL_AGENT_CONTAINER_NAME}
     hostname: ${BESZEL_AGENT_CONTAINER_NAME}
-    image: henrygd/beszel-agent:0.20-alpine
+    image: henrygd/beszel-agent:0.21-alpine
     restart: unless-stopped
     cap_add:
       - SYS_RAWIO
