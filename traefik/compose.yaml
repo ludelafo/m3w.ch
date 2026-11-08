@@ -12,7 +12,7 @@ services:
   traefik:
     container_name: ${TRAEFIK_CONTAINER_NAME}
     hostname: ${TRAEFIK_CONTAINER_NAME}
-    image: traefik:${TRAEFIK_IMAGE_VERSION}
+    image: traefik:v3.7
     command:
       - --configFile=/etc/traefik/traefik_static.yaml
     restart: unless-stopped

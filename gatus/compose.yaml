@@ -4,7 +4,7 @@ services:
   gatus:
     container_name: ${GATUS_CONTAINER_NAME}
     hostname: ${GATUS_CONTAINER_NAME}
-    image: ghcr.io/twin/gatus:${GATUS_IMAGE_VERSION}
+    image: ghcr.io/twin/gatus:v5.38.0
     restart: unless-stopped
     env_file:
       - gatus.env
