@@ -9,4 +9,4 @@ services:
       - 8080:8080
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
-      - ./config:/app/config:ro
+      - ${DYNACAT_CONFIG_PATH:-./config}:/app/config:ro

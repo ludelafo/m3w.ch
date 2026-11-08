@@ -31,3 +31,13 @@ environment:
   BESZEL_SDA_PATH: /srv/storage
   BESZEL_SDB_PATH: /srv/backups
   BESZEL_AGENT_DATA_PATH: /srv/storage/private/debian/apps/beszel/beszel_agent_data
+
+---
+# Dynacat
+name: dynacat
+working_dir: dynacat
+compose_files:
+  - compose.yaml
+  - compose.override.prod.yaml
+environment:
+  DYNACAT_CONFIG_PATH: /srv/storage/private/debian/apps/dynacat/config
