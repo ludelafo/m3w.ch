@@ -461,6 +461,39 @@ clean:
     - TOTALTRACKS
     - TRACKNUMBER
     - YEAR
+  opus_tags_to_keep:
+    - ACOUSTID_ID
+    - ACOUSTID_FINGERPRINT
+    - ALBUM
+    - ALBUMARTIST
+    - ARTIST
+    # - BPM
+    - COMPOSER
+    - DISCNUMBER
+    - DISCSUBTITLE
+    - FLAC_ARGUMENTS
+    - GENRE
+    # - INITIALKEY
+    # - LYRICS
+    - METAFLAC_ARGUMENTS
+    - MUSICBRAINZ_ALBUMARTISTID
+    - MUSICBRAINZ_ALBUMID
+    - MUSICBRAINZ_ARTISTID
+    - MUSICBRAINZ_RELEASEGROUPID
+    - MUSICBRAINZ_RELEASETRACKID
+    - MUSICBRAINZ_TRACKID
+    - MUSICBRAINZ_WORKID
+    - PERFORMER
+    - REPLAYGAIN_REFERENCE_LOUDNESS
+    - REPLAYGAIN_ALBUM_GAIN
+    - REPLAYGAIN_ALBUM_PEAK
+    - REPLAYGAIN_TRACK_GAIN
+    - REPLAYGAIN_TRACK_PEAK
+    - TITLE
+    - TOTALDISCS
+    - TOTALTRACKS
+    - TRACKNUMBER
+    - YEAR
 
 convert:
   auto: no
@@ -682,7 +715,9 @@ titlecase:
     - artists
     - artists_credit
     - artists_sort
+    - disctitle
     - title
+  the_artist: no
   all_caps: yes
   all_lowercase: yes
   replace:
@@ -699,6 +734,7 @@ titlecase:
     # - "»": '"'
   preserve:
     - "(feat."
+    - "Bandcamp, Removed"
     - "DJ"
     - "EP"
     - "En"

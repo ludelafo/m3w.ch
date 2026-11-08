@@ -127,12 +127,13 @@ Recommended order of execution:
 # docker compose run --rm beets encode
 # docker compose run --rm beets replaygain --album
 # docker compose run --rm beets fetchart
-docker compose run --rm beets cover
 # docker compose run --rm beets autobpm
 # docker compose run --rm beets lyrics --keep-synced
 # docker compose run --rm beets keyfinder
 docker compose run --rm beets tag
 docker compose run --rm beets clean
+docker compose run --rm beets cover
+docker compose run --rm beets getlrc / docker compose run --rm beets getlrc -f -w 1 --delay 1
 docker compose run --rm beets convert --album --yes
 docker compose run --rm --entrypoint rsgain beets easy --skip-existing /data/music/music/Opus
 ```
@@ -163,6 +164,12 @@ skips any processing that isn't idempotent across repeated runs.
 ```bash
 # Import new items into the library
 docker compose run --rm beets import -M /downloads/music/.to\ sort
+
+# If you want to run the import in pretend mode (dry-run), add the `--pretend` option
+docker compose run --rm beets import -M --pretend /downloads/music/.to\ sort
+
+# If you want to run the import process and disable one or more plugins, add the `--no-plugin` option followed by the plugin name
+docker compose run --rm beets import -M --no-plugin titlecase /downloads/music/.to\ sort
 ```
 
 ### Re-encode the FLAC library
@@ -173,17 +180,6 @@ docker compose run --rm beets encode [--force] [--pretend]
 ```
 
 ### Apply ReplayGain to FLAC files
-
-`plugins/replaygain.py` is a vendored, patched copy of beets' bundled
-`replaygain` plugin (shadows the built-in one via `pluginpath`). The
-built-in `metaflac` backend computes ReplayGain by running
-`metaflac --add-replay-gain`, which writes the tags to the file as part of
-computing them -- there's no read-only mode. Since `replaygain.auto`
-processing runs before beets copies a freshly imported file to its final
-location, that write landed on the *source* file, not the copy. The
-patched version uses `metaflac --scan-replay-gain` instead, which reports
-the same values on stdout without writing anything. Delete this file (and
-its `Dockerfile` `COPY` line) once the fix lands upstream in beets.
 
 ```bash
 # Apply ReplayGain to the whole existing library (FLAC only, MP3/Opus must be done after conversion)
@@ -271,7 +267,7 @@ docker compose run --rm beets bad
 
 ```bash
 # Update the library with new metadata
-docker compose run --rm beets update
+docker compose run --rm beets update -M
 ```
 
 ### Write the library

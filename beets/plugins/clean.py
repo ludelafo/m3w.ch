@@ -238,8 +238,10 @@ class CleanPlugin(BeetsPlugin):
             self._log.error("failed to read tags from {}: {}", path, exc)
             return
 
+        # beets writes unset fields as empty tags, so drop those even when
+        # they're on the keep list.
         for key in list(tags.keys()):
-            if key.upper() not in tags_to_keep:
+            if key.upper() not in tags_to_keep or not any(tags[key]):
                 del tags[key]
 
         try:
@@ -265,9 +267,12 @@ class CleanPlugin(BeetsPlugin):
         for key in list(tags.keys()):
             frame = tags[key]
             if frame.FrameID == "TXXX":
-                if frame.desc.upper() not in txxx_to_keep:
-                    del tags[key]
-            elif frame.FrameID not in frames_to_keep:
+                keep = frame.desc.upper() in txxx_to_keep
+            else:
+                keep = frame.FrameID in frames_to_keep
+            # beets writes unset fields as empty frames (e.g. an empty USLT),
+            # so drop those even when they're on the keep list.
+            if not keep or not str(frame):
                 del tags[key]
 
         try:
