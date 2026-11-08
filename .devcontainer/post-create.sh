@@ -32,5 +32,8 @@ sudo apt install --yes ansible-lint
 # Install network utilities (dig, nslookup, ping, ncat)
 sudo apt install --yes dnsutils iputils-ping ncat
 
+# Install packages to encrypt secrets with SOPS (age, age-keygen)
+sudo apt install --yes age
+
 # Install packages to convert audio files (flac, lame)
 sudo apt install --yes flac lame lame-doc opus-tools

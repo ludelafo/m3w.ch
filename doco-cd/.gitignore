@@ -1,2 +1,5 @@
 ## Docker volumes
 data
+
+## Docker secrets
+secrets

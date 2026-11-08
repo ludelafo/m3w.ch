@@ -19,6 +19,9 @@
 
 Edit the `*.env` files to your needs.
 
+The `*.secrets.env` files contain secrets. They must be encrypted with SOPS
+before being committed, see [doco-cd](../doco-cd/README.md#manage-secrets).
+
 ## Run the application with Docker
 
 Do not forget to set the environment variables as described in the previous
@@ -38,8 +41,8 @@ docker compose up beszel
 # - Name: (Name of the host).
 # - Host / IP: (IP of the host).
 # - Port: (leave as default).
-# - Public Key: (copy and store it in the host's `beszel_agent.env` file).
-# - Token: (copy and store it in the host's `beszel_agent.env` file).
+# - Public Key: (copy and store it in the `beszel_agent.env` file).
+# - Token: (copy and store it in the `beszel_agent.secrets.env` file).
 
 # Access the superuser PocketBase admin panel at `/_/` (https://beszel.dev/guide/user-accounts).
 #

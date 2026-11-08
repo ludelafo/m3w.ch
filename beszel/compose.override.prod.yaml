@@ -31,9 +31,9 @@ services:
     environment:
       - BESZEL_AGENT_HUB_URL=https://${BESZEL_FQDN}
     volumes:
-      - ./extra_filesystems/nvme0:/extra-filesystems/nvme0:ro
-      - ./extra_filesystems/sda:/extra-filesystems/sda:ro
-      - ./extra_filesystems/sdb:/extra-filesystems/sdb:ro
+      - ${BESZEL_NVME0_PATH:-./extra_filesystems/nvme0}:/extra-filesystems/nvme0:ro
+      - ${BESZEL_SDA_PATH:-./extra_filesystems/sda}:/extra-filesystems/sda:ro
+      - ${BESZEL_SDB_PATH:-./extra_filesystems/sdb}:/extra-filesystems/sdb:ro
     devices:
       - /dev/nvme0
       - /dev/sda

@@ -4,6 +4,7 @@ compose_files:
   - compose.yaml
 environment:
   DOCO_CD_DATA_PATH: /srv/storage/private/debian/apps/doco-cd/data
+  DOCO_CD_SOPS_AGE_KEY_PATH: /srv/storage/private/debian/apps/doco-cd/secrets/sops_age_key.txt
 timeout: 120
 
 ---
@@ -16,3 +17,17 @@ compose_files:
 environment:
   ADGUARD_HOME_CONFIG_PATH: /srv/storage/private/debian/apps/adguard-home/config
   ADGUARD_HOME_DATA_PATH: /srv/storage/private/debian/apps/adguard-home/data
+
+---
+# Beszel
+name: beszel
+working_dir: beszel
+compose_files:
+  - compose.yaml
+  - compose.override.prod.yaml
+environment:
+  BESZEL_DATA_PATH: /srv/storage/private/debian/apps/beszel/beszel_data
+  BESZEL_NVME0_PATH: /srv
+  BESZEL_SDA_PATH: /srv/storage
+  BESZEL_SDB_PATH: /srv/backups
+  BESZEL_AGENT_DATA_PATH: /srv/storage/private/debian/apps/beszel/beszel_agent_data
