@@ -4,7 +4,7 @@ services:
   beszel:
     hostname: ${BESZEL_CONTAINER_NAME}
     container_name: ${BESZEL_CONTAINER_NAME}
-    image: henrygd/beszel:0.20
+    image: henrygd/beszel:0.21
     restart: unless-stopped
     env_file:
       - beszel.env
