@@ -68,3 +68,12 @@ compose_files:
 environment:
   NAVIDROME_CONFIG_PATH: /srv/storage/private/debian/apps/navidrome/config
   NAVIDROME_MEDIA_PATH: /srv/storage/public/media/listening
+
+---
+# Pocket ID
+name: pocket-id
+working_dir: pocket-id
+compose_files:
+  - compose.yaml
+environment:
+  POCKET_ID_DATA_PATH: /srv/storage/private/debian/apps/pocket-id/data
