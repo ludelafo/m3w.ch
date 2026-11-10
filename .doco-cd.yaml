@@ -127,7 +127,7 @@ environment:
   SYNCTHING_PUID: "1001"
   SYNCTHING_PGID: "100"
   SYNCTHING_CONFIG_PATH: /srv/storage/private/ludelafo/apps/syncthing/config
-  SYNCTHING_DATA_PATH: /srv/storage/private/ludelafo
+  SYNCTHING_DATA_PATH: /srv/storage/private/ludelafo/data
   OIDC_USER: ludelafo
 
 # ---
@@ -143,5 +143,5 @@ environment:
 #   SYNCTHING_PUID: "1002"
 #   SYNCTHING_PGID: "100"
 #   SYNCTHING_CONFIG_PATH: /srv/storage/private/heaspery/apps/syncthing/config
-#   SYNCTHING_DATA_PATH: /srv/storage/private/heaspery
+#   SYNCTHING_DATA_PATH: /srv/storage/private/heaspery/data
 #   OIDC_USER: heaspery
