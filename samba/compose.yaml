@@ -15,7 +15,7 @@ services:
     network_mode: host
     volumes:
       - ${SAMBA_CACHE_PATH}:/data
-      - ${SAMBA_CONFIG_PATH}:/config
+      - ./config:/config:ro
       - ${SAMBA_PRIVATE_SHARE_PATH}:/shares/private
       - ${SAMBA_PUBLIC_SHARE_PATH}:/shares/public
     healthcheck:

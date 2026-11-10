@@ -36,8 +36,6 @@ name: dynacat
 working_dir: dynacat
 compose_files:
   - compose.yaml
-environment:
-  DYNACAT_CONFIG_PATH: /srv/storage/private/debian/apps/dynacat/config
 
 ---
 # Gatus
@@ -46,7 +44,6 @@ working_dir: gatus
 compose_files:
   - compose.yaml
 environment:
-  GATUS_CONFIG_PATH: /srv/storage/private/debian/apps/gatus/config
   GATUS_DATA_PATH: /srv/storage/private/debian/apps/gatus/data
 
 
@@ -95,7 +92,6 @@ working_dir: traefik
 compose_files:
   - compose.yaml
 environment:
-  TRAEFIK_CONFIG_PATH: /srv/storage/private/debian/apps/traefik/config
   TRAEFIK_DATA_PATH: /srv/storage/private/debian/apps/traefik/data
 
 ---
@@ -106,6 +102,5 @@ compose_files:
   - compose.yaml
 environment:
   SAMBA_CACHE_PATH: /srv/storage/private/debian/apps/samba/cache
-  SAMBA_CONFIG_PATH: /srv/storage/private/debian/apps/samba/config
   SAMBA_PRIVATE_SHARE_PATH: /srv/storage/private
   SAMBA_PUBLIC_SHARE_PATH: /srv/storage/public

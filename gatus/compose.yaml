@@ -17,7 +17,7 @@ services:
     expose:
       - 8080
     volumes:
-      - ${GATUS_CONFIG_PATH}:/config
+      - ./config:/config:ro
       - ${GATUS_DATA_PATH}:/data
     labels:
       ## Traefik
