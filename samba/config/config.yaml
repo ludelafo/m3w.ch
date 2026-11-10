@@ -3,13 +3,13 @@ auth:
     group: users
     uid: 1001
     gid: 100
-    password_file: /run/secrets/ludelafo_password.txt
+    password: ${SAMBA_LUDELAFO_PASSWORD}
 
   - user: heaspery
     group: users
     uid: 1002
     gid: 100
-    password_file: /run/secrets/heaspery_password.txt
+    password: ${SAMBA_HEASPERY_PASSWORD}
 
 global:
   - "access based share enum = yes"

@@ -97,3 +97,15 @@ compose_files:
 environment:
   TRAEFIK_CONFIG_PATH: /srv/storage/private/debian/apps/traefik/config
   TRAEFIK_DATA_PATH: /srv/storage/private/debian/apps/traefik/data
+
+---
+# Samba
+name: samba
+working_dir: samba
+compose_files:
+  - compose.yaml
+environment:
+  SAMBA_CACHE_PATH: /srv/storage/private/debian/apps/samba/cache
+  SAMBA_CONFIG_PATH: /srv/storage/private/debian/apps/samba/config
+  SAMBA_PRIVATE_SHARE_PATH: /srv/storage/private
+  SAMBA_PUBLIC_SHARE_PATH: /srv/storage/public
