@@ -48,3 +48,23 @@ compose_files:
 environment:
   GATUS_CONFIG_PATH: /srv/storage/private/debian/apps/gatus/config
   GATUS_DATA_PATH: /srv/storage/private/debian/apps/gatus/data
+
+
+# ---
+# # Minecraft server
+# name: minecraft-server
+# working_dir: minecraft-server
+# compose_files:
+#   - compose.yaml
+# environment:
+#   MINECRAFT_SERVER_DATA_PATH: /srv/storage/private/debian/apps/minecraft-server/data
+
+---
+# Navidrome
+name: navidrome
+working_dir: navidrome
+compose_files:
+  - compose.yaml
+environment:
+  NAVIDROME_CONFIG_PATH: /srv/storage/private/debian/apps/navidrome/config
+  NAVIDROME_MEDIA_PATH: /srv/storage/public/media/listening

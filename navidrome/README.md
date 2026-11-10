@@ -8,13 +8,12 @@
 
 ## Table of contents
 
-- [Navidrome](#navidrome)
-  - [Table of contents](#table-of-contents)
-  - [Pre-configuration](#pre-configuration)
-    - [Set the environment variables](#set-the-environment-variables)
-  - [Create the required directories](#create-the-required-directories)
-  - [Run the application with Docker](#run-the-application-with-docker)
-  - [Additional resources](#additional-resources)
+- [Table of contents](#table-of-contents)
+- [Pre-configuration](#pre-configuration)
+  - [Set the environment variables](#set-the-environment-variables)
+- [Create the required directories](#create-the-required-directories)
+- [Run the application with Docker](#run-the-application-with-docker)
+- [Additional resources](#additional-resources)
 
 ## Pre-configuration
 
