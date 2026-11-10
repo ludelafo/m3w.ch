@@ -87,3 +87,13 @@ compose_files:
 environment:
   QBITTORRENT_CONFIG_PATH: /srv/storage/private/debian/apps/qbittorrent/config
   QBITTORRENT_DOWNLOADS_PATH: /srv/storage/public
+
+---
+# Traefik
+name: traefik
+working_dir: traefik
+compose_files:
+  - compose.yaml
+environment:
+  TRAEFIK_CONFIG_PATH: /srv/storage/private/debian/apps/traefik/config
+  TRAEFIK_DATA_PATH: /srv/storage/private/debian/apps/traefik/data
