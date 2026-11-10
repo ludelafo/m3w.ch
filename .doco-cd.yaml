@@ -13,7 +13,6 @@ name: adguard-home
 working_dir: adguard-home
 compose_files:
   - compose.yaml
-  - compose.override.prod.yaml
 environment:
   ADGUARD_HOME_CONFIG_PATH: /srv/storage/private/debian/apps/adguard-home/config
   ADGUARD_HOME_DATA_PATH: /srv/storage/private/debian/apps/adguard-home/data
@@ -24,7 +23,6 @@ name: beszel
 working_dir: beszel
 compose_files:
   - compose.yaml
-  - compose.override.prod.yaml
 environment:
   BESZEL_DATA_PATH: /srv/storage/private/debian/apps/beszel/beszel_data
   BESZEL_NVME0_PATH: /srv
@@ -38,6 +36,15 @@ name: dynacat
 working_dir: dynacat
 compose_files:
   - compose.yaml
-  - compose.override.prod.yaml
 environment:
   DYNACAT_CONFIG_PATH: /srv/storage/private/debian/apps/dynacat/config
+
+---
+# Gatus
+name: gatus
+working_dir: gatus
+compose_files:
+  - compose.yaml
+environment:
+  GATUS_CONFIG_PATH: /srv/storage/private/debian/apps/gatus/config
+  GATUS_DATA_PATH: /srv/storage/private/debian/apps/gatus/data

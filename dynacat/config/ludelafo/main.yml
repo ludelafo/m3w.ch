@@ -90,7 +90,7 @@
           repositories:
             - AdguardTeam/AdGuardHome
             - crazy-max/docker-samba
-            - dynacatapp/dynacat
+            - Panonim/dynacat
             - itzg/docker-minecraft-server
             - navidrome/navidrome
             - qbittorrent/qBittorrent

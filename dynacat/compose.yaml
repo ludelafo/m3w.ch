@@ -1,3 +1,7 @@
+networks:
+  traefik_network:
+    external: true
+
 services:
   dynacat:
     container_name: ${DYNACAT_CONTAINER_NAME}
@@ -5,8 +9,25 @@ services:
     restart: unless-stopped
     env_file:
       - dynacat.env
-    ports:
-      - 8080:8080
+    networks:
+      - traefik_network
+    expose:
+      - 8080
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
-      - ${DYNACAT_CONFIG_PATH:-./config}:/app/config:ro
+      - ${DYNACAT_CONFIG_PATH}:/app/config:ro
+    labels:
+      ## Traefik
+      - traefik.enable=true
+      # Router
+      - traefik.http.routers.${DYNACAT_CONTAINER_NAME}.entryPoints=websecure
+      - traefik.http.routers.${DYNACAT_CONTAINER_NAME}.rule=Host(`${DYNACAT_FQDN}`)
+      # Service
+      - traefik.http.services.${DYNACAT_CONTAINER_NAME}.loadbalancer.server.port=8080
+      ## Dynacat
+      - dynacat.name=Dynacat
+      # https://github.com/Panonim/dynacat/blob/main/docs/docs/configuration.md#icons
+      - dynacat.icon=sh:dynacat
+      - dynacat.url=https://${DYNACAT_FQDN}
+      - dynacat.description=Dashboard to monitor and access your services.
+      - dynacat.category=infrastructure
