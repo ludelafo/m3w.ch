@@ -113,3 +113,35 @@ compose_files:
   - compose.yaml
 environment:
   WG_EASY_CONFIG_PATH: /srv/storage/private/debian/apps/wg-easy/config
+
+---
+# Syncthing (ludelafo)
+name: syncthing-ludelafo
+working_dir: syncthing
+compose_files:
+  - compose.yaml
+environment:
+  SYNCTHING_FQDN: syncthing.ludelafo.m3w.ch
+  SYNCTHING_CONTAINER_NAME: syncthing-ludelafo
+  SYNCTHING_PORT: "22000"
+  SYNCTHING_PUID: "1001"
+  SYNCTHING_PGID: "100"
+  SYNCTHING_CONFIG_PATH: /srv/storage/private/ludelafo/apps/syncthing/config
+  SYNCTHING_DATA_PATH: /srv/storage/private/ludelafo
+  OIDC_USER: ludelafo
+
+# ---
+# # Syncthing (heaspery)
+# name: syncthing-heaspery
+# working_dir: syncthing
+# compose_files:
+#   - compose.yaml
+# environment:
+#   SYNCTHING_FQDN: syncthing.heaspery.m3w.ch
+#   SYNCTHING_CONTAINER_NAME: syncthing-heaspery
+#   SYNCTHING_PORT: "22001"
+#   SYNCTHING_PUID: "1002"
+#   SYNCTHING_PGID: "100"
+#   SYNCTHING_CONFIG_PATH: /srv/storage/private/heaspery/apps/syncthing/config
+#   SYNCTHING_DATA_PATH: /srv/storage/private/heaspery
+#   OIDC_USER: heaspery
