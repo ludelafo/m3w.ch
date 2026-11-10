@@ -38,7 +38,7 @@ docker compose up --detach
 ## Post-configuration
 
 On first run, you must access the web interface to configure WireGuard Easy at
-`192.168.1.2:51821`.
+`https://${WG_EASY_FQDN}` (e.g. <https://wireguard.m3w.ch>).
 
 Set the right port forwarding rules in your router.
 

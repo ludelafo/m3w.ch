@@ -1,8 +1,8 @@
-name: WireGuard Easy
-
 networks:
   wg_easy_network:
     name: wg_easy_network
+  traefik_network:
+    external: true
 
 services:
   wg-easy:
@@ -10,15 +10,19 @@ services:
     image: ghcr.io/wg-easy/wg-easy:15.5
     restart: unless-stopped
     environment:
-      - INSECURE=true
+      - INSECURE=false
     networks:
       # https://github.com/wg-easy/wg-easy/issues/2208#issuecomment-3398654919
       wg_easy_network:
         interface_name: eth0
         gw_priority: 1
+      traefik_network:
+        interface_name: eth1
+        gw_priority: 0
     ports:
       - 51820:51820/udp
-      - 51821:51821/tcp
+    expose:
+      - 51821
     cap_add:
       - NET_ADMIN
       - SYS_MODULE
@@ -30,4 +34,19 @@ services:
       - net.ipv6.conf.default.forwarding=1
     volumes:
       - /lib/modules:/lib/modules:ro
-      - ./config:/etc/wireguard
+      - ${WG_EASY_CONFIG_PATH}:/etc/wireguard
+    labels:
+      ## Traefik
+      - traefik.enable=true
+      # Router
+      - traefik.http.routers.${WG_EASY_CONTAINER_NAME}.entrypoints=websecure
+      - traefik.http.routers.${WG_EASY_CONTAINER_NAME}.rule=Host(`${WG_EASY_FQDN}`)
+      # Service
+      - traefik.http.services.${WG_EASY_CONTAINER_NAME}.loadbalancer.server.port=51821
+      ## Dynacat
+      - dynacat.name=WireGuard Easy
+      # https://github.com/Panonim/dynacat/blob/main/docs/docs/configuration.md#icons
+      - dynacat.icon=sh:wireguard
+      - dynacat.url=https://${WG_EASY_FQDN}
+      - dynacat.description=WireGuard VPN web interface.
+      - dynacat.category=infrastructure

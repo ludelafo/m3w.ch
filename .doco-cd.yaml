@@ -104,3 +104,12 @@ environment:
   SAMBA_CACHE_PATH: /srv/storage/private/debian/apps/samba/cache
   SAMBA_PRIVATE_SHARE_PATH: /srv/storage/private
   SAMBA_PUBLIC_SHARE_PATH: /srv/storage/public
+
+---
+# WireGuard Easy
+name: wg-easy
+working_dir: wg-easy
+compose_files:
+  - compose.yaml
+environment:
+  WG_EASY_CONFIG_PATH: /srv/storage/private/debian/apps/wg-easy/config
