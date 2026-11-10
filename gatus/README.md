@@ -10,7 +10,6 @@
 - [Table of contents](#table-of-contents)
 - [Pre-configuration](#pre-configuration)
   - [Set the environment variables](#set-the-environment-variables)
-  - [Create the Gatus configuration file(s)](#create-the-gatus-configuration-files)
 - [Run the application with Docker](#run-the-application-with-docker)
 - [Additional resources](#additional-resources)
 
@@ -20,10 +19,8 @@
 
 Edit the `*.env` files to your needs.
 
-### Create the Gatus configuration file(s)
-
-Create a `config` directory with the configuration file(s) needed for Gatus. You
-can find an example configuration file in the `examples` directory.
+The `*.secrets.env` files contain secrets. They must be encrypted with SOPS
+before being committed, see [doco-cd](../doco-cd/README.md#manage-secrets).
 
 ## Run the application with Docker
 

@@ -1,4 +1,6 @@
-name: Gatus
+networks:
+  traefik_network:
+    external: true
 
 services:
   gatus:
@@ -7,11 +9,28 @@ services:
     image: ghcr.io/twin/gatus:v5.38.0
     restart: unless-stopped
     env_file:
-      - gatus.env
+      - gatus.secrets.env
     environment:
       - GATUS_CONFIG_PATH=/config
-    ports:
-      - 8080:8080
+    networks:
+      - traefik_network
+    expose:
+      - 8080
     volumes:
-      - ./config:/config
-      - ./data:/data
+      - ${GATUS_CONFIG_PATH}:/config
+      - ${GATUS_DATA_PATH}:/data
+    labels:
+      ## Traefik
+      - traefik.enable=true
+      # Router
+      - traefik.http.routers.${GATUS_CONTAINER_NAME}.entryPoints=websecure
+      - traefik.http.routers.${GATUS_CONTAINER_NAME}.rule=Host(`${GATUS_FQDN}`)
+      # Service
+      - traefik.http.services.${GATUS_CONTAINER_NAME}.loadbalancer.server.port=8080
+      ## Dynacat
+      - dynacat.name=Gatus
+      # https://github.com/Panonim/dynacat/blob/main/docs/docs/configuration.md#icons
+      - dynacat.icon=sh:gatus
+      - dynacat.url=https://${GATUS_FQDN}
+      - dynacat.description=Service monitoring tool.
+      - dynacat.category=infrastructure
