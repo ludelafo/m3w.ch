@@ -77,3 +77,13 @@ compose_files:
   - compose.yaml
 environment:
   POCKET_ID_DATA_PATH: /srv/storage/private/debian/apps/pocket-id/data
+
+---
+# qBittorrent
+name: qbittorrent
+working_dir: qbittorrent
+compose_files:
+  - compose.yaml
+environment:
+  QBITTORRENT_CONFIG_PATH: /srv/storage/private/debian/apps/qbittorrent/config
+  QBITTORRENT_DOWNLOADS_PATH: /srv/storage/public
