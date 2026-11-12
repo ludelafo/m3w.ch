@@ -2,7 +2,7 @@
 # https://getsops.io/docs/#using-sops-yaml-conf-to-select-kms-pgp-and-age-for-new-files
 #
 # Every `*.secrets.env` file is encrypted for all the age public keys listed
-# below. See `doco-cd/README.md` for the whole workflow.
+# below. See `apps/doco-cd/README.md` for the whole workflow.
 creation_rules:
   - path_regex: \.secrets\.env$
     # Comma-separated list of age public keys allowed to decrypt the files
