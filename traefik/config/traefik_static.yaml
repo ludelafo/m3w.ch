@@ -44,6 +44,14 @@ entryPoints:
   minecraft:
     address: ":25565"
 
+  # Internal entrypoint used by `ping` (the Docker health check calls
+  # `traefik healthcheck --ping`, which checks `:8080/ping` by default). Traefik
+  # creates it implicitly when `ping` is enabled: it is declared here to make it
+  # visible. It is not published on the host and does not serve the dashboard
+  # (`api.insecure` is not enabled).
+  traefik:
+    address: ":8080"
+
 certificatesResolvers:
   letsencrypt:
     acme:

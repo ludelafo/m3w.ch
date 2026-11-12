@@ -1,0 +1,165 @@
+name: doco-cd
+working_dir: doco-cd
+environment:
+  DOCO_CD_CONTAINER_NAME: doco-cd
+  DOCO_CD_DATA_PATH: /srv/storage/private/debian/apps/doco-cd/data
+  DOCO_CD_SOPS_AGE_KEY_PATH: /srv/storage/private/debian/apps/doco-cd/secrets/sops_age_key.txt
+timeout: 120
+
+---
+# AdGuard Home
+name: adguard-home
+working_dir: adguard-home
+environment:
+  ADGUARD_HOME_FQDN: adguard.m3w.ch
+  ADGUARD_HOME_CONTAINER_NAME: adguard-home
+  ADGUARD_HOME_CONFIG_PATH: /srv/storage/private/debian/apps/adguard-home/config
+  ADGUARD_HOME_DATA_PATH: /srv/storage/private/debian/apps/adguard-home/data
+
+---
+# Beszel
+name: beszel
+working_dir: beszel
+environment:
+  BESZEL_FQDN: beszel.m3w.ch
+  BESZEL_CONTAINER_NAME: beszel
+  BESZEL_AGENT_CONTAINER_NAME: beszel-agent
+  BESZEL_DATA_PATH: /srv/storage/private/debian/apps/beszel/beszel_data
+  BESZEL_NVME0_PATH: /srv
+  BESZEL_SDA_PATH: /srv/storage
+  BESZEL_SDB_PATH: /srv/backups
+  BESZEL_AGENT_DATA_PATH: /srv/storage/private/debian/apps/beszel/beszel_agent_data
+
+---
+# Dynacat
+name: dynacat
+working_dir: dynacat
+environment:
+  DYNACAT_FQDN: m3w.ch
+  DYNACAT_CONTAINER_NAME: dynacat
+
+---
+# Gatus
+name: gatus
+working_dir: gatus
+environment:
+  GATUS_FQDN: gatus.m3w.ch
+  GATUS_CONTAINER_NAME: gatus
+  GATUS_DATA_PATH: /srv/storage/private/debian/apps/gatus/data
+
+
+# ---
+# # Minecraft server
+# name: minecraft-server
+# working_dir: minecraft-server
+# environment:
+#   MINECRAFT_SERVER_CONTAINER_NAME: minecraft-server
+#   MINECRAFT_SERVER_DATA_PATH: /srv/storage/private/debian/apps/minecraft-server/data
+
+---
+# Navidrome
+name: navidrome
+working_dir: navidrome
+environment:
+  NAVIDROME_FQDN: navidrome.m3w.ch
+  NAVIDROME_CONTAINER_NAME: navidrome
+  NAVIDROME_CONFIG_PATH: /srv/storage/private/debian/apps/navidrome/config
+  NAVIDROME_MEDIA_PATH: /srv/storage/public/media/listening
+
+---
+# Pocket ID
+name: pocket-id
+working_dir: pocket-id
+environment:
+  POCKET_ID_FQDN: auth.m3w.ch
+  POCKET_ID_CONTAINER_NAME: pocket-id
+  POCKET_ID_DATA_PATH: /srv/storage/private/debian/apps/pocket-id/data
+
+---
+# qBittorrent
+name: qbittorrent
+working_dir: qbittorrent
+environment:
+  QBITTORRENT_FQDN: qbittorrent.m3w.ch
+  QBITTORRENT_CONTAINER_NAME: qbittorrent
+  QBITTORRENT_CONFIG_PATH: /srv/storage/private/debian/apps/qbittorrent/config
+  QBITTORRENT_DOWNLOADS_PATH: /srv/storage/public
+
+---
+# resticprofile (ludelafo)
+name: resticprofile-ludelafo
+working_dir: resticprofile
+environment:
+  RESTICPROFILE_USER: ludelafo
+  RESTICPROFILE_CONTAINER_NAME: resticprofile-ludelafo
+  RESTICPROFILE_STORAGE_PATH: /srv/storage/private/ludelafo
+  RESTICPROFILE_BACKUPS_PATH: /srv/backups/ludelafo
+
+
+# ---
+# # resticprofile (heaspery)
+# name: resticprofile-heaspery
+# working_dir: resticprofile
+# environment:
+#   RESTICPROFILE_USER: heaspery
+#   RESTICPROFILE_CONTAINER_NAME: resticprofile-heaspery
+#   RESTICPROFILE_STORAGE_PATH: /srv/storage/private/heaspery
+#   RESTICPROFILE_BACKUPS_PATH: /srv/backups/heaspery
+
+---
+# Samba
+name: samba
+working_dir: samba
+environment:
+  SAMBA_IP: 192.168.1.2
+  SAMBA_CONTAINER_NAME: samba
+  SAMBA_CACHE_PATH: /srv/storage/private/debian/apps/samba/cache
+  SAMBA_PRIVATE_SHARE_PATH: /srv/storage/private
+  SAMBA_PUBLIC_SHARE_PATH: /srv/storage/public
+
+---
+# Syncthing (ludelafo)
+name: syncthing-ludelafo
+working_dir: syncthing
+environment:
+  SYNCTHING_FQDN: syncthing.ludelafo.m3w.ch
+  SYNCTHING_CONTAINER_NAME: syncthing-ludelafo
+  SYNCTHING_PORT: "22000"
+  SYNCTHING_PUID: "1001"
+  SYNCTHING_PGID: "100"
+  SYNCTHING_CONFIG_PATH: /srv/storage/private/ludelafo/apps/syncthing/config
+  SYNCTHING_DATA_PATH: /srv/storage/private/ludelafo/data
+  OIDC_USER: ludelafo
+
+
+# ---
+# # Syncthing (heaspery)
+# name: syncthing-heaspery
+# working_dir: syncthing
+# environment:
+#   SYNCTHING_FQDN: syncthing.heaspery.m3w.ch
+#   SYNCTHING_CONTAINER_NAME: syncthing-heaspery
+#   SYNCTHING_PORT: "22001"
+#   SYNCTHING_PUID: "1002"
+#   SYNCTHING_PGID: "100"
+#   SYNCTHING_CONFIG_PATH: /srv/storage/private/heaspery/apps/syncthing/config
+#   SYNCTHING_DATA_PATH: /srv/storage/private/heaspery/data
+#   OIDC_USER: heaspery
+
+---
+# Traefik
+name: traefik
+working_dir: traefik
+environment:
+  TRAEFIK_FQDN: traefik.m3w.ch
+  TRAEFIK_CONTAINER_NAME: traefik
+  TRAEFIK_DATA_PATH: /srv/storage/private/debian/apps/traefik/data
+
+---
+# WireGuard Easy
+name: wg-easy
+working_dir: wg-easy
+environment:
+  WG_EASY_FQDN: wireguard.m3w.ch
+  WG_EASY_CONTAINER_NAME: wg-easy
+  WG_EASY_CONFIG_PATH: /srv/storage/private/debian/apps/wg-easy/config

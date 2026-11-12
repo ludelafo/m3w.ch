@@ -1,3 +1,7 @@
+networks:
+  traefik_network:
+    external: true
+
 services:
   minecraft-server:
     container_name: ${MINECRAFT_SERVER_CONTAINER_NAME}
@@ -10,7 +14,23 @@ services:
     # Allow to run commands on the server with Docker `attach` command
     stdin_open: true
     tty: true
-    ports:
-      - 25565:25565
+    networks:
+      - traefik_network
+    expose:
+      - 25565
     volumes:
-      - ./data:/data
+      - ${MINECRAFT_SERVER_DATA_PATH}:/data
+    labels:
+      ## Traefik
+      - traefik.enable=true
+      # Router
+      - traefik.tcp.routers.${MINECRAFT_SERVER_CONTAINER_NAME}.entryPoints=minecraft
+      - traefik.tcp.routers.${MINECRAFT_SERVER_CONTAINER_NAME}.rule=HostSNI(`*`)
+      # Service
+      - traefik.tcp.services.${MINECRAFT_SERVER_CONTAINER_NAME}.loadbalancer.server.port=25565
+      ## Dynacat
+      - dynacat.name=Minecraft server
+      # https://github.com/Panonim/dynacat/blob/main/docs/docs/configuration.md#icons
+      - dynacat.icon=sh:minecraft
+      - dynacat.description=Minecraft server.
+      - dynacat.category=games

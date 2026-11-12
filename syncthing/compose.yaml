@@ -1,21 +1,29 @@
-name: Syncthing
+networks:
+  traefik_network:
+    external: true
 
 services:
   syncthing:
     container_name: ${SYNCTHING_CONTAINER_NAME}
-    hostname: ${SYNCTHING_CONTAINER_NAME}
     image: syncthing/syncthing:2.1
     restart: unless-stopped
     env_file:
       - syncthing.env
+    environment:
+      - PUID=${SYNCTHING_PUID}
+      - PGID=${SYNCTHING_PGID}
+    networks:
+      - traefik_network
+    expose:
+      - 8384
     ports:
-      - 8384:8384
-      - 22000:22000
-      - 22000:22000/udp
-      - 21027:21027/udp
+      # Same port on both sides: Syncthing tells its devices which port it listens
+      # on, so it must also be set in its "Sync Protocol Listen Addresses".
+      - ${SYNCTHING_PORT}:${SYNCTHING_PORT}
+      - ${SYNCTHING_PORT}:${SYNCTHING_PORT}/udp
     volumes:
-      - ./config:/var/syncthing
-      - ./data:/data
+      - ${SYNCTHING_CONFIG_PATH}:/var/syncthing
+      - ${SYNCTHING_DATA_PATH}:/data
     healthcheck:
       test:
         curl --fail --location --show-error --max-time 2 --output /dev/null --write-out "%{http_code}\n" --silent 127.0.0.1:8384/rest/noauth/health |
@@ -24,3 +32,20 @@ services:
       interval: 1m
       timeout: 10s
       retries: 3
+    labels:
+      ## Traefik
+      - traefik.enable=true
+      # Router
+      - traefik.http.routers.${SYNCTHING_CONTAINER_NAME}.entryPoints=websecure
+      - traefik.http.routers.${SYNCTHING_CONTAINER_NAME}.rule=Host(`${SYNCTHING_FQDN}`)
+      # Service
+      - traefik.http.services.${SYNCTHING_CONTAINER_NAME}.loadbalancer.server.port=8384
+      ## Pocket ID
+      - traefik.http.routers.${SYNCTHING_CONTAINER_NAME}.middlewares=oidc-auth-${OIDC_USER}@file
+      ## Dynacat
+      - dynacat.name=Syncthing (${OIDC_USER})
+      # https://github.com/Panonim/dynacat/blob/main/docs/docs/configuration.md#icons
+      - dynacat.icon=sh:syncthing
+      - dynacat.url=https://${SYNCTHING_FQDN}
+      - dynacat.description=Continuous file synchronization program.
+      - dynacat.category=infrastructure

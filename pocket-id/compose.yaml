@@ -1,33 +1,42 @@
-name: Pocket ID
-
 networks:
   traefik_network:
     external: true
 
-secrets:
-  encryption_key.txt:
-    file: ./data/encryption_key.txt
-
 services:
   pocket-id:
     container_name: ${POCKET_ID_CONTAINER_NAME}
-    hostname: ${POCKET_ID_CONTAINER_NAME}
     image: ghcr.io/pocket-id/pocket-id:v2.19
     restart: unless-stopped
     env_file:
       - pocket-id.env
+      - pocket-id.secrets.env
     environment:
-      - APP_URL=http://localhost:1411
-      - ENCRYPTION_KEY_FILE=/run/secrets/encryption_key.txt
-    ports:
-      - 1411:1411
-    secrets:
-      - encryption_key.txt
+      - APP_URL=https://${POCKET_ID_FQDN}
+      - TRUST_PROXY=true
+    networks:
+      - traefik_network
+    expose:
+      - 1411
     volumes:
-      - ./data:/app/data
+      - ${POCKET_ID_DATA_PATH}:/app/data
     healthcheck:
       test: ["CMD", "/app/pocket-id", "healthcheck"]
       interval: 1m30s
       timeout: 5s
       retries: 2
       start_period: 10s
+    labels:
+      ## Traefik
+      - traefik.enable=true
+      # Router
+      - traefik.http.routers.${POCKET_ID_CONTAINER_NAME}.entryPoints=websecure
+      - traefik.http.routers.${POCKET_ID_CONTAINER_NAME}.rule=Host(`${POCKET_ID_FQDN}`)
+      # Service
+      - traefik.http.services.${POCKET_ID_CONTAINER_NAME}.loadbalancer.server.port=1411
+      ## Dynacat
+      - dynacat.name=Pocket ID
+      # https://github.com/Panonim/dynacat/blob/main/docs/docs/configuration.md#icons
+      - dynacat.icon=sh:pocket-id
+      - dynacat.url=https://${POCKET_ID_FQDN}
+      - dynacat.description=Authentication and authorization server.
+      - dynacat.category=infrastructure

@@ -10,7 +10,6 @@
   - [Table of contents](#table-of-contents)
   - [Pre-configuration](#pre-configuration)
     - [Set the environment variables](#set-the-environment-variables)
-  - [Run the application with Docker](#run-the-application-with-docker)
   - [Post-configuration](#post-configuration)
   - [Additional resources](#additional-resources)
 
@@ -18,27 +17,13 @@
 
 ### Set the environment variables
 
-Edit the `.env` file to your needs.
-
-## Run the application with Docker
-
-Do not forget to set the environment variables as described in the previous
-section.
-
-In a terminal, run the following commands:
-
-```bash
-# Pull the latest images
-docker compose pull
-
-# Start the application with Docker
-docker compose up --detach
-```
+Edit the values of the stack in [`.doco-cd.yaml`](../.doco-cd.yaml) to your
+needs.
 
 ## Post-configuration
 
 On first run, you must access the web interface to configure WireGuard Easy at
-`192.168.1.2:51821`.
+`https://${WG_EASY_FQDN}` (e.g. <https://wireguard.m3w.ch>).
 
 Set the right port forwarding rules in your router.
 

@@ -1,17 +1,21 @@
-name: qBittorrent
+networks:
+  traefik_network:
+    external: true
 
 services:
   qbittorrent:
     container_name: ${QBITTORRENT_CONTAINER_NAME}
-    hostname: ${QBITTORRENT_CONTAINER_NAME}
     image: qbittorrentofficial/qbittorrent-nox:5.3.0-2
     restart: unless-stopped
     env_file:
-      - ./qbittorrent.env
+      - qbittorrent.env
     environment:
       - QBT_LEGAL_NOTICE=confirm
+    networks:
+      - traefik_network
+    expose:
+      - 8080
     ports:
-      - 8080:8080
       - 52570:52570
       - 52570:52570/udp
     # https://github.com/qbittorrent/docker-qbittorrent-nox/discussions/90
@@ -26,5 +30,22 @@ services:
       timeout: 10s
       retries: 3
     volumes:
-      - ./config:/config
-      - ./downloads:/downloads
+      - ${QBITTORRENT_CONFIG_PATH}:/config
+      - ${QBITTORRENT_DOWNLOADS_PATH}:/downloads
+    labels:
+      ## Traefik
+      - traefik.enable=true
+      # Router
+      - traefik.http.routers.${QBITTORRENT_CONTAINER_NAME}.entryPoints=websecure
+      - traefik.http.routers.${QBITTORRENT_CONTAINER_NAME}.rule=Host(`${QBITTORRENT_FQDN}`)
+      # Service
+      - traefik.http.services.${QBITTORRENT_CONTAINER_NAME}.loadbalancer.server.port=8080
+      ## Pocket ID
+      - traefik.http.routers.${QBITTORRENT_CONTAINER_NAME}.middlewares=oidc-auth@file
+      ## Dynacat
+      - dynacat.name=qBittorrent
+      # https://github.com/Panonim/dynacat/blob/main/docs/docs/configuration.md#icons
+      - dynacat.icon=sh:qbittorrent
+      - dynacat.url=https://${QBITTORRENT_FQDN}
+      - dynacat.description=BitTorrent client.
+      - dynacat.category=media

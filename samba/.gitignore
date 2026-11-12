@@ -1,7 +1,0 @@
-## Compose overrides
-compose.override.yaml
-
-## Docker volumes
-cache
-config
-shares

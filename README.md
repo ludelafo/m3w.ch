@@ -12,12 +12,18 @@ The following prerequisites must be filled to run these services:
 
 ## Application configuration
 
+The applications are deployed by [Doco-CD](./doco-cd/README.md), which polls
+this repository and deploys every stack listed in [`.doco-cd.yaml`](./.doco-cd.yaml).
+
 Each application tries to follow the same structure and configuration:
 
 1. **Set the environment variables**: edit the `*.env` files to your needs.
-2. **Setup the application**: create the configuration file(s) and the required
-   directories with the right permissions.
-3. **Run the application with Docker**: run with `docker compose up --detach`.
+   Secrets go in the `*.secrets.env` files, encrypted with SOPS (see
+   [Manage secrets](./doco-cd/README.md#manage-secrets)).
+2. **Add the stack to Doco-CD**: add an entry to `.doco-cd.yaml`, with the
+   values of the stack (FQDN, container name, storage paths on the NAS, etc.)
+   in its `environment`.
+3. **Push the changes**: Doco-CD deploys the application on its next poll.
 
 ## Cheatsheet
 

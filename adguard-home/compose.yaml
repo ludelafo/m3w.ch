@@ -1,12 +1,17 @@
-name: AdGuard Home
-
 services:
   adguard-home:
     container_name: ${ADGUARD_HOME_CONTAINER_NAME}
-    hostname: ${ADGUARD_HOME_CONTAINER_NAME}
     image: adguard/adguardhome:v0.107.80
     restart: unless-stopped
     network_mode: host
     volumes:
-      - ./config:/opt/adguardhome/conf
-      - ./data:/opt/adguardhome/work/data
+      - ${ADGUARD_HOME_CONFIG_PATH}:/opt/adguardhome/conf
+      - ${ADGUARD_HOME_DATA_PATH}:/opt/adguardhome/work/data
+    labels:
+      ## Dynacat
+      - dynacat.name=AdGuard Home
+      # https://github.com/Panonim/dynacat/blob/main/docs/docs/configuration.md#icons
+      - dynacat.icon=sh:adguard-home
+      - dynacat.url=https://${ADGUARD_HOME_FQDN}
+      - dynacat.description=Network-wide software for blocking ads & tracking.
+      - dynacat.category=infrastructure

@@ -10,35 +10,17 @@
 - [Table of contents](#table-of-contents)
 - [Pre-configuration](#pre-configuration)
   - [Set the environment variables](#set-the-environment-variables)
-  - [Create the Gatus configuration file(s)](#create-the-gatus-configuration-files)
-- [Run the application with Docker](#run-the-application-with-docker)
 - [Additional resources](#additional-resources)
 
 ## Pre-configuration
 
 ### Set the environment variables
 
-Edit the `*.env` files to your needs.
+Edit the values of the stack in [`.doco-cd.yaml`](../.doco-cd.yaml) and the
+`*.env` files to your needs.
 
-### Create the Gatus configuration file(s)
-
-Create a `config` directory with the configuration file(s) needed for Gatus. You
-can find an example configuration file in the `examples` directory.
-
-## Run the application with Docker
-
-Do not forget to set the environment variables as described in the previous
-section.
-
-In a terminal, run the following commands:
-
-```bash
-# Pull the latest images
-docker compose pull
-
-# Start the application with Docker
-docker compose up --detach
-```
+The `*.secrets.env` files contain secrets. They must be encrypted with SOPS
+before being committed, see [doco-cd](../doco-cd/README.md#manage-secrets).
 
 ## Additional resources
 

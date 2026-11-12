@@ -13,35 +13,14 @@
 - [Table of contents](#table-of-contents)
 - [Pre-configuration](#pre-configuration)
   - [Set the environment variables](#set-the-environment-variables)
-  - [Create the Dynacat configuration file(s)](#create-the-dynacat-configuration-files)
-- [Run the application with Docker](#run-the-application-with-docker)
 - [Additional resources](#additional-resources)
 
 ## Pre-configuration
 
 ### Set the environment variables
 
-Edit the `*.env` files to your needs.
-
-### Create the Dynacat configuration file(s)
-
-Create a `config` directory with the configuration file(s) needed for Dynacat.
-You can find an example configuration file in the `examples` directory.
-
-## Run the application with Docker
-
-Do not forget to set the environment variables as described in the previous
-section.
-
-In a terminal, run the following commands:
-
-```bash
-# Pull the latest images
-docker compose pull
-
-# Start the application with Docker
-docker compose up --detach
-```
+Edit the values of the stack in [`.doco-cd.yaml`](../.doco-cd.yaml) and the
+`*.env` files to your needs.
 
 ## Additional resources
 

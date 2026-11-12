@@ -14,15 +14,18 @@
 - [Pre-configuration](#pre-configuration)
   - [Set the environment variables](#set-the-environment-variables)
   - [Create the required directories](#create-the-required-directories)
-- [Run the application with Docker](#run-the-application-with-docker)
 - [Post-installation](#post-installation)
+  - [Set the sync protocol listen address](#set-the-sync-protocol-listen-address)
+  - [Forward the sync port on the router](#forward-the-sync-port-on-the-router)
+  - [Disable the web GUI authentication](#disable-the-web-gui-authentication)
 - [Additional resources](#additional-resources)
 
 ## Pre-configuration
 
 ### Set the environment variables
 
-Edit the `*.env` files to your needs.
+Edit the values of the stack in [`.doco-cd.yaml`](../.doco-cd.yaml) and the
+`*.env` files to your needs.
 
 ### Create the required directories
 
@@ -35,22 +38,39 @@ chown -R user:group config
 chown -R user:group data
 ```
 
-## Run the application with Docker
+## Post-installation
 
-Do not forget to set the environment variables as described in the previous
-section.
+### Set the sync protocol listen address
 
-In a terminal, run the following commands:
+Syncthing announces the port it listens on to the other devices. The published
+port (`SYNCTHING_PORT`) is the same inside and outside the container, so
+Syncthing must listen on that port too.
 
-```bash
-# Pull the latest images
-docker compose pull
+If `SYNCTHING_PORT` is not `22000` (e.g. `22001` for a second instance), go to
+**Settings > Connections** in the web GUI and set the **Sync Protocol Listen
+Addresses** to:
 
-# Start the application with Docker
-docker compose up --detach
+```text
+tcp://:22001, quic://:22001
 ```
 
-## Post-installation
+Until this is done, the devices cannot connect directly to this instance and
+fall back to relays.
+
+### Forward the sync port on the router
+
+Forward `SYNCTHING_PORT` (TCP and UDP) from the router to the NAS, with the same
+port on both sides (e.g. `22001` to `22001`).
+
+This is recommended but not required: without it, devices outside the local
+network connect through the public relays (slower). Devices on the local
+network do not need it.
+
+Syncthing cannot open the port itself (UPnP/NAT-PMP does not work from a Docker
+bridge network), so the rule must be added manually. Nothing needs to be done on
+the NAS firewall: Docker opens the published ports itself.
+
+### Disable the web GUI authentication
 
 To disable the authentication for the web GUI of Syncthing, you can edit the
 `config/config.xml` file and set the following fields:

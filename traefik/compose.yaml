@@ -1,37 +1,32 @@
-name: Traefik
-
 networks:
   traefik_network:
     name: traefik_network
 
-secrets:
-  infomaniak_access_token.txt:
-    file: ./data/infomaniak_access_token.txt
-
 services:
   traefik:
     container_name: ${TRAEFIK_CONTAINER_NAME}
-    hostname: ${TRAEFIK_CONTAINER_NAME}
     image: traefik:v3.7
     command:
       - --configFile=/etc/traefik/traefik_static.yaml
     restart: unless-stopped
     env_file:
-      - traefik.env
-    environment:
-      - INFOMANIAK_ACCESS_TOKEN_FILE=/run/secrets/infomaniak_access_token.txt
+      - traefik.secrets.env
+    # AdGuard Home first, then a public resolver as fallback: at boot, AdGuard
+    # Home may not be started yet and Traefik must resolve `plugins.traefik.io`
+    # to download its plugins (it does not retry afterwards)
+    dns:
+      - 192.168.1.2
+      - 9.9.9.9
     networks:
       - traefik_network
     ports:
       - 80:80
       - 443:443
       - 25565:25565
-    secrets:
-      - infomaniak_access_token.txt
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
-      - ./data/acme.json:/var/lib/traefik/acme.json
       - ./config:/etc/traefik:ro
+      - ${TRAEFIK_DATA_PATH}:/var/lib/traefik
     healthcheck:
       test: ["CMD", "traefik", "healthcheck", "--ping"]
       start_period: 5s
@@ -44,3 +39,12 @@ services:
       - traefik.http.routers.${TRAEFIK_CONTAINER_NAME}.rule=Host(`${TRAEFIK_FQDN}`)
       # Service
       - traefik.http.routers.${TRAEFIK_CONTAINER_NAME}.service=api@internal
+      ## Pocket ID
+      - traefik.http.routers.${TRAEFIK_CONTAINER_NAME}.middlewares=oidc-auth@file
+      ## Dynacat
+      - dynacat.name=Traefik
+      # https://github.com/Panonim/dynacat/blob/main/docs/docs/configuration.md#icons
+      - dynacat.icon=sh:traefik
+      - dynacat.url=https://${TRAEFIK_FQDN}
+      - dynacat.description=Modern reverse proxy and load balancer.
+      - dynacat.category=infrastructure

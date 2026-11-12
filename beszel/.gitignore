@@ -1,7 +1,0 @@
-## Compose override files
-compose.override.yaml
-
-## Docker volumes
-beszel_data
-beszel_agent_data
-extra_filesystems
