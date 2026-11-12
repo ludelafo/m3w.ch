@@ -81,18 +81,29 @@ key can be displayed again with `age-keygen -y <path to the private key>`.
 Do not forget to set the environment variables and create the age keys as
 described in the previous section.
 
-doco-cd is started once with the `bootstrap.sh` script. The script creates the
-doco-cd stack from the repository and exits. Afterwards, doco-cd manages its own
-stack from the `compose.yaml` file of this directory.
+doco-cd is started once with a one-shot bootstrap container. It clones the
+repository, deploys every stack of the `.doco-cd.yaml` file (including doco-cd
+itself) and exits. Afterwards, doco-cd manages its own stack from the
+`compose.yaml` file of this directory.
 
-In a terminal on the NAS, run the following commands:
+In a terminal on the NAS, run the following commands (once per host, never
+again):
 
 ```bash
-# Run the bootstrap script, once per host
-./bootstrap.sh
+# Bootstrap doco-cd. Use the same release version as `compose.yaml`
+# (https://github.com/kimdre/doco-cd/releases) and the branch to deploy from in
+# `reference`. Add other app settings with `-e` as needed (e.g.
+# `GIT_ACCESS_TOKEN`).
+docker run --rm \
+  -v /var/run/docker.sock:/var/run/docker.sock \
+  -v /srv/storage/private/debian/apps/doco-cd/data:/data \
+  -e SELF_UPDATE_ENABLED=true \
+  -e POLL_CONFIG="- url: https://github.com/ludelafo/m3w.ch.git
+  reference: 82-add-doco-cd" \
+  ghcr.io/kimdre/doco-cd:0.125.1 apply-self --bootstrap
 
 # Check doco-cd is running and follow the deployments
-docker compose --project-name doco-cd logs --follow
+docker logs --follow doco-cd
 ```
 
 ## Deploy an application
@@ -106,18 +117,18 @@ Add a new document (separated by `---`) to the `.doco-cd.yaml` file:
 # My application
 name: my-application
 working_dir: my-application
-compose_files:
-  - compose.yaml
-  - compose.override.prod.yaml
 environment:
+  MY_APPLICATION_FQDN: my-application.m3w.ch
+  MY_APPLICATION_CONTAINER_NAME: my-application
   MY_APPLICATION_DATA_PATH: /srv/storage/private/debian/apps/my-application/data
 ```
 
 - `name` is the Compose project name. It cannot be changed once deployed. Do not
   set `name:` in the `compose.yaml` file: doco-cd sets it.
-- `environment` sets variables used in the Compose files. Use it for absolute
-  paths of the NAS, with relative defaults in the Compose file, e.g.
-  `${MY_APPLICATION_DATA_PATH:-./data}:/data`.
+- `environment` sets the values used in the `compose.yaml` file (FQDN, container
+  name, absolute paths of the NAS, etc.), e.g.
+  `${MY_APPLICATION_DATA_PATH}:/data`. The `compose.yaml` file has no `.env`
+  file and no default values: all the values of the stack are set here.
 - Bind mounts of host files (e.g. `/var/run/docker.sock`, `/srv/storage`) keep
   working: they are resolved by Docker on the NAS.
 

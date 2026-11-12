@@ -8,7 +8,6 @@ services:
       - "resticprofile schedule --all && crond -f"
     restart: unless-stopped
     env_file:
-      - resticprofile.env
       - resticprofile.${RESTICPROFILE_USER}.secrets.env
     volumes:
       - ./config/${RESTICPROFILE_USER}:/etc/resticprofile:ro

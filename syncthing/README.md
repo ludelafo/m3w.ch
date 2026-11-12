@@ -14,7 +14,6 @@
 - [Pre-configuration](#pre-configuration)
   - [Set the environment variables](#set-the-environment-variables)
   - [Create the required directories](#create-the-required-directories)
-- [Run the application with Docker](#run-the-application-with-docker)
 - [Post-installation](#post-installation)
   - [Set the sync protocol listen address](#set-the-sync-protocol-listen-address)
   - [Forward the sync port on the router](#forward-the-sync-port-on-the-router)
@@ -25,7 +24,8 @@
 
 ### Set the environment variables
 
-Edit the `*.env` files to your needs.
+Edit the values of the stack in [`.doco-cd.yaml`](../.doco-cd.yaml) and the
+`*.env` files to your needs.
 
 ### Create the required directories
 
@@ -36,21 +36,6 @@ mkdir config data
 
 chown -R user:group config
 chown -R user:group data
-```
-
-## Run the application with Docker
-
-Do not forget to set the environment variables as described in the previous
-section.
-
-In a terminal, run the following commands:
-
-```bash
-# Pull the latest images
-docker compose pull
-
-# Start the application with Docker
-docker compose up --detach
 ```
 
 ## Post-installation

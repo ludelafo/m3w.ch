@@ -2,13 +2,15 @@ secrets:
   # The age private key used to decrypt the `*.secrets.env` files with SOPS.
   # It must never be stored in the repository.
   sops_age_key:
-    file: ${DOCO_CD_SOPS_AGE_KEY_PATH:-./secrets/sops_age_key.txt}
+    file: ${DOCO_CD_SOPS_AGE_KEY_PATH}
 
 services:
-  # No container_name or host ports lets auto use scale_out for a
-  # zero-downtime handover. If either is required, auto uses applier instead.
-  # Reach the API through a reverse proxy on this network.
   doco-cd:
+    # Setting a container name prevents the `scale_out` self-update strategy (two
+    # containers cannot share a name): `auto` uses `applier` instead, with a short
+    # interruption of Doco-CD (not of the deployed services) while it restarts.
+    # https://doco.cd/latest/Advanced/Self-Updating/
+    container_name: ${DOCO_CD_CONTAINER_NAME}
     image: ghcr.io/kimdre/doco-cd:0.125.1@sha256:38198abbda1b55da7a7f37a7924b2ccdcc0583bd24466b7c2103ef6cd2ffc828
     restart: unless-stopped
     env_file:
@@ -17,7 +19,7 @@ services:
       - sops_age_key
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - ${DOCO_CD_DATA_PATH:-./data}:/data
+      - ${DOCO_CD_DATA_PATH}:/data
     healthcheck:
       interval: 10s
       timeout: 5s

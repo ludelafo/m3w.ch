@@ -5,7 +5,6 @@ networks:
 services:
   pocket-id:
     container_name: ${POCKET_ID_CONTAINER_NAME}
-    hostname: ${POCKET_ID_CONTAINER_NAME}
     image: ghcr.io/pocket-id/pocket-id:v2.19
     restart: unless-stopped
     env_file:

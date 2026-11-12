@@ -1,8 +1,7 @@
 name: doco-cd
 working_dir: doco-cd
-compose_files:
-  - compose.yaml
 environment:
+  DOCO_CD_CONTAINER_NAME: doco-cd
   DOCO_CD_DATA_PATH: /srv/storage/private/debian/apps/doco-cd/data
   DOCO_CD_SOPS_AGE_KEY_PATH: /srv/storage/private/debian/apps/doco-cd/secrets/sops_age_key.txt
 timeout: 120
@@ -11,9 +10,9 @@ timeout: 120
 # AdGuard Home
 name: adguard-home
 working_dir: adguard-home
-compose_files:
-  - compose.yaml
 environment:
+  ADGUARD_HOME_FQDN: adguard.m3w.ch
+  ADGUARD_HOME_CONTAINER_NAME: adguard-home
   ADGUARD_HOME_CONFIG_PATH: /srv/storage/private/debian/apps/adguard-home/config
   ADGUARD_HOME_DATA_PATH: /srv/storage/private/debian/apps/adguard-home/data
 
@@ -21,9 +20,10 @@ environment:
 # Beszel
 name: beszel
 working_dir: beszel
-compose_files:
-  - compose.yaml
 environment:
+  BESZEL_FQDN: beszel.m3w.ch
+  BESZEL_CONTAINER_NAME: beszel
+  BESZEL_AGENT_CONTAINER_NAME: beszel-agent
   BESZEL_DATA_PATH: /srv/storage/private/debian/apps/beszel/beszel_data
   BESZEL_NVME0_PATH: /srv
   BESZEL_SDA_PATH: /srv/storage
@@ -34,16 +34,17 @@ environment:
 # Dynacat
 name: dynacat
 working_dir: dynacat
-compose_files:
-  - compose.yaml
+environment:
+  DYNACAT_FQDN: m3w.ch
+  DYNACAT_CONTAINER_NAME: dynacat
 
 ---
 # Gatus
 name: gatus
 working_dir: gatus
-compose_files:
-  - compose.yaml
 environment:
+  GATUS_FQDN: gatus.m3w.ch
+  GATUS_CONTAINER_NAME: gatus
   GATUS_DATA_PATH: /srv/storage/private/debian/apps/gatus/data
 
 
@@ -51,18 +52,17 @@ environment:
 # # Minecraft server
 # name: minecraft-server
 # working_dir: minecraft-server
-# compose_files:
-#   - compose.yaml
 # environment:
+#   MINECRAFT_SERVER_CONTAINER_NAME: minecraft-server
 #   MINECRAFT_SERVER_DATA_PATH: /srv/storage/private/debian/apps/minecraft-server/data
 
 ---
 # Navidrome
 name: navidrome
 working_dir: navidrome
-compose_files:
-  - compose.yaml
 environment:
+  NAVIDROME_FQDN: navidrome.m3w.ch
+  NAVIDROME_CONTAINER_NAME: navidrome
   NAVIDROME_CONFIG_PATH: /srv/storage/private/debian/apps/navidrome/config
   NAVIDROME_MEDIA_PATH: /srv/storage/public/media/listening
 
@@ -70,18 +70,18 @@ environment:
 # Pocket ID
 name: pocket-id
 working_dir: pocket-id
-compose_files:
-  - compose.yaml
 environment:
+  POCKET_ID_FQDN: auth.m3w.ch
+  POCKET_ID_CONTAINER_NAME: pocket-id
   POCKET_ID_DATA_PATH: /srv/storage/private/debian/apps/pocket-id/data
 
 ---
 # qBittorrent
 name: qbittorrent
 working_dir: qbittorrent
-compose_files:
-  - compose.yaml
 environment:
+  QBITTORRENT_FQDN: qbittorrent.m3w.ch
+  QBITTORRENT_CONTAINER_NAME: qbittorrent
   QBITTORRENT_CONFIG_PATH: /srv/storage/private/debian/apps/qbittorrent/config
   QBITTORRENT_DOWNLOADS_PATH: /srv/storage/public
 
@@ -89,8 +89,6 @@ environment:
 # resticprofile (ludelafo)
 name: resticprofile-ludelafo
 working_dir: resticprofile
-compose_files:
-  - compose.yaml
 environment:
   RESTICPROFILE_USER: ludelafo
   RESTICPROFILE_CONTAINER_NAME: resticprofile-ludelafo
@@ -102,8 +100,6 @@ environment:
 # # resticprofile (heaspery)
 # name: resticprofile-heaspery
 # working_dir: resticprofile
-# compose_files:
-#   - compose.yaml
 # environment:
 #   RESTICPROFILE_USER: heaspery
 #   RESTICPROFILE_CONTAINER_NAME: resticprofile-heaspery
@@ -114,9 +110,9 @@ environment:
 # Samba
 name: samba
 working_dir: samba
-compose_files:
-  - compose.yaml
 environment:
+  SAMBA_IP: 192.168.1.2
+  SAMBA_CONTAINER_NAME: samba
   SAMBA_CACHE_PATH: /srv/storage/private/debian/apps/samba/cache
   SAMBA_PRIVATE_SHARE_PATH: /srv/storage/private
   SAMBA_PUBLIC_SHARE_PATH: /srv/storage/public
@@ -125,8 +121,6 @@ environment:
 # Syncthing (ludelafo)
 name: syncthing-ludelafo
 working_dir: syncthing
-compose_files:
-  - compose.yaml
 environment:
   SYNCTHING_FQDN: syncthing.ludelafo.m3w.ch
   SYNCTHING_CONTAINER_NAME: syncthing-ludelafo
@@ -142,8 +136,6 @@ environment:
 # # Syncthing (heaspery)
 # name: syncthing-heaspery
 # working_dir: syncthing
-# compose_files:
-#   - compose.yaml
 # environment:
 #   SYNCTHING_FQDN: syncthing.heaspery.m3w.ch
 #   SYNCTHING_CONTAINER_NAME: syncthing-heaspery
@@ -158,16 +150,16 @@ environment:
 # Traefik
 name: traefik
 working_dir: traefik
-compose_files:
-  - compose.yaml
 environment:
+  TRAEFIK_FQDN: traefik.m3w.ch
+  TRAEFIK_CONTAINER_NAME: traefik
   TRAEFIK_DATA_PATH: /srv/storage/private/debian/apps/traefik/data
 
 ---
 # WireGuard Easy
 name: wg-easy
 working_dir: wg-easy
-compose_files:
-  - compose.yaml
 environment:
+  WG_EASY_FQDN: wireguard.m3w.ch
+  WG_EASY_CONTAINER_NAME: wg-easy
   WG_EASY_CONFIG_PATH: /srv/storage/private/debian/apps/wg-easy/config

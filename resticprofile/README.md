@@ -1,7 +1,6 @@
 # resticprofile
 
-> resticprofile is a lightweight server monitoring platform that includes Docker
-> statistics, historical data, and alert functions.
+> Configuration profiles manager and scheduler for restic backup.
 >
 > <https://resticprofile.dev>
 
@@ -10,7 +9,6 @@
 - [Table of contents](#table-of-contents)
 - [Pre-configuration](#pre-configuration)
   - [Set the environment variables](#set-the-environment-variables)
-- [Run the application with Docker](#run-the-application-with-docker)
 - [Check the configuration](#check-the-configuration)
 - [Manual backups](#manual-backups)
 - [Additional resources](#additional-resources)
@@ -19,38 +17,35 @@
 
 ### Set the environment variables
 
-Edit the `*.env` files to your needs.
+Edit the values of the stack in [`.doco-cd.yaml`](../.doco-cd.yaml) and the
+`*.env` files to your needs.
 
 The `*.secrets.env` files contain secrets. They must be encrypted with SOPS
 before being committed, see [doco-cd](../doco-cd/README.md#manage-secrets).
 
-## Run the application with Docker
-
-Do not forget to set the environment variables as described in the previous
-section.
-
-In a terminal, run the following commands:
-
-```bash
-# Pull the latest images
-docker compose pull
-
-# Start the application with Docker
-docker compose up --detach
-```
-
 ## Check the configuration
 
+Replace `<user>` with the user of the instance (e.g. `ludelafo`):
+
 ```bash
-docker compose run --rm --entrypoint=/usr/bin/resticprofile resticprofile \
-  --config /etc/resticprofile/profiles.yaml show
+docker exec -it resticprofile-<user> \
+  resticprofile --config /etc/resticprofile/profiles.yaml show
 ```
 
 ## Manual backups
 
 ```bash
-docker compose run --rm --entrypoint=/usr/bin/resticprofile resticprofile \
-  [--dry-run] backup
+# Run a backup
+docker exec -it resticprofile-<user> \
+  resticprofile --config /etc/resticprofile/profiles.yaml backup
+
+# Only print the restic commands that would be run
+docker exec -it resticprofile-<user> \
+  resticprofile --config /etc/resticprofile/profiles.yaml --dry-run backup
+
+# Scan the files and show what would be backed up, without writing anything
+docker exec -it resticprofile-<user> \
+  resticprofile --config /etc/resticprofile/profiles.yaml backup --dry-run
 ```
 
 ## Additional resources
