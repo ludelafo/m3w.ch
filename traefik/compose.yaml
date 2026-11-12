@@ -11,6 +11,12 @@ services:
     restart: unless-stopped
     env_file:
       - traefik.secrets.env
+    # AdGuard Home first, then a public resolver as fallback: at boot, AdGuard
+    # Home may not be started yet and Traefik must resolve `plugins.traefik.io`
+    # to download its plugins (it does not retry afterwards)
+    dns:
+      - 192.168.1.2
+      - 9.9.9.9
     networks:
       - traefik_network
     ports:
