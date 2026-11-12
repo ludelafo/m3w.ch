@@ -10,7 +10,6 @@
 - [Table of contents](#table-of-contents)
 - [Pre-configuration](#pre-configuration)
   - [Set the environment variables](#set-the-environment-variables)
-  - [Create the resticprofile configuration file](#create-the-resticprofile-configuration-file)
 - [Run the application with Docker](#run-the-application-with-docker)
 - [Check the configuration](#check-the-configuration)
 - [Manual backups](#manual-backups)
@@ -22,11 +21,8 @@
 
 Edit the `*.env` files to your needs.
 
-### Create the resticprofile configuration file
-
-Create a `config` directory with the configuration file needed for
-resticprofile. You can find an example configuration file in the `examples`
-directory.
+The `*.secrets.env` files contain secrets. They must be encrypted with SOPS
+before being committed, see [doco-cd](../doco-cd/README.md#manage-secrets).
 
 ## Run the application with Docker
 

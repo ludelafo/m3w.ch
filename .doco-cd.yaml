@@ -86,13 +86,29 @@ environment:
   QBITTORRENT_DOWNLOADS_PATH: /srv/storage/public
 
 ---
-# Traefik
-name: traefik
-working_dir: traefik
+# resticprofile (ludelafo)
+name: resticprofile-ludelafo
+working_dir: resticprofile
 compose_files:
   - compose.yaml
 environment:
-  TRAEFIK_DATA_PATH: /srv/storage/private/debian/apps/traefik/data
+  RESTICPROFILE_USER: ludelafo
+  RESTICPROFILE_CONTAINER_NAME: resticprofile-ludelafo
+  RESTICPROFILE_STORAGE_PATH: /srv/storage/private/ludelafo
+  RESTICPROFILE_BACKUPS_PATH: /srv/backups/ludelafo
+
+
+# ---
+# # resticprofile (heaspery)
+# name: resticprofile-heaspery
+# working_dir: resticprofile
+# compose_files:
+#   - compose.yaml
+# environment:
+#   RESTICPROFILE_USER: heaspery
+#   RESTICPROFILE_CONTAINER_NAME: resticprofile-heaspery
+#   RESTICPROFILE_STORAGE_PATH: /srv/storage/private/heaspery
+#   RESTICPROFILE_BACKUPS_PATH: /srv/backups/heaspery
 
 ---
 # Samba
@@ -104,15 +120,6 @@ environment:
   SAMBA_CACHE_PATH: /srv/storage/private/debian/apps/samba/cache
   SAMBA_PRIVATE_SHARE_PATH: /srv/storage/private
   SAMBA_PUBLIC_SHARE_PATH: /srv/storage/public
-
----
-# WireGuard Easy
-name: wg-easy
-working_dir: wg-easy
-compose_files:
-  - compose.yaml
-environment:
-  WG_EASY_CONFIG_PATH: /srv/storage/private/debian/apps/wg-easy/config
 
 ---
 # Syncthing (ludelafo)
@@ -130,6 +137,7 @@ environment:
   SYNCTHING_DATA_PATH: /srv/storage/private/ludelafo/data
   OIDC_USER: ludelafo
 
+
 # ---
 # # Syncthing (heaspery)
 # name: syncthing-heaspery
@@ -145,3 +153,21 @@ environment:
 #   SYNCTHING_CONFIG_PATH: /srv/storage/private/heaspery/apps/syncthing/config
 #   SYNCTHING_DATA_PATH: /srv/storage/private/heaspery/data
 #   OIDC_USER: heaspery
+
+---
+# Traefik
+name: traefik
+working_dir: traefik
+compose_files:
+  - compose.yaml
+environment:
+  TRAEFIK_DATA_PATH: /srv/storage/private/debian/apps/traefik/data
+
+---
+# WireGuard Easy
+name: wg-easy
+working_dir: wg-easy
+compose_files:
+  - compose.yaml
+environment:
+  WG_EASY_CONFIG_PATH: /srv/storage/private/debian/apps/wg-easy/config

@@ -13,8 +13,10 @@ global:
   min-memory: 100 # in MB
 
 default:
-  password-file: password.txt
-  lock: resticprofile.lock
+  # The repository password is read by restic from the `RESTIC_PASSWORD`
+  # environment variable (`resticprofile.<user>.secrets.env`)
+  # The configuration directory is read-only: the lock file lives in `/tmp`
+  lock: /tmp/resticprofile.lock
   repository: local:/data/backups
   initialize: true
 
@@ -59,14 +61,12 @@ default:
       # ## Python
       # - ".venv"
 
+    # The Gatus endpoint key is `<group>_<name>` of the external endpoint
+    # defined in `gatus/config/internal.yaml`
     send-after:
-      - url:
-          "https://gatus.m3w.ch/api/v1/endpoints/{{ .Env.GATUS_RESTICPROFILE_KEY
-          }}/external?success=true"
+      - url: "https://gatus.m3w.ch/api/v1/endpoints/internal_resticprofile-(heaspery)/external?success=true"
         <<: *gatus-authentication
 
     send-after-fail:
-      - url:
-          "https://gatus.m3w.ch/api/v1/endpoints/{{ .Env.GATUS_RESTICPROFILE_KEY
-          }}/external?success=false&error=${ERROR}"
+      - url: "https://gatus.m3w.ch/api/v1/endpoints/internal_resticprofile-(heaspery)/external?success=false&error=${ERROR}"
         <<: *gatus-authentication
