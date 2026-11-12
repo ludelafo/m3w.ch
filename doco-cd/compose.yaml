@@ -11,7 +11,7 @@ services:
     # interruption of Doco-CD (not of the deployed services) while it restarts.
     # https://doco.cd/latest/Advanced/Self-Updating/
     container_name: ${DOCO_CD_CONTAINER_NAME}
-    image: ghcr.io/kimdre/doco-cd:0.125.1@sha256:38198abbda1b55da7a7f37a7924b2ccdcc0583bd24466b7c2103ef6cd2ffc828
+    image: ghcr.io/kimdre/doco-cd:0.133.2@sha256:8ca3cf6701f70ac3af4c5d726e542fe3a854a038149375f87222ec2719b3c975
     restart: unless-stopped
     env_file:
       - doco-cd.env
