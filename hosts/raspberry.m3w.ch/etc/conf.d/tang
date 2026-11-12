@@ -1,0 +1,7 @@
+# Tang server configuration
+
+# Listen on all network interfaces
+tang_address="0.0.0.0"
+
+# Use default port
+tang_port="8080"

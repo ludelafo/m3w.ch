@@ -1,0 +1,27 @@
+# Dynacat
+
+> Self-hosted dashboard built for people who want their information in one
+> place.
+>
+> Forked from [Glance](https://github.com/glanceapp/glance) - it focuses on
+> dynamic content updates and seamless integration with external applications.
+>
+> <https://github.com/Panonim/dynacat>
+
+## Table of contents
+
+- [Table of contents](#table-of-contents)
+- [Pre-configuration](#pre-configuration)
+  - [Set the environment variables](#set-the-environment-variables)
+- [Additional resources](#additional-resources)
+
+## Pre-configuration
+
+### Set the environment variables
+
+Edit the values of the stack in [`.doco-cd.yaml`](../../.doco-cd.yaml) and the
+`*.env` files to your needs.
+
+## Additional resources
+
+- [Dynacat](https://github.com/Panonim/dynacat)

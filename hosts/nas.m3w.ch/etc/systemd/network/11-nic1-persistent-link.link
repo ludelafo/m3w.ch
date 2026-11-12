@@ -1,0 +1,5 @@
+[Match]
+MACAddress=6c:1f:f7:56:2f:72
+
+[Link]
+Name=nic1

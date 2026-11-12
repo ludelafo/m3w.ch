@@ -1,0 +1,14 @@
+# URL of the Hub.
+HUB_URL="https://beszel.m3w.ch"
+
+# Public SSH key(s) to use for authentication. Provided in Hub.
+KEY="CHANGE_ME"
+
+# WebSocket registration token. Provided in Hub.
+TOKEN="CHANGE_ME"
+
+# Exclude S.M.A.R.T. devices from being monitored.
+EXCLUDE_SMART=true
+
+# Disable the SSH server completely (WebSocket connection only).
+DISABLE_SSH=true

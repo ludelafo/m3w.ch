@@ -1,5 +1,5 @@
 name: doco-cd
-working_dir: doco-cd
+working_dir: apps/doco-cd
 environment:
   DOCO_CD_CONTAINER_NAME: doco-cd
   DOCO_CD_DATA_PATH: /srv/storage/private/debian/apps/doco-cd/data
@@ -9,7 +9,7 @@ timeout: 120
 ---
 # AdGuard Home
 name: adguard-home
-working_dir: adguard-home
+working_dir: apps/adguard-home
 environment:
   ADGUARD_HOME_FQDN: adguard.m3w.ch
   ADGUARD_HOME_CONTAINER_NAME: adguard-home
@@ -19,7 +19,7 @@ environment:
 ---
 # Beszel
 name: beszel
-working_dir: beszel
+working_dir: apps/beszel
 environment:
   BESZEL_FQDN: beszel.m3w.ch
   BESZEL_CONTAINER_NAME: beszel
@@ -33,7 +33,7 @@ environment:
 ---
 # Dynacat
 name: dynacat
-working_dir: dynacat
+working_dir: apps/dynacat
 environment:
   DYNACAT_FQDN: m3w.ch
   DYNACAT_CONTAINER_NAME: dynacat
@@ -41,7 +41,7 @@ environment:
 ---
 # Gatus
 name: gatus
-working_dir: gatus
+working_dir: apps/gatus
 environment:
   GATUS_FQDN: gatus.m3w.ch
   GATUS_CONTAINER_NAME: gatus
@@ -51,7 +51,7 @@ environment:
 # ---
 # # Minecraft server
 # name: minecraft-server
-# working_dir: minecraft-server
+# working_dir: apps/minecraft-server
 # environment:
 #   MINECRAFT_SERVER_CONTAINER_NAME: minecraft-server
 #   MINECRAFT_SERVER_DATA_PATH: /srv/storage/private/debian/apps/minecraft-server/data
@@ -59,7 +59,7 @@ environment:
 ---
 # Navidrome
 name: navidrome
-working_dir: navidrome
+working_dir: apps/navidrome
 environment:
   NAVIDROME_FQDN: navidrome.m3w.ch
   NAVIDROME_CONTAINER_NAME: navidrome
@@ -69,7 +69,7 @@ environment:
 ---
 # Pocket ID
 name: pocket-id
-working_dir: pocket-id
+working_dir: apps/pocket-id
 environment:
   POCKET_ID_FQDN: auth.m3w.ch
   POCKET_ID_CONTAINER_NAME: pocket-id
@@ -78,7 +78,7 @@ environment:
 ---
 # qBittorrent
 name: qbittorrent
-working_dir: qbittorrent
+working_dir: apps/qbittorrent
 environment:
   QBITTORRENT_FQDN: qbittorrent.m3w.ch
   QBITTORRENT_CONTAINER_NAME: qbittorrent
@@ -88,7 +88,7 @@ environment:
 ---
 # resticprofile (ludelafo)
 name: resticprofile-ludelafo
-working_dir: resticprofile
+working_dir: apps/resticprofile
 environment:
   RESTICPROFILE_USER: ludelafo
   RESTICPROFILE_CONTAINER_NAME: resticprofile-ludelafo
@@ -99,7 +99,7 @@ environment:
 # ---
 # # resticprofile (heaspery)
 # name: resticprofile-heaspery
-# working_dir: resticprofile
+# working_dir: apps/resticprofile
 # environment:
 #   RESTICPROFILE_USER: heaspery
 #   RESTICPROFILE_CONTAINER_NAME: resticprofile-heaspery
@@ -109,7 +109,7 @@ environment:
 ---
 # Samba
 name: samba
-working_dir: samba
+working_dir: apps/samba
 environment:
   SAMBA_IP: 192.168.1.2
   SAMBA_CONTAINER_NAME: samba
@@ -120,7 +120,7 @@ environment:
 ---
 # Syncthing (ludelafo)
 name: syncthing-ludelafo
-working_dir: syncthing
+working_dir: apps/syncthing
 environment:
   SYNCTHING_FQDN: syncthing.ludelafo.m3w.ch
   SYNCTHING_CONTAINER_NAME: syncthing-ludelafo
@@ -135,7 +135,7 @@ environment:
 # ---
 # # Syncthing (heaspery)
 # name: syncthing-heaspery
-# working_dir: syncthing
+# working_dir: apps/syncthing
 # environment:
 #   SYNCTHING_FQDN: syncthing.heaspery.m3w.ch
 #   SYNCTHING_CONTAINER_NAME: syncthing-heaspery
@@ -149,7 +149,7 @@ environment:
 ---
 # Traefik
 name: traefik
-working_dir: traefik
+working_dir: apps/traefik
 environment:
   TRAEFIK_FQDN: traefik.m3w.ch
   TRAEFIK_CONTAINER_NAME: traefik
@@ -158,7 +158,7 @@ environment:
 ---
 # WireGuard Easy
 name: wg-easy
-working_dir: wg-easy
+working_dir: apps/wg-easy
 environment:
   WG_EASY_FQDN: wireguard.m3w.ch
   WG_EASY_CONTAINER_NAME: wg-easy
