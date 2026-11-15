@@ -1,7 +1,7 @@
 services:
   resticprofile:
     container_name: ${RESTICPROFILE_CONTAINER_NAME}
-    image: creativeprojects/resticprofile:0.33.1
+    image: creativeprojects/resticprofile:0.34.0
     entrypoint: "/bin/ash"
     command:
       - "-c"
