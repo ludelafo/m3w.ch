@@ -23,6 +23,19 @@ The applications are deployed by [Doco-CD](./apps/doco-cd/README.md), which
 polls this repository and deploys every stack listed in
 [`.doco-cd.yaml`](./.doco-cd.yaml).
 
+## Deployment workflow
+
+![m3w.ch deployment workflow](./m3w-deployment.svg)
+
+1. [Renovate](https://docs.renovatebot.com/) (configured in
+   [`renovate.json`](./renovate.json)) watches the image tags of the
+   `compose.yaml` files and opens a pull request for each update.
+2. The pull request is reviewed and merged into `main`.
+3. Doco-CD polls `main` and redeploys the stacks whose files have changed.
+
+Doco-CD updates itself the same way, as its image tag is also managed by
+Renovate.
+
 ## Cheatsheet
 
 ### Generate a secure password

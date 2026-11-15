@@ -1,0 +1,38 @@
+@startuml m3w-deployment
+!include <office/Clouds/public_cloud>
+!include <office/Concepts/application_generic>
+!include <office/Servers/server_generic>
+!include <office/Servers/virtual_application_server>
+!include <office/Users/user>
+
+' left to right direction
+skinparam maxMessageSize 200
+' skinparam linetype ortho
+
+<style>
+element {
+  HorizontalAlignment center
+}
+
+legend {
+  HorizontalAlignment center
+}
+</style>
+
+title m3w.ch deployment workflow
+
+cloud "<$public_cloud>\n**GitHub**" as github_cloud {
+  rectangle "<$application_generic>\n**Renovate**\nDependency updates" as renovate
+  rectangle "<$application_generic>\n**ludelafo/m3w.ch**\nRepository (""main"")" as repository
+}
+
+node "<$server_generic>\n**NAS**\n""nas.m3w.ch""" as nas {
+  rectangle "<$virtual_application_server>\n**Doco-CD**\nContinuous deployment" as doco_cd
+  rectangle "<$virtual_application_server>\n**Docker stacks**\nListed in "".doco-cd.yaml""" as stacks
+}
+
+renovate --> repository : Update the dependencies for each image update
+repository <-- doco_cd : Polls ""main""
+doco_cd --> stacks : Deploys the changed stacks
+doco_cd --> doco_cd : Updates itself
+@enduml
