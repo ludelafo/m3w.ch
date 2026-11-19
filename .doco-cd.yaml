@@ -138,11 +138,11 @@ environment:
 
 ---
 # Syncthing (ludelafo)
-name: syncthing.ludelafo
+name: syncthing-ludelafo
 working_dir: apps/syncthing
 environment:
   SYNCTHING_FQDN: syncthing.ludelafo.m3w.ch
-  SYNCTHING_CONTAINER_NAME: syncthing.ludelafo
+  SYNCTHING_CONTAINER_NAME: syncthing-ludelafo
   SYNCTHING_PORT: "22000"
   SYNCTHING_PUID: "1001"
   SYNCTHING_PGID: "100"
