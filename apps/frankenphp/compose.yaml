@@ -25,9 +25,13 @@ services:
       - traefik.http.routers.${FRANKENPHP_CONTAINER_NAME}.entryPoints=websecure
       - traefik.http.routers.${FRANKENPHP_CONTAINER_NAME}.rule=Host(`${FRANKENPHP_FQDN}`)
       - traefik.http.routers.${FRANKENPHP_CONTAINER_NAME}.service=${FRANKENPHP_CONTAINER_NAME}
-      # Router for the captive client: all its HTTP requests are served directly,
-      # whatever the domain (AdGuard Home resolves every domain to the NAS for it)
-      - traefik.http.routers.${FRANKENPHP_CONTAINER_NAME}-captive.entryPoints=web
+      # Router for the captive client: all its HTTP(S) requests are served
+      # directly, whatever the domain (AdGuard Home resolves every domain to the
+      # NAS for it). Its priority is just above the HTTP to HTTPS redirection
+      # (priority 1), but below the `Host(...)` routers of the other services,
+      # which stay reachable by the captive client
+      - traefik.http.routers.${FRANKENPHP_CONTAINER_NAME}-captive.entryPoints=web,websecure
+      - traefik.http.routers.${FRANKENPHP_CONTAINER_NAME}-captive.priority=2
       - traefik.http.routers.${FRANKENPHP_CONTAINER_NAME}-captive.rule=ClientIP(`${FRANKENPHP_CAPTIVE_CLIENT_IP}`)
       - traefik.http.routers.${FRANKENPHP_CONTAINER_NAME}-captive.service=${FRANKENPHP_CONTAINER_NAME}
       # Service
