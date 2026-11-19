@@ -26,6 +26,10 @@ entryPoints:
           to: websecure
           scheme: https
           permanent: true
+          # Lowest priority (default is the highest), so routers declared on this
+          # entrypoint take precedence over the redirection (e.g. FrankenPHP's
+          # captive client router)
+          priority: 1
 
   websecure:
     address: ":443"

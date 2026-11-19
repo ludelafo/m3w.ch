@@ -37,6 +37,15 @@ Add/update the following configuration to the `config/AdGuardHome.yaml` file:
 user_rules:
   - "## m3w.ch"
   - "||m3w.ch^$dnsrewrite=192.168.1.2,dnstype=~CNAME|~NS|~SOA|~TXT"
+  - "## PlayStation Network
+  - "||akadns.net^"
+  - "||akamai.net^"
+  - "||edgesuite.net^"
+  - "||playstation.com^"
+  - "||playstation.net^"
+  - "||psndl.net^"
+  - "## Sony PlayStation 5: resolve every domain to the NAS (served by FrankenPHP)"
+  - "||*^$client='192.168.1.8',dnsrewrite=192.168.1.2"
 
 # ...
 
