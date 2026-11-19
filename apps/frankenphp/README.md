@@ -5,9 +5,6 @@
 >
 > <https://frankenphp.dev/>
 
-FrankenPHP is used to host static web files and PHP files. Every file placed in
-the `public` directory is served as-is, and every `*.php` file is executed.
-
 ## Table of contents
 
 - [Table of contents](#table-of-contents)

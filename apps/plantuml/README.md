@@ -5,9 +5,6 @@
 >
 > <https://plantuml.com/>
 
-The PlantUML server renders diagrams from a web interface or from URLs that
-contain the encoded diagram source (e.g. to embed diagrams in other services).
-
 ## Table of contents
 
 - [Table of contents](#table-of-contents)
