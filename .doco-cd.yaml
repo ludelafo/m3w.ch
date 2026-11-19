@@ -39,6 +39,15 @@ environment:
   DYNACAT_CONTAINER_NAME: dynacat
 
 ---
+# FrankenPHP
+name: frankenphp
+working_dir: apps/frankenphp
+environment:
+  FRANKENPHP_FQDN: web.m3w.ch
+  FRANKENPHP_CONTAINER_NAME: frankenphp
+  FRANKENPHP_PUBLIC_PATH: /srv/storage/private/debian/apps/frankenphp/public
+
+---
 # Gatus
 name: gatus
 working_dir: apps/gatus
@@ -119,11 +128,11 @@ environment:
 
 ---
 # Syncthing (ludelafo)
-name: syncthing-ludelafo
+name: syncthing.ludelafo
 working_dir: apps/syncthing
 environment:
   SYNCTHING_FQDN: syncthing.ludelafo.m3w.ch
-  SYNCTHING_CONTAINER_NAME: syncthing-ludelafo
+  SYNCTHING_CONTAINER_NAME: syncthing.ludelafo
   SYNCTHING_PORT: "22000"
   SYNCTHING_PUID: "1001"
   SYNCTHING_PGID: "100"
