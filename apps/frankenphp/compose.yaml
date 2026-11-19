@@ -7,6 +7,8 @@ services:
     container_name: ${FRANKENPHP_CONTAINER_NAME}
     image: dunglas/frankenphp:1.13.5-php8.5-alpine
     restart: unless-stopped
+    env_file:
+      - frankenphp.env
     environment:
       # Serve plain HTTP only, TLS is terminated by Traefik
       - SERVER_NAME=:80
@@ -22,6 +24,12 @@ services:
       # Router
       - traefik.http.routers.${FRANKENPHP_CONTAINER_NAME}.entryPoints=websecure
       - traefik.http.routers.${FRANKENPHP_CONTAINER_NAME}.rule=Host(`${FRANKENPHP_FQDN}`)
+      - traefik.http.routers.${FRANKENPHP_CONTAINER_NAME}.service=${FRANKENPHP_CONTAINER_NAME}
+      # Router for the captive client: all its HTTP requests are served directly,
+      # whatever the domain (AdGuard Home resolves every domain to the NAS for it)
+      - traefik.http.routers.${FRANKENPHP_CONTAINER_NAME}-captive.entryPoints=web
+      - traefik.http.routers.${FRANKENPHP_CONTAINER_NAME}-captive.rule=ClientIP(`${FRANKENPHP_CAPTIVE_CLIENT_IP}`)
+      - traefik.http.routers.${FRANKENPHP_CONTAINER_NAME}-captive.service=${FRANKENPHP_CONTAINER_NAME}
       # Service
       - traefik.http.services.${FRANKENPHP_CONTAINER_NAME}.loadbalancer.server.port=80
       ## Dynacat

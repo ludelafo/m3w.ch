@@ -46,6 +46,8 @@ environment:
   FRANKENPHP_FQDN: web.m3w.ch
   FRANKENPHP_CONTAINER_NAME: frankenphp
   FRANKENPHP_PUBLIC_PATH: /srv/storage/private/debian/apps/frankenphp/public
+  # Client whose HTTP requests are all served by FrankenPHP, whatever the domain
+  FRANKENPHP_CAPTIVE_CLIENT_IP: 192.168.1.8
 
 ---
 # Gatus
