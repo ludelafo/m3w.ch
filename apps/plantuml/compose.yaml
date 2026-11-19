@@ -1,0 +1,28 @@
+networks:
+  traefik_network:
+    external: true
+
+services:
+  plantuml:
+    container_name: ${PLANTUML_CONTAINER_NAME}
+    image: plantuml/plantuml-server:v1.2026.10
+    restart: unless-stopped
+    networks:
+      - traefik_network
+    expose:
+      - 8080
+    labels:
+      ## Traefik
+      - traefik.enable=true
+      # Router
+      - traefik.http.routers.${PLANTUML_CONTAINER_NAME}.entryPoints=websecure
+      - traefik.http.routers.${PLANTUML_CONTAINER_NAME}.rule=Host(`${PLANTUML_FQDN}`)
+      # Service
+      - traefik.http.services.${PLANTUML_CONTAINER_NAME}.loadbalancer.server.port=8080
+      ## Dynacat
+      - dynacat.name=PlantUML
+      # https://github.com/Panonim/dynacat/blob/main/docs/docs/configuration.md#icons
+      - dynacat.icon=di:plantuml
+      - dynacat.url=https://${PLANTUML_FQDN}
+      - dynacat.description=Diagrams from plain text descriptions.
+      - dynacat.category=infrastructure

@@ -76,6 +76,14 @@ environment:
   NAVIDROME_MEDIA_PATH: /srv/storage/public/media/listening
 
 ---
+# PlantUML
+name: plantuml
+working_dir: apps/plantuml
+environment:
+  PLANTUML_FQDN: plantuml.m3w.ch
+  PLANTUML_CONTAINER_NAME: plantuml
+
+---
 # Pocket ID
 name: pocket-id
 working_dir: apps/pocket-id

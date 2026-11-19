@@ -37,6 +37,12 @@ endpoints:
     conditions:
       - "[STATUS] == 200"
 
+  - name: PlantUML
+    url: https://plantuml.m3w.ch
+    <<: *internal-defaults
+    conditions:
+      - "[STATUS] == 200"
+
   - name: Pocket ID
     url: https://auth.m3w.ch
     <<: *internal-defaults
