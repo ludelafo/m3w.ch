@@ -4,6 +4,9 @@ global:
 log:
   level: INFO
 
+# Access logs, written to the container output (`docker logs traefik`)
+accessLog: {}
+
 api:
   dashboard: true
 
