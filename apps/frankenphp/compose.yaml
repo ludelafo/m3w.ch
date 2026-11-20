@@ -7,11 +7,10 @@ services:
     container_name: ${FRANKENPHP_CONTAINER_NAME}
     image: dunglas/frankenphp:1.13.6-php8.5-alpine
     restart: unless-stopped
-    env_file:
-      - frankenphp.env
     environment:
       # Serve plain HTTP only, TLS is terminated by Traefik
       - SERVER_NAME=:80
+      - CADDY_SERVER_EXTRA_DIRECTIVES=${CADDY_SERVER_EXTRA_DIRECTIVES}
     networks:
       - traefik_network
     expose:
