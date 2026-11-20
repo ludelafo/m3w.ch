@@ -15,6 +15,7 @@ services:
     restart: unless-stopped
     env_file:
       - doco-cd.env
+      - doco-cd.secrets.env
     secrets:
       - sops_age_key
     volumes:
