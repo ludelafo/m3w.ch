@@ -24,8 +24,8 @@ polls this repository and deploys every stack listed in
 
 ```bash
 # Generate a password for computers
-pwgen --secure [--capitalize] [--numerals] [-symbols] 20 1
+pwgen --secure [--capitalize] [--numerals] [--symbols] 20 1
 
 # Generate a password for humans
-pwgen --ambiguous [--capitalize] [--numerals] [-symbols] 20 1
+pwgen --ambiguous [--capitalize] [--numerals] [--symbols] 20 1
 ```

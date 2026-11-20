@@ -18,6 +18,7 @@
 - [Run the application with Docker](#run-the-application-with-docker)
 - [Deploy an application](#deploy-an-application)
   - [Add the application to doco-cd](#add-the-application-to-doco-cd)
+- [Test a branch](#test-a-branch)
 - [Additional resources](#additional-resources)
 
 ## How it works
@@ -168,11 +169,65 @@ environment:
 
 Commit and push: the application is deployed at the next poll.
 
+## Test a branch
+
+doco-cd only polls `main`, but its
+[REST API](https://doco.cd/latest/Endpoints/REST-API/) can deploy any branch on
+demand, without changing `POLL_CONFIG` or the `.doco-cd.yaml` file.
+
+The API is not published on the host nor through Traefik: it is only reachable
+from inside the network namespace of the doco-cd container. Calling it requires
+access to Docker on the NAS, which already allows to do anything doco-cd can.
+
+The API is enabled by the API key stored in the `doco-cd.secrets.env` file. The
+key only allows to trigger polls and read their results (`poll:trigger`,
+`runs:read`, `jobs:read`).
+
+Push the branch, then deploy it from a terminal on the NAS. The doco-cd image
+has no shell nor HTTP client: a temporary curl container shares the network of
+doco-cd to reach the API on `localhost` (the request waits until the deployment
+ends):
+
+```bash
+docker run --rm --network container:doco-cd \
+  curlimages/curl:8.23.0 \
+  --request POST \
+  --url 'http://localhost/v1/api/poll/run?wait=true' \
+  --header "x-api-key: <api key>" \
+  --data '[{"url": "https://github.com/ludelafo/m3w.ch.git", "reference": "<branch>"}]'
+```
+
+doco-cd reads the `.doco-cd.yaml` file of the branch and deploys it like a
+regular poll. It is a one-off deployment: nothing is changed in the
+configuration, so there is nothing to revert. However, the branch stays deployed
+until `main` moves on:
+
+- doco-cd never deploys a commit that is an ancestor of the deployed one, to
+  avoid going back in time. If the branch was created from the latest `main`,
+  the regular polls of `main` are skipped while the branch is deployed.
+- Merging the branch (or pushing any other commit to `main`) deploys `main`
+  again at the next poll.
+- To go back to `main` without merging (e.g. the branch is abandoned), push a
+  commit to `main`, even an empty one:
+
+  ```bash
+  git commit --allow-empty -m "Redeploy main"
+  git push
+  ```
+
+- If the branch is behind `main` (commits were pushed to `main` after the branch
+  was created), deploying it temporarily removes these commits: the next poll of
+  `main` (within 5 minutes) deploys `main` again. Rebase the branch on `main`
+  first to test it for longer.
+- If the branch changes doco-cd itself, doco-cd updates itself from the branch
+  too.
+
 ## Additional resources
 
 - [doco-cd](https://doco.cd)
 - [doco-cd - Migrating from Docker Compose](https://doco.cd/latest/Migrating-from-Docker-Compose/)
 - [doco-cd - Encryption with SOPS](https://doco.cd/latest/Advanced/Encryption/)
 - [doco-cd - Self-updating](https://doco.cd/latest/Advanced/Self-Updating/)
+- [doco-cd - REST API](https://doco.cd/latest/Endpoints/REST-API/)
 - [SOPS](https://getsops.io)
 - [age](https://age-encryption.org)
