@@ -5,7 +5,7 @@ networks:
 services:
   frankenphp:
     container_name: ${FRANKENPHP_CONTAINER_NAME}
-    image: dunglas/frankenphp:1.13.5-php8.5-alpine
+    image: dunglas/frankenphp:1.13.6-php8.5-alpine
     restart: unless-stopped
     env_file:
       - frankenphp.env
