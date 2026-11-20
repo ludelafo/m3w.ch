@@ -5,7 +5,7 @@ networks:
 services:
   dynacat:
     container_name: ${DYNACAT_CONTAINER_NAME}
-    image: panonim/dynacat:3.0.2
+    image: panonim/dynacat:3.0.3
     restart: unless-stopped
     env_file:
       - dynacat.env

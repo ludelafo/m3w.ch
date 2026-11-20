@@ -67,6 +67,14 @@ environment:
   NAVIDROME_MEDIA_PATH: /srv/storage/public/media/listening
 
 ---
+# PlantUML
+name: plantuml
+working_dir: apps/plantuml
+environment:
+  PLANTUML_FQDN: plantuml.m3w.ch
+  PLANTUML_CONTAINER_NAME: plantuml
+
+---
 # Pocket ID
 name: pocket-id
 working_dir: apps/pocket-id
@@ -154,6 +162,15 @@ environment:
   TRAEFIK_FQDN: traefik.m3w.ch
   TRAEFIK_CONTAINER_NAME: traefik
   TRAEFIK_DATA_PATH: /srv/storage/private/debian/apps/traefik/data
+
+---
+# UMTX2
+name: umtx2
+working_dir: apps/frankenphp
+environment:
+  FRANKENPHP_FQDN: umtx2.m3w.ch
+  FRANKENPHP_CONTAINER_NAME: umtx2
+  FRANKENPHP_PUBLIC_PATH: /srv/storage/private/debian/apps/frankenphp/umtx2
 
 ---
 # WireGuard Easy

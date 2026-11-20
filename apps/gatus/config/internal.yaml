@@ -25,8 +25,20 @@ endpoints:
     conditions:
       - "[STATUS] == 200"
 
+  - name: FrankenPHP
+    url: https://web.m3w.ch
+    <<: *internal-defaults
+    conditions:
+      - "[STATUS] < 500"
+
   - name: Navidrome
     url: https://navidrome.m3w.ch
+    <<: *internal-defaults
+    conditions:
+      - "[STATUS] == 200"
+
+  - name: PlantUML
+    url: https://plantuml.m3w.ch
     <<: *internal-defaults
     conditions:
       - "[STATUS] == 200"
