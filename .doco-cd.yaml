@@ -168,7 +168,7 @@ environment:
 name: umtx2
 working_dir: apps/frankenphp
 environment:
-  FRANKENPHP_FQDN: umtx2.m3w.ch
+  FRANKENPHP_FQDN: web.m3w.ch
   FRANKENPHP_CONTAINER_NAME: umtx2
   FRANKENPHP_PUBLIC_PATH: /srv/storage/private/debian/apps/frankenphp/umtx2
   # Additional Caddyfile directives for the server block
