@@ -171,6 +171,15 @@ environment:
   FRANKENPHP_FQDN: umtx2.m3w.ch
   FRANKENPHP_CONTAINER_NAME: umtx2
   FRANKENPHP_PUBLIC_PATH: /srv/storage/private/debian/apps/frankenphp/umtx2
+  # Additional Caddyfile directives for the server block
+  # https://frankenphp.dev/docs/config/
+  # https://caddyserver.com/docs/caddyfile/directives/header
+  CADDY_SERVER_EXTRA_DIRECTIVES: |
+    header /cache.appcache {
+      Cache-Control "no-cache, no-store, must-revalidate"
+      -ETag
+      -Last-Modified
+    }
 
 ---
 # WireGuard Easy

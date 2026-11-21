@@ -4,7 +4,7 @@
 	// Set environment variables for the container
 	"containerEnv": {
 		"CLAUDE_CONFIG_DIR": "/home/vscode/.claude",
-		"SOPS_AGE_KEY_FILE": "${containerWorkspaceFolder}/doco-cd/secrets/sops_age_key.txt"
+		"SOPS_AGE_KEY_FILE": "${containerWorkspaceFolder}/apps/doco-cd/secrets/sops_age_key.txt"
 	},
 	"workspaceMount": "source=${localWorkspaceFolder},target=/workspace,type=bind,consistency=cached",
 	"workspaceFolder": "/workspace",

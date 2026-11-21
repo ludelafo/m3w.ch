@@ -31,7 +31,7 @@ nwdiag {
   ' Infrastructure
   internet [shape = cloud,  description = "<$public_cloud>, **Internet**"]
 
-  router [address = "<External IP>, :25565, :51820/udp, :52570/tcp+udp", description = "<$router>, **Yallo Fiber Box 2**, yallo.m3w.ch"]
+  router [address = "<External IP>, :25565, :22000-22001/tcp+udp, :51820/udp, :52570/tcp+udp", description = "<$router>, **Yallo Fiber Box 2**, yallo.m3w.ch"]
 
   ' Users
   alpine [description = "<$user>, **alpine**, doas"]
@@ -62,14 +62,13 @@ nwdiag {
   plantuml [description = "<$virtual_application_server>, **PlantUML**, Diagrams server, https://plantuml.m3w.ch"]
   pocket_id [description = "<$virtual_application_server>, **Pocket ID**, Authentification, https://auth.m3w.ch"]
   qbittorrent [description = "<$virtual_application_server>, **qBittorrent**, Torrent client, https://qbittorrent.m3w.ch"]
-  resticprofile_debian [description = "<$virtual_application_server>, **resticprofile (debian)**, Backups"]
   resticprofile_heaspery [description = "<$virtual_application_server>, **resticprofile (heaspery)**, Backups"]
   resticprofile_ludelafo [description = "<$virtual_application_server>, **resticprofile (ludelafo)**, Backups"]
   samba [description = "<$virtual_application_server>, **Samba**, Network shares, smb://192.168.1.2"]
   syncthing_ludelafo [description = "<$virtual_application_server>, **Syncthing (ludelafo)**, Files synchronization, https://syncthing.ludelafo.m3w.ch"]
   syncthing_heaspery [description = "<$virtual_application_server>, **Syncthing (heaspery)**, Files synchronization, https://syncthing.heaspery.m3w.ch"]
   traefik [description = "<$virtual_application_server>, **Traefik**, Reverse proxy, https://traefik.m3w.ch"];
-  wg_easy [description = "<$virtual_application_server>, **Wireguard Easy**, VPN, https://vpn.m3w.ch"]
+  wg_easy [description = "<$virtual_application_server>, **Wireguard Easy**, VPN, https://wireguard.m3w.ch"]
   tang [description = "<$application_generic>, **Tang**, LUKS unlocker, http://192.168.1.254"]
 
   group {
@@ -113,7 +112,6 @@ nwdiag {
     plantuml
     pocket_id
     qbittorrent
-    resticprofile_debian
     resticprofile_heaspery
     resticprofile_ludelafo
     samba
@@ -182,7 +180,7 @@ nwdiag {
   network host {
     color = "LightPink"
   
-    resticprofile_debian
+    doco_cd
     resticprofile_heaspery
     resticprofile_ludelafo
   }
