@@ -5,7 +5,7 @@ networks:
 services:
   traefik:
     container_name: ${TRAEFIK_CONTAINER_NAME}
-    image: traefik:v3.7
+    image: traefik:v3.8
     command:
       - --configFile=/etc/traefik/traefik_static.yaml
     restart: unless-stopped
