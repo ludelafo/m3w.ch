@@ -1,191 +1,27 @@
+# TRANSITION FILE - delete it once the NAS reads hosts/nas.m3w.ch/.doco-cd.yaml
+#
+# The Doco-CD instance of the NAS used to read this file. It now only contains
+# the Doco-CD stack, so the old instance updates itself with
+# `DEPLOY_CONFIG_BASE_DIR=/hosts/nas.m3w.ch` and reads
+# `hosts/nas.m3w.ch/.doco-cd.yaml` from then on. The other stacks are not
+# removed (this repository does not use auto-discovery).
+#
+# Keep the Doco-CD stack identical to the one of the NAS configuration file.
+
+# Doco-CD
 name: doco-cd
 working_dir: apps/doco-cd
 environment:
   DOCO_CD_CONTAINER_NAME: doco-cd
+  # The directory of this file, relative to the root of the repository
+  # https://doco.cd/latest/App-Settings/
+  DOCO_CD_DEPLOY_CONFIG_BASE_DIR: /hosts/nas.m3w.ch
+  # The repositories to poll for changes, in YAML format (interval in seconds)
+  # https://doco.cd/latest/Poll-Settings/
+  DOCO_CD_POLL_CONFIG: |
+    - url: https://github.com/ludelafo/m3w.ch.git
+      reference: main
+      interval: 300
   DOCO_CD_DATA_PATH: /srv/storage/private/debian/apps/doco-cd/data
   DOCO_CD_SOPS_AGE_KEY_PATH: /srv/storage/private/debian/apps/doco-cd/secrets/sops_age_key.txt
 timeout: 120
-
----
-# AdGuard Home
-name: adguard-home
-working_dir: apps/adguard-home
-environment:
-  ADGUARD_HOME_FQDN: adguard.m3w.ch
-  ADGUARD_HOME_CONTAINER_NAME: adguard-home
-  ADGUARD_HOME_CONFIG_PATH: /srv/storage/private/debian/apps/adguard-home/config
-  ADGUARD_HOME_DATA_PATH: /srv/storage/private/debian/apps/adguard-home/data
-
----
-# Beszel
-name: beszel
-working_dir: apps/beszel
-environment:
-  BESZEL_FQDN: beszel.m3w.ch
-  BESZEL_CONTAINER_NAME: beszel
-  BESZEL_AGENT_CONTAINER_NAME: beszel-agent
-  BESZEL_DATA_PATH: /srv/storage/private/debian/apps/beszel/beszel_data
-  BESZEL_NVME0_PATH: /srv
-  BESZEL_SDA_PATH: /srv/storage
-  BESZEL_SDB_PATH: /srv/backups
-  BESZEL_AGENT_DATA_PATH: /srv/storage/private/debian/apps/beszel/beszel_agent_data
-
----
-# Dynacat
-name: dynacat
-working_dir: apps/dynacat
-environment:
-  DYNACAT_FQDN: m3w.ch
-  DYNACAT_CONTAINER_NAME: dynacat
-
----
-# Gatus
-name: gatus
-working_dir: apps/gatus
-environment:
-  GATUS_FQDN: gatus.m3w.ch
-  GATUS_CONTAINER_NAME: gatus
-  GATUS_DATA_PATH: /srv/storage/private/debian/apps/gatus/data
-
-
-# ---
-# # Minecraft server
-# name: minecraft-server
-# working_dir: apps/minecraft-server
-# environment:
-#   MINECRAFT_SERVER_CONTAINER_NAME: minecraft-server
-#   MINECRAFT_SERVER_DATA_PATH: /srv/storage/private/debian/apps/minecraft-server/data
-
----
-# Navidrome
-name: navidrome
-working_dir: apps/navidrome
-environment:
-  NAVIDROME_FQDN: navidrome.m3w.ch
-  NAVIDROME_CONTAINER_NAME: navidrome
-  NAVIDROME_CONFIG_PATH: /srv/storage/private/debian/apps/navidrome/config
-  NAVIDROME_MEDIA_PATH: /srv/storage/public/media/listening
-
----
-# PlantUML
-name: plantuml
-working_dir: apps/plantuml
-environment:
-  PLANTUML_FQDN: plantuml.m3w.ch
-  PLANTUML_CONTAINER_NAME: plantuml
-
----
-# Pocket ID
-name: pocket-id
-working_dir: apps/pocket-id
-environment:
-  POCKET_ID_FQDN: auth.m3w.ch
-  POCKET_ID_CONTAINER_NAME: pocket-id
-  POCKET_ID_DATA_PATH: /srv/storage/private/debian/apps/pocket-id/data
-
----
-# qBittorrent
-name: qbittorrent
-working_dir: apps/qbittorrent
-environment:
-  QBITTORRENT_FQDN: qbittorrent.m3w.ch
-  QBITTORRENT_CONTAINER_NAME: qbittorrent
-  QBITTORRENT_CONFIG_PATH: /srv/storage/private/debian/apps/qbittorrent/config
-  QBITTORRENT_DOWNLOADS_PATH: /srv/storage/public
-
----
-# resticprofile (ludelafo)
-name: resticprofile-ludelafo
-working_dir: apps/resticprofile
-environment:
-  RESTICPROFILE_USER: ludelafo
-  RESTICPROFILE_CONTAINER_NAME: resticprofile-ludelafo
-  RESTICPROFILE_STORAGE_PATH: /srv/storage/private/ludelafo
-  RESTICPROFILE_BACKUPS_PATH: /srv/backups/ludelafo
-
-
-# ---
-# # resticprofile (heaspery)
-# name: resticprofile-heaspery
-# working_dir: apps/resticprofile
-# environment:
-#   RESTICPROFILE_USER: heaspery
-#   RESTICPROFILE_CONTAINER_NAME: resticprofile-heaspery
-#   RESTICPROFILE_STORAGE_PATH: /srv/storage/private/heaspery
-#   RESTICPROFILE_BACKUPS_PATH: /srv/backups/heaspery
-
----
-# Samba
-name: samba
-working_dir: apps/samba
-environment:
-  SAMBA_IP: 192.168.1.2
-  SAMBA_CONTAINER_NAME: samba
-  SAMBA_CACHE_PATH: /srv/storage/private/debian/apps/samba/cache
-  SAMBA_PRIVATE_SHARE_PATH: /srv/storage/private
-  SAMBA_PUBLIC_SHARE_PATH: /srv/storage/public
-
----
-# Syncthing (ludelafo)
-name: syncthing-ludelafo
-working_dir: apps/syncthing
-environment:
-  SYNCTHING_FQDN: syncthing.ludelafo.m3w.ch
-  SYNCTHING_CONTAINER_NAME: syncthing-ludelafo
-  SYNCTHING_PORT: "22000"
-  SYNCTHING_PUID: "1001"
-  SYNCTHING_PGID: "100"
-  SYNCTHING_CONFIG_PATH: /srv/storage/private/ludelafo/apps/syncthing/config
-  SYNCTHING_DATA_PATH: /srv/storage/private/ludelafo/data
-  OIDC_USER: ludelafo
-
-
-# ---
-# # Syncthing (heaspery)
-# name: syncthing-heaspery
-# working_dir: apps/syncthing
-# environment:
-#   SYNCTHING_FQDN: syncthing.heaspery.m3w.ch
-#   SYNCTHING_CONTAINER_NAME: syncthing-heaspery
-#   SYNCTHING_PORT: "22001"
-#   SYNCTHING_PUID: "1002"
-#   SYNCTHING_PGID: "100"
-#   SYNCTHING_CONFIG_PATH: /srv/storage/private/heaspery/apps/syncthing/config
-#   SYNCTHING_DATA_PATH: /srv/storage/private/heaspery/data
-#   OIDC_USER: heaspery
-
----
-# Traefik
-name: traefik
-working_dir: apps/traefik
-environment:
-  TRAEFIK_FQDN: traefik.m3w.ch
-  TRAEFIK_CONTAINER_NAME: traefik
-  TRAEFIK_DATA_PATH: /srv/storage/private/debian/apps/traefik/data
-
----
-# UMTX2
-name: umtx2
-working_dir: apps/frankenphp
-environment:
-  FRANKENPHP_FQDN: umtx2.m3w.ch
-  FRANKENPHP_CONTAINER_NAME: umtx2
-  FRANKENPHP_PUBLIC_PATH: /srv/storage/private/debian/apps/frankenphp/umtx2
-  # Additional Caddyfile directives for the server block
-  # https://frankenphp.dev/docs/config/
-  # https://caddyserver.com/docs/caddyfile/directives/header
-  CADDY_SERVER_EXTRA_DIRECTIVES: |
-    header /cache.appcache {
-      Cache-Control "no-cache, no-store, must-revalidate"
-      -ETag
-      -Last-Modified
-    }
-
----
-# WireGuard Easy
-name: wg-easy
-working_dir: apps/wg-easy
-environment:
-  WG_EASY_FQDN: wireguard.m3w.ch
-  WG_EASY_CONTAINER_NAME: wg-easy
-  WG_EASY_CONFIG_PATH: /srv/storage/private/debian/apps/wg-easy/config

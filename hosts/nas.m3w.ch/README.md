@@ -261,8 +261,8 @@ sudo reboot
 Check: after the reboot, `ip address` displays `nic0` with `192.168.1.2` and the
 disks are mounted (`lsblk --fs`).
 
-The host is ready: install Doco-CD to deploy the applications, see
-[doco-cd](../../apps/doco-cd/README.md).
+The host is ready: install Doco-CD to deploy the applications listed in
+[`.doco-cd.yaml`](./.doco-cd.yaml), see [doco-cd](../../apps/doco-cd/README.md).
 
 ## Check the configuration is still applied
 

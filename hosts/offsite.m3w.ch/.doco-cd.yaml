@@ -1,0 +1,23 @@
+# Deployment configuration of the offsite backups host (offsite.m3w.ch)
+#
+# This file is read by the Doco-CD instance of the offsite host
+# (`DEPLOY_CONFIG_BASE_DIR=/hosts/offsite.m3w.ch`).
+# https://doco.cd/latest/Deploy-Settings/
+
+# Doco-CD
+name: doco-cd
+working_dir: apps/doco-cd
+environment:
+  DOCO_CD_CONTAINER_NAME: doco-cd
+  DOCO_CD_DATA_PATH: /srv/apps/doco-cd/data
+  DOCO_CD_SOPS_AGE_KEY_PATH: /srv/apps/doco-cd/secrets/sops_age_key.txt
+  # The directory of this file, relative to the root of the repository
+  # https://doco.cd/latest/App-Settings/
+  DOCO_CD_DEPLOY_CONFIG_BASE_DIR: /hosts/offsite.m3w.ch
+  # The repositories to poll for changes, in YAML format (interval in seconds)
+  # https://doco.cd/latest/Poll-Settings/
+  DOCO_CD_POLL_CONFIG: |
+    - url: https://github.com/ludelafo/m3w.ch.git
+      reference: main
+      interval: 300
+timeout: 120

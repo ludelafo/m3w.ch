@@ -24,8 +24,8 @@
 
 ### Set the environment variables
 
-Edit the values of the stack in [`.doco-cd.yaml`](../../.doco-cd.yaml) and the
-`*.env` files to your needs.
+Refer to [Doco-CD](../doco-cd/README.md) documentation to set the environment
+variables.
 
 ### Create the required directories
 
@@ -63,8 +63,8 @@ Forward `SYNCTHING_PORT` (TCP and UDP) from the router to the NAS, with the same
 port on both sides (e.g. `22001` to `22001`).
 
 This is recommended but not required: without it, devices outside the local
-network connect through the public relays (slower). Devices on the local
-network do not need it.
+network connect through the public relays (slower). Devices on the local network
+do not need it.
 
 Syncthing cannot open the port itself (UPnP/NAT-PMP does not work from a Docker
 bridge network), so the rule must be added manually. Nothing needs to be done on

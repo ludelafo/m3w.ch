@@ -5,9 +5,9 @@
 !include <office/Servers/virtual_application_server>
 !include <office/Users/user>
 
-' left to right direction
+left to right direction
 skinparam maxMessageSize 200
-' skinparam linetype ortho
+'skinparam linetype ortho
 
 <style>
 element {
@@ -28,11 +28,19 @@ cloud "<$public_cloud>\n**GitHub**" as github_cloud {
 
 node "<$server_generic>\n**NAS**\n""nas.m3w.ch""" as nas {
   rectangle "<$virtual_application_server>\n**Doco-CD**\nContinuous deployment" as doco_cd
-  rectangle "<$virtual_application_server>\n**Docker stacks**\nListed in "".doco-cd.yaml""" as stacks
+  rectangle "<$virtual_application_server>\n**Docker stacks**\nListed in ""hosts/nas.m3w.ch/.doco-cd.yaml""" as stacks
+}
+
+node "<$server_generic>\n**Offsite host**\n""offsite.m3w.ch""" as offsite {
+  rectangle "<$virtual_application_server>\n**Doco-CD**\nContinuous deployment" as offsite_doco_cd
+  rectangle "<$virtual_application_server>\n**Docker stacks**\nListed in ""hosts/offsite.m3w.ch/.doco-cd.yaml""" as offsite_stacks
 }
 
 renovate --> repository : Update the dependencies for each image update
 repository <-- doco_cd : Polls ""main""
 doco_cd --> stacks : Deploys the changed stacks
 doco_cd --> doco_cd : Updates itself
+repository <-- offsite_doco_cd : Polls ""main""
+offsite_doco_cd --> offsite_stacks : Deploys the changed stacks
+offsite_doco_cd --> offsite_doco_cd : Updates itself
 @enduml
