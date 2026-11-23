@@ -2,7 +2,9 @@
 set -euo pipefail
 
 ## Variables
-WORKDIR=$(pwd)
+# Work in the directory of this script, wherever it is run from
+WORKDIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+cd "$WORKDIR"
 PLANTUML_DOCKER_IMAGE="plantuml/plantuml:1.2026.2"
 
 ## Script

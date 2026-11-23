@@ -6,19 +6,18 @@
 
 ## Table of contents
 
-- [WireGuard Easy](#wireguard-easy)
-  - [Table of contents](#table-of-contents)
-  - [Pre-configuration](#pre-configuration)
-    - [Set the environment variables](#set-the-environment-variables)
-  - [Post-configuration](#post-configuration)
-  - [Additional resources](#additional-resources)
+- [Table of contents](#table-of-contents)
+- [Pre-configuration](#pre-configuration)
+  - [Set the environment variables](#set-the-environment-variables)
+- [Post-configuration](#post-configuration)
+- [Additional resources](#additional-resources)
 
 ## Pre-configuration
 
 ### Set the environment variables
 
-Edit the values of the stack in [`.doco-cd.yaml`](../../.doco-cd.yaml) to your
-needs.
+Refer to [Doco-CD](../doco-cd/README.md) documentation to set the environment
+variables.
 
 ## Post-configuration
 

@@ -25,12 +25,8 @@ Generate an API token on Infomaniak as per:
 
 ### Set the environment variables
 
-Edit the values of the stack in [`.doco-cd.yaml`](../../.doco-cd.yaml), the
-`*.env`, the [`traefik_static.yaml`](./config/traefik_static.yaml) and the
-[`traefik_dynamic.yaml`](./config/traefik_dynamic.yaml) files to your needs.
-
-The Infomaniak access token (`INFOMANIAK_ACCESS_TOKEN`) and the OIDC values are
-stored in the `traefik.secrets.env` file.
+Refer to [Doco-CD](../doco-cd/README.md) documentation to set the environment
+variables.
 
 ### Create the Traefik ACME file
 

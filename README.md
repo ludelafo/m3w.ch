@@ -1,6 +1,6 @@
 # m3w.ch
 
-![m3w.ch architecture](./m3w-architecture.svg)
+![m3w.ch architecture](./diagrams/m3w-architecture.svg)
 
 ## Prerequisites
 
@@ -13,25 +13,31 @@ The following prerequisites must be filled to run these services:
 ## Hosts configuration
 
 The [`hosts`](./hosts/README.md) directory documents how to set up the hosts
-(the NAS and the Raspberry Pi) from scratch: system configuration, encrypted
-disks, users, Docker, etc. The configuration files to copy on each host are
-stored next to their documentation, in the same tree as on the host (`etc/...`).
+(the NAS, the offsite backups host and the Raspberry Pi) from scratch: system
+configuration, encrypted disks, users, Docker, etc. The configuration files to
+copy on each host are stored next to their documentation, in the same tree as on
+the host (`etc/...`).
 
 ## Application configuration
 
-The applications are deployed by [Doco-CD](./apps/doco-cd/README.md), which
-polls this repository and deploys every stack listed in
-[`.doco-cd.yaml`](./.doco-cd.yaml).
+The applications are deployed by [Doco-CD](./apps/doco-cd/README.md). An
+instance runs on each host, polls this repository and deploys every stack listed
+in the deployment configuration file of the host:
+
+- NAS: [`hosts/nas.m3w.ch/.doco-cd.yaml`](./hosts/nas.m3w.ch/.doco-cd.yaml).
+- Offsite backups host:
+  [`hosts/offsite.m3w.ch/.doco-cd.yaml`](./hosts/offsite.m3w.ch/.doco-cd.yaml).
 
 ## Deployment workflow
 
-![m3w.ch deployment workflow](./m3w-deployment.svg)
+![m3w.ch deployment workflow](./diagrams/m3w-deployment.svg)
 
 1. [Renovate](https://docs.renovatebot.com/) (configured in
    [`renovate.json`](./renovate.json)) watches the image tags of the
    `compose.yaml` files and opens a pull request for each update.
 2. The pull request is reviewed and merged into `main`.
-3. Doco-CD polls `main` and redeploys the stacks whose files have changed.
+3. The Doco-CD instance of each host polls `main` and redeploys the stacks of
+   the host whose files have changed.
 
 Doco-CD updates itself the same way, as its image tag is also managed by
 Renovate.

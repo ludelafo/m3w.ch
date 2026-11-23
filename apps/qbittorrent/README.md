@@ -17,8 +17,8 @@
 
 ### Set the environment variables
 
-Edit the values of the stack in [`.doco-cd.yaml`](../../.doco-cd.yaml) and the
-`*.env` files to your needs.
+Refer to [Doco-CD](../doco-cd/README.md) documentation to set the environment
+variables.
 
 ## Post-configuration
 
